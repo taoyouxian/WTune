@@ -1,6 +1,7 @@
 package cn.edu.ruc.iir.rainbow.common.util;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -12,7 +13,26 @@ public class ConfigFactory
 	private ConfigFactory()
 	{
 		prop = new Properties();
-		InputStream in = this.getClass().getResourceAsStream("/rainbow.properties");
+		String pixelsHome = System.getenv("RAINBOW_HOME");
+		InputStream in = null;
+		if (pixelsHome == null)
+		{
+			in = this.getClass().getResourceAsStream("/rainbow.properties");
+		}
+		else
+		{
+			if (!(pixelsHome.endsWith("/") || pixelsHome.endsWith("\\")))
+			{
+				pixelsHome += "/";
+			}
+			try
+			{
+				in = new FileInputStream(pixelsHome + "rainbow.properties");
+			} catch (FileNotFoundException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		try {
 			if (in != null)
 			{
