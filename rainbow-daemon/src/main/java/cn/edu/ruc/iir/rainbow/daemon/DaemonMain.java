@@ -2,6 +2,7 @@ package cn.edu.ruc.iir.rainbow.daemon;
 
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadServer;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

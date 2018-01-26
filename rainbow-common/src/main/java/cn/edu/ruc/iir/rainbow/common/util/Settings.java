@@ -10,8 +10,6 @@ package cn.edu.ruc.iir.rainbow.common.util;
  **/
 public class Settings
 {
-
-    public static final String PRESTO_QUERY = "http://10.77.40.236:8080/v1/query";
     public static final String WORKLOAD_PATH = "/home/tao/software/station/Workplace/workload.txt";
     public static final long WORKLOAD_EVA = 10 * 1000;
 
