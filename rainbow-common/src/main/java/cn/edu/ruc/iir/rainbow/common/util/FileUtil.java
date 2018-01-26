@@ -1,60 +1,12 @@
 package cn.edu.ruc.iir.rainbow.common.util;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.*;
 import java.util.Date;
 
 public class FileUtil
 {
-    /**
-     * @param file
-     * @return String
-     * @Title: readFile
-     * @Description: 文件的读和写
-     */
-    public static String readFile(File file)
-    {
-        if (!file.exists())
-        {
-            return "";
-        }
-        FileInputStream fileInputStream = null;
-        InputStreamReader inputStreamReader = null;
-        BufferedReader bufferedReader = null;
-        try
-        {
-            // 获取磁盘的文件
-            // File file = new File(fileName);
-            // 开始读取磁盘的文件
-            fileInputStream = new FileInputStream(file);
-            // 创建一个字节流
-            inputStreamReader = new InputStreamReader(fileInputStream);
-            // 创建一个字节的缓冲流
-            bufferedReader = new BufferedReader(inputStreamReader);
-            StringBuffer buffer = new StringBuffer();
-            String string = null;
-            while ((string = bufferedReader.readLine()) != null)
-            {
-                buffer.append(string + "\n");
-            }
-            return buffer.toString();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-            return null;
-        } finally
-        {
-            try
-            {
-                bufferedReader.close();
-                inputStreamReader.close();
-                fileInputStream.close();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
     /**
      * @param fileName
      * @return String
@@ -63,7 +15,14 @@ public class FileUtil
      */
     public static String readFile(String fileName)
     {
-        return readFile(new File(fileName));
+        try
+        {
+            return FileUtils.readFileToString(new File(fileName));
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void writeFile(String content, String filename)
