@@ -13,21 +13,22 @@ public class ConfigFactory
 	private ConfigFactory()
 	{
 		prop = new Properties();
-		String pixelsHome = System.getenv("RAINBOW_HOME");
+		String rainbowHome = System.getenv("RAINBOW_HOME");
 		InputStream in = null;
-		if (pixelsHome == null)
+		if (rainbowHome == null)
 		{
 			in = this.getClass().getResourceAsStream("/rainbow.properties");
 		}
 		else
 		{
-			if (!(pixelsHome.endsWith("/") || pixelsHome.endsWith("\\")))
+			if (!(rainbowHome.endsWith("/") || rainbowHome.endsWith("\\")))
 			{
-				pixelsHome += "/";
+				rainbowHome += "/";
 			}
+			prop.setProperty("rainbow.home", rainbowHome);
 			try
 			{
-				in = new FileInputStream(pixelsHome + "rainbow.properties");
+				in = new FileInputStream(rainbowHome + "rainbow.properties");
 			} catch (FileNotFoundException e)
 			{
 				e.printStackTrace();

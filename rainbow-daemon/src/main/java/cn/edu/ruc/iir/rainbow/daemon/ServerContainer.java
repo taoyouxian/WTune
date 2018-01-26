@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ServerContainer
 {
-    Map<String, Server> serverMap = null;
+    private Map<String, Server> serverMap = null;
 
     public ServerContainer ()
     {
@@ -20,6 +20,8 @@ public class ServerContainer
 
     public void addServer (String name, Server server)
     {
+        Thread thread = new Thread(server);
+        thread.start();
         this.serverMap.put(name, server);
     }
 
