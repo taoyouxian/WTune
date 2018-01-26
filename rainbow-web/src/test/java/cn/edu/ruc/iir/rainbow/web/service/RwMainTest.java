@@ -1,6 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web.service;
 
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.util.InputFactory;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Statistic;
@@ -93,7 +94,7 @@ public class RwMainTest {
             queryID = UUID.randomUUID().toString();
             time = r.nextInt(100);
             try {
-                cn.edu.ruc.iir.rainbow.web.util.FileUtil.appendFile(queryID + "\t" + time, filePath);
+                FileUtils.appendFile(queryID + "\t" + time, filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -30,7 +30,7 @@ public class HdfsTest {
 
     @Test
     public void isTableExistsTest() {
-        String filePath = SysConfig.Catalog_Cashe;
+        String filePath = SysConfig.Catalog_Cache;
         try {
             Assert.assertEquals(false, hUtil.isTableExists(filePath));
         } catch (IOException e) {

@@ -10,7 +10,7 @@ import java.util.List;
 public class SysConfig {
     public static String Catalog_Project;
 
-    public static final String Catalog_Cashe = "/rainbow-web/cashe/cashe.txt";
+    public static final String Catalog_Cache = "/rainbow-web/cache/cache.txt";
     public static final String Catalog_Copy = "/rainbow-web/evaluate/minibatch/copy";
     public static final String Catalog_Minibatch = "/rainbow-web/evaluate/minibatch/";
     public static final String Catalog_Sampling = "/rainbow-web/evaluate/sampling/";

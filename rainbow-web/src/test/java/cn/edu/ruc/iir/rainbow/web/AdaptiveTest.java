@@ -5,12 +5,12 @@ import cn.edu.ruc.iir.rainbow.cli.InvokerFactory;
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.*;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
 import cn.edu.ruc.iir.rainbow.web.service.RwMain;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
 import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
 
@@ -46,19 +46,19 @@ public class AdaptiveTest {
 
     public void getDefaultInfo() {
         SysConfig.Catalog_Project = path;
-        String aJson = FileUtil.readFile(path + "cashe/cashe.txt");
+        String aJson = FileUtils.readFileToString(path + "cache/cache.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
-        aJson = FileUtil.readFile(path + "cashe/process.txt");
+        aJson = FileUtils.readFileToString(path + "cache/process.txt");
         SysConfig.ProcessList = JSON.parseArray(aJson,
                 Process.class);
-        aJson = FileUtil.readFile(path + "cashe/curLayout.txt");
+        aJson = FileUtils.readFileToString(path + "cache/curLayout.txt");
         SysConfig.CurLayout = JSON.parseArray(aJson,
                 Layout.class);
-        aJson = FileUtil.readFile(path + "cashe/orderedLayout.txt");
+        aJson = FileUtils.readFileToString(path + "cache/orderedLayout.txt");
         SysConfig.CurOrderedLayout = JSON.parseArray(aJson,
                 OrderedLayout.class);
-        aJson = FileUtil.readFile(path + "cashe/curEstimate.txt");
+        aJson = FileUtils.readFileToString(path + "cache/curEstimate.txt");
         SysConfig.CurEstimate = JSON.parseArray(aJson,
                 Estimate.class);
     }
