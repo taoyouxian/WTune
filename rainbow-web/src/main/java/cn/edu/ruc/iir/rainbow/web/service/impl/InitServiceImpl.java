@@ -1,12 +1,12 @@
 package cn.edu.ruc.iir.rainbow.web.service.impl;
 
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.*;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
 import cn.edu.ruc.iir.rainbow.web.hdfs.util.HdfsUtil;
 import cn.edu.ruc.iir.rainbow.web.service.InitServiceI;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class InitServiceImpl implements InitServiceI {
             file.mkdirs();
         }
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
-        String aJson = FileUtil.readFile(SysConfig.Catalog_Project + "cashe/cashe.txt");
+        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/cashe.txt");
         if (aJson == "" || aJson == null) {
 //            if (hUtil.isTableExists(SysConfig.Catalog_Cashe)) {
 //                aJson = hUtil.readContent(SysConfig.Catalog_Cashe);
@@ -39,28 +39,28 @@ public class InitServiceImpl implements InitServiceI {
                     Pipeline.class);
         }
 
-        aJson = FileUtil.readFile(SysConfig.Catalog_Project + "cashe/process.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/process.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.ProcessList = JSON.parseArray(aJson,
                     Process.class);
         }
 
-        aJson = FileUtil.readFile(SysConfig.Catalog_Project + "cashe/curLayout.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/curLayout.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurLayout = JSON.parseArray(aJson,
                     Layout.class);
         }
 
-        aJson = FileUtil.readFile(SysConfig.Catalog_Project + "cashe/curEstimate.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/curEstimate.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurEstimate = JSON.parseArray(aJson,
                     Estimate.class);
         }
 
-        aJson = FileUtil.readFile(SysConfig.Catalog_Project + "cashe/orderedLayout.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/orderedLayout.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurOrderedLayout = JSON.parseArray(aJson,

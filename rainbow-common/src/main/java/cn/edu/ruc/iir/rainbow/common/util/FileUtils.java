@@ -1,11 +1,11 @@
 package cn.edu.ruc.iir.rainbow.common.util;
 
-import org.apache.commons.io.FileUtils;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-import java.io.*;
-import java.util.Date;
-
-public class FileUtil
+public class FileUtils
 {
     /**
      * @param fileName
@@ -13,11 +13,12 @@ public class FileUtil
      * @Title: readFile
      * @Description:方法的重载
      */
-    public static String readFile(String fileName)
+    public static String readFileToString(String fileName)
     {
         try
         {
-            return FileUtils.readFileToString(new File(fileName));
+            return org.apache.commons.io.FileUtils.
+                    readFileToString(new File(fileName));
         } catch (IOException e)
         {
             e.printStackTrace();
@@ -126,19 +127,6 @@ public class FileUtil
         }
     }
 
-    /**
-     * @param args void
-     * @throws IOException
-     * @Title: main
-     * @Description: 入口函数
-     */
-    public static void main(String[] args) throws IOException
-    {
-        String aCashe = new Date().toString();
-        FileUtil fileUtil = new FileUtil();
-        fileUtil.write(aCashe);
-    }
-
     private void write(String aCashe) throws IOException
     {
         File file = new File(this.getClass().getClassLoader()
@@ -148,56 +136,17 @@ public class FileUtil
         // filename = filename.replace("cashe.txt", DateUtil.mkTime(new Date())
         // + ".txt");
         System.out.println(filename);
-        FileUtil.appendFile(aCashe, filename);
+        FileUtils.appendFile(aCashe, filename);
     }
 
-    private static void FileFunc() throws IOException
+    public static void deleteDirectory (String fileName)
     {
-        // 公式：内容+模板=文件
-        String pack = "com.hh.server";
-        String model = "server";
-        String rootPath = "E:/JSP Project/minjieshi/";
-        String srcPath = rootPath + "src/template/entity.txt";
-        System.out.println("1. " + srcPath);
-        // 获取模板的内容
-        String templateContent = readFile(srcPath);
-        templateContent = templateContent.replaceAll("\\[package\\]", pack)
-                .replaceAll("\\[model\\]", model);
-        // 将替换的内容写入到工程的目录下面
-        String path = pack.replaceAll("\\.", "/");
-        System.out.println("2. " + path);
-        String filePath = rootPath + "src/" + path;
-        System.out.println("3. " + filePath);
-        File rootFile = new File(filePath);
-        if (!rootFile.exists())
+        try
         {
-            rootFile.mkdirs();
-        }
-        String fileName = filePath + "/" + model + ".java";
-        System.out.println("4. " + fileName);
-        writeFile(templateContent, fileName);
-    }
-
-    public static void delDirectory(String path)
-    {
-        File f = new File(path);
-        delDirectory(f);
-    }
-
-    public static void delDirectory(File path)
-    {
-        if (!path.exists())
-            return;
-        if (path.isFile())
+            org.apache.commons.io.FileUtils.deleteDirectory(new File(fileName));
+        } catch (IOException e)
         {
-            path.delete();
-            return;
+            e.printStackTrace();
         }
-        File[] files = path.listFiles();
-        for (int i = 0; i < files.length; i++)
-        {
-            delDirectory(files[i]);
-        }
-        path.delete();
     }
 }

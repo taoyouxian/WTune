@@ -4,7 +4,7 @@ import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
 import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
-import cn.edu.ruc.iir.rainbow.common.util.FileUtil;
+import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.util.Settings;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
 import cn.edu.ruc.iir.rainbow.parser.sql.tree.Query;
@@ -92,7 +92,7 @@ public class HttpUtilTest {
                         try {
                             if (!flag) {
                                 flag = true;
-                                FileUtil.writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -110,7 +110,7 @@ public class HttpUtilTest {
                             try {
                                 flag = false;
                                 System.out.println(time);
-                                FileUtil.writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -178,7 +178,7 @@ public class HttpUtilTest {
                         try {
                             if (!flag) {
                                 flag = true;
-                                FileUtil.writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -196,7 +196,7 @@ public class HttpUtilTest {
                             try {
                                 flag = false;
                                 System.out.println(time);
-                                FileUtil.writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

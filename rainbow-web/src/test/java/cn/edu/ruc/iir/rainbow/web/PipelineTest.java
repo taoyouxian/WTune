@@ -1,17 +1,17 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
-import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
 import cn.edu.ruc.iir.rainbow.web.hdfs.util.HdfsUtil;
 import cn.edu.ruc.iir.rainbow.web.hive.util.HiveClient;
 import cn.edu.ruc.iir.rainbow.web.service.RwMain;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import com.alibaba.fastjson.JSON;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -53,9 +53,9 @@ public class PipelineTest {
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
         try {
             List<String> listFile = hUtil.listAll(pipline.getUrl());
-            String statement = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/text_ddl.sql");
-            String statement1 = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_ddl.sql");
-            String statement2 = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_load.sql");
+            String statement = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/text_ddl.sql");
+            String statement1 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_ddl.sql");
+            String statement2 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_load.sql");
 
             String sql = null;
             for (int i = listFile.size() - 1; i >= 0; i--) {
@@ -84,7 +84,7 @@ public class PipelineTest {
     }
 
     private void getDefaultInfo() {
-        String aJson = FileUtil.readFile(SysConfig.Catalog_Project + "cashe/cashe.txt");
+        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/cashe.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
     }
@@ -111,7 +111,7 @@ public class PipelineTest {
 
     @Test
     public void GetLayoutTest() {
-        String aJson = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pno + "/layout.txt");
+        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pno + "/layout.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
     }

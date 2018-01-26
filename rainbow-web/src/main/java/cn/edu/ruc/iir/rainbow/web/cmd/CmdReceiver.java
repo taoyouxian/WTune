@@ -1,6 +1,5 @@
 package cn.edu.ruc.iir.rainbow.web.cmd;
 
-import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
 import cn.edu.ruc.iir.rainbow.cli.INVOKER;
 import cn.edu.ruc.iir.rainbow.cli.InvokerFactory;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
@@ -8,9 +7,8 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.workload.cache.APCFactory;
-import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
-import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
 import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEvaluation;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdGetColumnSize;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdOrdering;
@@ -18,7 +16,9 @@ import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Estimate;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.OrderedLayout;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
+import cn.edu.ruc.iir.rainbow.workload.cache.APCFactory;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 
 import java.io.IOException;
 import java.util.Date;
@@ -180,7 +180,7 @@ public class CmdReceiver {
                 String msg = "Layout Calculation : " + ((int) (percentage * 10000) / 100.0) + " %    ";
                 System.out.println(msg);
                 try {
-                    FileUtil.writeFile(msg, filePath);
+                    FileUtils.writeFile(msg, filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -255,7 +255,7 @@ public class CmdReceiver {
             SysConfig.APC_FLAG = true;
             try {
                 String time = DateUtil.formatTime(new Date());
-                FileUtil.writeFile(time + "\t" + id + "\r\n", SysConfig.Catalog_Project + "APC.txt", true);
+                FileUtils.writeFile(time + "\t" + id + "\r\n", SysConfig.Catalog_Project + "APC.txt", true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
