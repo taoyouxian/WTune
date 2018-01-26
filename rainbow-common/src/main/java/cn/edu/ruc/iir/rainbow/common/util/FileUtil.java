@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.workload.util;
+package cn.edu.ruc.iir.rainbow.common.util;
 
 import java.io.*;
 import java.util.Date;

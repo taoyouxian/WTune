@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.client.util;
+package cn.edu.ruc.iir.rainbow.common.util;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,33 +18,39 @@ import java.net.URLConnection;
 
 /**
  * @version V1.0
- * @Package: cn.edu.ruc.iir.rainbow.client.util
+ * @Package: cn.edu.ruc.iir.xspace.workload.util
  * @ClassName: HttpUtil
  * @Description: deal with post & get request
  * @author: Tao
  * @date: Create in 2017-09-30 8:49
  **/
-public class HttpUtil {
+public class HttpUtil
+{
 
-    public static Object HttpPost(String aUrl, String aPostData) {
+    public static Object HttpPost(String aUrl, String aPostData)
+    {
         String res = "";
         DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpost = new HttpPost(aUrl);
-        try {
+        try
+        {
+            HttpPost httpost = new HttpPost(aUrl);
             httpost.setEntity(new StringEntity(aPostData, "UTF-8"));
             HttpResponse response = httpClient.execute(httpost);
             res = EntityUtils.toString(response.getEntity(), "UTF-8");
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return res;
     }
 
-    public static Object acHttpPost(String aUrl, String param) {
+    public static Object acHttpPost(String aUrl, String param)
+    {
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";
-        try {
+        try
+        {
             URL realUrl = new URL(aUrl);
             URLConnection conn = realUrl.openConnection();
             conn.setRequestProperty("accept", "*/*");
@@ -59,38 +65,49 @@ public class HttpUtil {
             in = new BufferedReader(
                     new InputStreamReader(conn.getInputStream()));
             String line;
-            while ((line = in.readLine()) != null) {
+            while ((line = in.readLine()) != null)
+            {
                 result += line;
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             System.out.println("POST error！" + e);
             e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
+        } finally
+        {
+            try
+            {
+                if (out != null)
+                {
                     out.close();
                 }
-                if (in != null) {
+                if (in != null)
+                {
                     in.close();
                 }
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 ex.printStackTrace();
             }
         }
         return result;
     }
 
-    public static Object HttpGet(String aUrl) {
+    public static Object HttpGet(String aUrl)
+    {
         String res = "";
         HttpClient httpClient = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(aUrl);// init
-        try {
+        try
+        {
+            HttpGet httpGet = new HttpGet(aUrl);// init
             HttpResponse httpResponse = httpClient.execute(httpGet);// accept msg
             HttpEntity entity = httpResponse.getEntity();// get result from msg
-            if (entity != null) {
+            if (entity != null)
+            {
                 res = EntityUtils.toString(entity, "UTF-8");// change to string type
             }
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
         return res;

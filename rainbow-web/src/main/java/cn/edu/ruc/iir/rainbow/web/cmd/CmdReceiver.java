@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.web.cmd;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
 import cn.edu.ruc.iir.rainbow.cli.INVOKER;
 import cn.edu.ruc.iir.rainbow.cli.InvokerFactory;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
@@ -8,9 +8,9 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.workload.APCFactory;
-import cn.edu.ruc.iir.rainbow.workload.AccessPattern;
-import cn.edu.ruc.iir.rainbow.workload.AccessPatternCache;
+import cn.edu.ruc.iir.rainbow.workload.cache.APCFactory;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEvaluation;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdGetColumnSize;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdOrdering;

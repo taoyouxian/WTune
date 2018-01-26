@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.client.util;
+package cn.edu.ruc.iir.rainbow.common.util;
 
 /**
  * @version V1.0
@@ -8,7 +8,8 @@ package cn.edu.ruc.iir.rainbow.client.util;
  * @author: Tao
  * @date: Create in 2017-09-30 8:58
  **/
-public class HttpSettings {
+public class HttpSettings
+{
 
     public static final String WORKLOAD_POST_URL = "http://127.0.0.1:8080/rw/clientUpload";
 

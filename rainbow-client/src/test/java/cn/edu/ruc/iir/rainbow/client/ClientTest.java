@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.client;
 
-import cn.edu.ruc.iir.rainbow.client.util.HttpSettings;
-import cn.edu.ruc.iir.rainbow.client.util.HttpUtil;
+import cn.edu.ruc.iir.rainbow.common.util.HttpSettings;
+import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
 import org.junit.jupiter.api.Test;
 
@@ -19,26 +19,32 @@ import java.util.Random;
  * @author: taoyouxian
  * @date: Create in 2017-10-10 17:25
  **/
-public class ClientTest {
+public class ClientTest
+{
 
     String pno = "14ba30d7abdbe13ab2c886f18c0f5555";
 
     @Test
-    public void APCTest() {
+    public void APCTest()
+    {
         String path = ConfigFactory.Instance().getProperty("pipline.path");
         String targetPath = path + "pipeline/" + pno;
         BufferedReader reader = null;
-        try {
+        try
+        {
             reader = new BufferedReader(new FileReader(
                     path + "workload.txt"));
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e)
+        {
             e.printStackTrace();
         }
         String line = null;
         Random random = new Random(System.currentTimeMillis());
-        try {
+        try
+        {
             int i = 0;
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null)
+            {
                 i++;
                 String[] tokens = line.split("\t");
                 double weight = Double.parseDouble(tokens[1]);
@@ -46,9 +52,11 @@ public class ClientTest {
                 String res = HttpUtil.acHttpPost(HttpSettings.WORKLOAD_POST_URL, aPostData).toString();
                 Thread.sleep(random.nextInt(500));
             }
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException e)
+        {
             e.printStackTrace();
         }
     }

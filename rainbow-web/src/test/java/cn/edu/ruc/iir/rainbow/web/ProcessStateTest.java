@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.State;

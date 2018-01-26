@@ -1,12 +1,18 @@
-package cn.edu.ruc.iir.rainbow.workload.util;
+package cn.edu.ruc.iir.rainbow.workload.presto;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
+import cn.edu.ruc.iir.rainbow.common.util.FileUtil;
+import cn.edu.ruc.iir.rainbow.common.util.Settings;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
-import cn.edu.ruc.iir.rainbow.parser.sql.tree.*;
-import cn.edu.ruc.iir.rainbow.workload.AccessPattern;
-import cn.edu.ruc.iir.rainbow.workload.AccessPatternCache;
+import cn.edu.ruc.iir.rainbow.parser.sql.tree.Query;
+import cn.edu.ruc.iir.rainbow.parser.sql.tree.QuerySpecification;
+import cn.edu.ruc.iir.rainbow.parser.sql.tree.SelectItem;
+import cn.edu.ruc.iir.rainbow.parser.sql.tree.Table;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
