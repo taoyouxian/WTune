@@ -1,5 +1,7 @@
 package cn.edu.ruc.iir.rainbow.daemon;
 
+import cn.edu.ruc.iir.rainbow.workload.presto.PrestoQueryPuller;
+
 import java.util.concurrent.TimeUnit;
 
 public class WorkloadServer implements Server
@@ -24,6 +26,8 @@ public class WorkloadServer implements Server
         while (shutdown == false)
         {
             System.out.println("workload is running...");
+            PrestoQueryPuller puller = new PrestoQueryPuller();
+            puller.start();
             try
             {
                 TimeUnit.SECONDS.sleep(1);
