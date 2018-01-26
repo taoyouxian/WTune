@@ -84,7 +84,7 @@ public class PipelineTest {
     }
 
     private void getDefaultInfo() {
-        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/cashe.txt");
+        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/cache.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
     }

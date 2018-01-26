@@ -127,16 +127,16 @@ public class FileUtils
         }
     }
 
-    private void write(String aCashe) throws IOException
+    private void write(String aCache) throws IOException
     {
         File file = new File(this.getClass().getClassLoader()
-                .getResource(("cashe/cashe.txt")).getFile());
+                .getResource(("cache/cache.txt")).getFile());
         String filename = file.getAbsolutePath();
-        filename = filename.replace("cashe.txt", "20170518205458.txt");
-        // filename = filename.replace("cashe.txt", DateUtil.mkTime(new Date())
+        filename = filename.replace("cache.txt", "20170518205458.txt");
+        // filename = filename.replace("cache.txt", DateUtil.mkTime(new Date())
         // + ".txt");
         System.out.println(filename);
-        FileUtils.appendFile(aCashe, filename);
+        FileUtils.appendFile(aCache, filename);
     }
 
     public static void deleteDirectory (String fileName)

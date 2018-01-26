@@ -21,46 +21,41 @@ public class InitServiceImpl implements InitServiceI {
     synchronized public void init() throws IOException {
         String path = ConfigFactory.Instance().getProperty("pipline.path");
         SysConfig.Catalog_Project = path;
-        String filePath = SysConfig.Catalog_Project + "cashe";
+        String filePath = SysConfig.Catalog_Project + "cache";
         File file = new File(filePath);
         if (!file.exists()) {
             file.mkdirs();
         }
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
-        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/cashe.txt");
+        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/cache.txt");
         if (aJson == "" || aJson == null) {
-//            if (hUtil.isTableExists(SysConfig.Catalog_Cashe)) {
-//                aJson = hUtil.readContent(SysConfig.Catalog_Cashe);
-//                SysConfig.PipelineList = JSON.parseArray(aJson,
-//                        Pipeline.class);
-//            }
         } else {
             SysConfig.PipelineList = JSON.parseArray(aJson,
                     Pipeline.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/process.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/process.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.ProcessList = JSON.parseArray(aJson,
                     Process.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/curLayout.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/curLayout.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurLayout = JSON.parseArray(aJson,
                     Layout.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/curEstimate.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/curEstimate.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurEstimate = JSON.parseArray(aJson,
                     Estimate.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cashe/orderedLayout.txt");
+        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/orderedLayout.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurOrderedLayout = JSON.parseArray(aJson,

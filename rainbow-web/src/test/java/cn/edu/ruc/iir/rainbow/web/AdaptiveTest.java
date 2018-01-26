@@ -46,19 +46,19 @@ public class AdaptiveTest {
 
     public void getDefaultInfo() {
         SysConfig.Catalog_Project = path;
-        String aJson = FileUtils.readFileToString(path + "cashe/cashe.txt");
+        String aJson = FileUtils.readFileToString(path + "cache/cache.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
-        aJson = FileUtils.readFileToString(path + "cashe/process.txt");
+        aJson = FileUtils.readFileToString(path + "cache/process.txt");
         SysConfig.ProcessList = JSON.parseArray(aJson,
                 Process.class);
-        aJson = FileUtils.readFileToString(path + "cashe/curLayout.txt");
+        aJson = FileUtils.readFileToString(path + "cache/curLayout.txt");
         SysConfig.CurLayout = JSON.parseArray(aJson,
                 Layout.class);
-        aJson = FileUtils.readFileToString(path + "cashe/orderedLayout.txt");
+        aJson = FileUtils.readFileToString(path + "cache/orderedLayout.txt");
         SysConfig.CurOrderedLayout = JSON.parseArray(aJson,
                 OrderedLayout.class);
-        aJson = FileUtils.readFileToString(path + "cashe/curEstimate.txt");
+        aJson = FileUtils.readFileToString(path + "cache/curEstimate.txt");
         SysConfig.CurEstimate = JSON.parseArray(aJson,
                 Estimate.class);
     }

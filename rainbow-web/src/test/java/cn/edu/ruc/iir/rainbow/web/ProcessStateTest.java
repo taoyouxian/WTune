@@ -42,7 +42,7 @@ public class ProcessStateTest {
         SysConfig.ProcessList.add(p);
 
         String aJson = JSONArray.toJSONString(SysConfig.ProcessList);
-        FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cashe/process.txt");
+        FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/process.txt");
 
     }
 }
