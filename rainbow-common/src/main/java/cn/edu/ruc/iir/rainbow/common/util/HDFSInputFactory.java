@@ -15,7 +15,7 @@ public class HDFSInputFactory
 {
     private static HDFSInputFactory instance = null;
 
-    public static HDFSInputFactory Instance ()
+    public static HDFSInputFactory Instance()
     {
         if (instance == null)
         {
@@ -24,9 +24,11 @@ public class HDFSInputFactory
         return instance;
     }
 
-    private HDFSInputFactory () {}
+    private HDFSInputFactory()
+    {
+    }
 
-    public FileStatus[] getFileStatuses (String dirPath, Configuration conf) throws IOException
+    public FileStatus[] getFileStatuses(String dirPath, Configuration conf) throws IOException
     {
         FileSystem fs = FileSystem.get(URI.create(dirPath), conf);
         return fs.listStatus(new Path(dirPath));

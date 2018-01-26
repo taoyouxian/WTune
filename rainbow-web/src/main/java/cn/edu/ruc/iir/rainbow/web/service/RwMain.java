@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web.service;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
 import cn.edu.ruc.iir.rainbow.common.exception.DataSourceException;
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.util.InputFactory;

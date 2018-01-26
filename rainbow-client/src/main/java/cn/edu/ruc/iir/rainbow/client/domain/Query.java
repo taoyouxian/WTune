@@ -1,49 +1,59 @@
 package cn.edu.ruc.iir.rainbow.client.domain;
 
+import java.io.Serializable;
+
 /**
  * @version V1.0
- * @Package: cn.edu.ruc.iir.rainbow.client.domain
+ * @Package: cn.edu.ruc.iir.xspace.workload.sql
  * @ClassName: Query
- * @Description: contains the parameters of the workload.
- * @author: Tao
- * @date: Create in 2017-09-30 9:03
+ * @Description: Get query statistics from url
+ * @author: taoyouxian
+ * @date: Create in 2018-01-15 23:26
  **/
-public class Query {
+public class Query implements Serializable
+{
+    private String queryId;
+    private String no;
     private String query;
-    private String pno;
-    private String id;
 
-
-    public Query() {
+    public Query()
+    {
     }
 
-    public Query(String query, String pno, String id) {
+    public Query(String query, String no, String queryId)
+    {
         this.query = query;
-        this.pno = pno;
-        this.id = id;
+        this.no = no;
+        this.queryId = queryId;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getQuery() {
+    public String getQuery()
+    {
         return query;
     }
 
-    public void setQuery(String query) {
+    public void setQuery(String query)
+    {
         this.query = query;
     }
 
-    public String getPno() {
-        return pno;
+    public String getNo()
+    {
+        return no;
     }
 
-    public void setPno(String pno) {
-        this.pno = pno;
+    public void setNo(String no)
+    {
+        this.no = no;
+    }
+
+    public String getQueryId()
+    {
+        return queryId;
+    }
+
+    public void setQueryId(String queryId)
+    {
+        this.queryId = queryId;
     }
 }

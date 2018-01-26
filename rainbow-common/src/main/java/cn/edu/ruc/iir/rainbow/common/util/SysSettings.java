@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.benchmark.util;
+package cn.edu.ruc.iir.rainbow.common.util;
 
 /**
  * @ClassName: SysSettings

@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.web.hdfs.util;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;

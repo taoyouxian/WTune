@@ -8,7 +8,8 @@ import org.apache.commons.logging.Log;
 public class LogFactory
 {
     private static LogFactory instance = null;
-    public static LogFactory Instance ()
+
+    public static LogFactory Instance()
     {
         if (instance == null)
         {
@@ -19,12 +20,12 @@ public class LogFactory
 
     private Log log = null;
 
-    private LogFactory ()
+    private LogFactory()
     {
         this.log = org.apache.commons.logging.LogFactory.getLog("oil logs");
     }
 
-    public Log getLog ()
+    public Log getLog()
     {
         return this.log;
     }

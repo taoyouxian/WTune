@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.util.HdfsUtil;

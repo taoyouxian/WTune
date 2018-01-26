@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.benchmark.generator;
 
 import cn.edu.ruc.iir.rainbow.benchmark.domain.Column;
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
 
 import java.io.*;
 import java.text.DecimalFormat;
