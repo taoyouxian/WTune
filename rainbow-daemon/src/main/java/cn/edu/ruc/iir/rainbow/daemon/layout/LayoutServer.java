@@ -26,7 +26,7 @@ public class LayoutServer implements Server
         this.shutdown = false;
         while (this.shutdown == false)
         {
-            //System.out.println("layout is running...");
+            System.out.println("layout is running...");
             try
             {
                 TimeUnit.SECONDS.sleep(1);
