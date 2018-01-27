@@ -7,10 +7,7 @@ import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
 import cn.edu.ruc.iir.rainbow.daemon.Server;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.ParsingOptions;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
-import cn.edu.ruc.iir.rainbow.parser.sql.tree.Query;
-import cn.edu.ruc.iir.rainbow.parser.sql.tree.QuerySpecification;
-import cn.edu.ruc.iir.rainbow.parser.sql.tree.SelectItem;
-import cn.edu.ruc.iir.rainbow.parser.sql.tree.Table;
+import cn.edu.ruc.iir.rainbow.parser.sql.tree.*;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -28,6 +25,10 @@ public class WorkloadServer implements Server
     @Override
     public boolean isRunning()
     {
+        if (this.shutdown == true)
+        {
+            return false;
+        }
         return Thread.currentThread().isAlive();
     }
 
@@ -56,33 +57,40 @@ public class WorkloadServer implements Server
                     JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                     if (jsonObject.size() == 8)
                     {
-                        // this is a valid query.
+                        // this is a valid user statement.
                         String queryId = jsonObject.getString("queryId");
                         if (this.processedQueryIds.contains(queryId) == false)
                         {
+                            // this is a new statement.
                             String sql = jsonObject.getString("query");
-                            Query query = (Query) parser.createStatement(sql, new ParsingOptions(
-                                    ParsingOptions.DecimalLiteralTreatment.AS_DOUBLE));
+                            Statement statement = parser.createStatement(sql,
+                                    new ParsingOptions(ParsingOptions.DecimalLiteralTreatment.AS_DOUBLE));
+                            if (statement instanceof Query)
+                            {
+                                // this is a valid query.
+                                Query query = (Query) statement;
 
-                            QuerySpecification queryBody = (QuerySpecification) query.getQueryBody();
-                            // get columns
-                            List<SelectItem> selectItemList = queryBody.getSelect().getSelectItems();
+                                QuerySpecification queryBody = (QuerySpecification) query.getQueryBody();
+                                // get columns
+                                List<SelectItem> selectItemList = queryBody.getSelect().getSelectItems();
 
-                            // tableName
-                            Table table = (Table) queryBody.getFrom().get();
+                                // tableName
+                                Table table = (Table) queryBody.getFrom().get();
 
+                                System.out.println(table.getName().toString());
+                            }
                             this.processedQueryIds.add(queryId);
                         }
                     }
                 }
 
-
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(5);
 
             } catch (InterruptedException e)
             {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR, "error while fetching workload from presto.", e);
             }
         }
+        this.shutdown = true;
     }
 }

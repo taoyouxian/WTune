@@ -1,4 +1,6 @@
-package cn.edu.ruc.iir.rainbow.daemon;
+package cn.edu.ruc.iir.rainbow.daemon.layout;
+
+import cn.edu.ruc.iir.rainbow.daemon.Server;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +26,7 @@ public class LayoutServer implements Server
         this.shutdown = false;
         while (this.shutdown == false)
         {
-            System.out.println("layout is running...");
+            //System.out.println("layout is running...");
             try
             {
                 TimeUnit.SECONDS.sleep(1);

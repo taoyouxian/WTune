@@ -23,6 +23,7 @@ public class DaemonMain
                 // this is the main daemon
                 System.out.println("starting main daemon...");
                 Daemon guardDaemon = new Daemon();
+                System.out.println(daemonJarPath);
                 String[] guardCmd = {"java", "-jar", daemonJarPath, "guard"};
                 guardDaemon.setup(mainFile, guardFile, guardCmd);
                 Thread daemonThread = new Thread(guardDaemon);
@@ -32,7 +33,7 @@ public class DaemonMain
 
                 ServerContainer container = new ServerContainer();
                 container.addServer("workload", new WorkloadServer());
-                container.addServer("layout", new LayoutServer());
+                //container.addServer("layout", new LayoutServer());
                 // continue the main thread
                 while (true)
                 {
@@ -40,7 +41,7 @@ public class DaemonMain
                     {
                         for (String name : container.getServerNames())
                         {
-                            if (container.chechServer(name))
+                            if (container.chechServer(name) == false)
                             {
                                 container.startServer(name);
                             }

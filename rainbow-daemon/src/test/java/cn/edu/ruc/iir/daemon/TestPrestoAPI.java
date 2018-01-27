@@ -2,10 +2,7 @@ package cn.edu.ruc.iir.daemon;
 
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
-import cn.edu.ruc.iir.rainbow.common.util.Settings;
+import cn.edu.ruc.iir.rainbow.common.util.*;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
 import cn.edu.ruc.iir.rainbow.parser.sql.tree.Query;
 import cn.edu.ruc.iir.rainbow.parser.sql.tree.QuerySpecification;
@@ -39,7 +36,7 @@ public class TestPrestoAPI
         int num = 0, cou = 0;
         while (true) {
             try {
-                o = HttpUtil.HttpGet(Settings.PRESTO_QUERY);
+                o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
             } catch (Exception e) {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR, "http get error", e);
             }
@@ -124,7 +121,7 @@ public class TestPrestoAPI
 
         int num = 0, cou = 0;
         while (true) {
-            o = HttpUtil.HttpGet(Settings.PRESTO_QUERY);
+            o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
             jsonArray = JSON.parseArray(o.toString());
 
             String queryId = null;
