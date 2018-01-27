@@ -1,0 +1,44 @@
+[
+  {
+    "queryId": "20180124_020606_00001_8x8cy",
+    "session": {
+      "queryId": "20180124_020606_00001_8x8cy",
+      "clientTransactionSupport": false,
+      "user": "presto",
+      "timeZoneKey": 2201,
+      "locale": "en_US",
+      "clientTags": [],
+      "startTime": 1516759566204,
+      "systemProperties": {},
+      "catalogProperties": {},
+      "preparedStatements": {}
+    },
+    "state": "FAILED",
+    "memoryPool": "general",
+    "scheduled": false,
+    "self": "http://10.77.40.236:8080/v1/query/20180124_020606_00001_8x8cy",
+    "query": "SELECT table_name FROM information_schema.tables WHERE table_schema = \u0027default\u0027",
+    "queryStats": {
+      "createTime": "2018-01-24T02:06:06.204Z",
+      "endTime": "2018-01-24T02:06:06.204Z",
+      "elapsedTime": "22.46us",
+      "executionTime": "12.37us",
+      "totalDrivers": 0,
+      "queuedDrivers": 0,
+      "runningDrivers": 0,
+      "completedDrivers": 0,
+      "cumulativeMemory": 0.0,
+      "totalMemoryReservation": "0B",
+      "peakMemoryReservation": "0B",
+      "totalCpuTime": "0.00ns",
+      "fullyBlocked": false,
+      "blockedReasons": []
+    },
+    "errorType": "INTERNAL_ERROR",
+    "errorCode": {
+      "code": 65548,
+      "name": "SERVER_STARTING_UP",
+      "type": "INTERNAL_ERROR"
+    }
+  }
+]

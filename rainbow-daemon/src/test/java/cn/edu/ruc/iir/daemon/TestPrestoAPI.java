@@ -1,11 +1,8 @@
-package cn.edu.ruc.iir.rainbow.workload.presto;
+package cn.edu.ruc.iir.daemon;
 
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
-import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.util.Settings;
+import cn.edu.ruc.iir.rainbow.common.util.*;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
 import cn.edu.ruc.iir.rainbow.parser.sql.tree.Query;
 import cn.edu.ruc.iir.rainbow.parser.sql.tree.QuerySpecification;
@@ -25,35 +22,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * @version V1.0
- * @Package: cn.edu.ruc.iir.xspace.workload.util
- * @ClassName: HttpUtilTest
- * @Description: Test http
- * @author: taoyouxian
- * @date: Create in 2018-01-15 23:08
- **/
-public class HttpUtilTest {
-
+public class TestPrestoAPI
+{
     int count = 0;
     private boolean flag = false;
 
     Map<String, Boolean> queryMap = new HashedMap();
 
     @Test
-    public void LatestTest() {
+    public void latestTest ()
+    {
         SqlParser parser = new SqlParser();
         Query q = null;
         Object o = new Object();
         JSONArray jsonArray = null;
 
-        int num = 0, cou = 0;
+        int cou = 0;
         while (true) {
-            try {
-                o = HttpUtil.HttpGet(Settings.PRESTO_QUERY);
-            } catch (Exception e) {
-                ExceptionHandler.Instance().log(ExceptionType.ERROR, "http get error", e);
-            }
+            o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
             jsonArray = JSON.parseArray(o.toString());
 
             String queryId = null;
@@ -123,9 +109,6 @@ public class HttpUtilTest {
                     }
                 }
             }
-            // update count
-//            count = jsonArray.size();
-            num++;
             o = new Object();
         }
     }
@@ -140,7 +123,7 @@ public class HttpUtilTest {
         int num = 0, cou = 0;
         while (true) {
             try {
-                o = HttpUtil.HttpGet(Settings.PRESTO_QUERY);
+                o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
             } catch (Exception e) {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR, "http get error", e);
             }
@@ -225,7 +208,7 @@ public class HttpUtilTest {
 
         int num = 0, cou = 0;
         while (true) {
-            o = HttpUtil.HttpGet(Settings.PRESTO_QUERY);
+            o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
             jsonArray = JSON.parseArray(o.toString());
 
             String queryId = null;

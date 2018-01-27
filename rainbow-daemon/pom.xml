@@ -38,7 +38,16 @@
             <artifactId>rainbow-parser</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>cn.edu.ruc.iir</groupId>
+            <artifactId>rainbow-common</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.edu.ruc.iir</groupId>
+            <artifactId>rainbow-benchmark</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
         <!-- logging -->
         <dependency>
             <groupId>commons-logging</groupId>

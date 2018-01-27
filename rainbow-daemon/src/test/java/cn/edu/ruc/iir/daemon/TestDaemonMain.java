@@ -9,7 +9,7 @@ public class TestDaemonMain
     @Test
     public void test()
     {
-        ConfigFactory.Instance().addProperty("rainbow.home", "/home/hank/dev/idea-projects/rainbow/rainbow-daemon/target");
+        ConfigFactory.Instance().addProperty("rainbow.home", "/home/hank/dev/idea-projects/rainbow/rainbow-daemon/target/");
         DaemonMain.main(new String[]{"main"});
     }
 }
