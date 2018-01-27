@@ -35,6 +35,7 @@ public class WorkloadServer implements Server
      */
     public WorkloadServer (String tableName, long lifeTime, double threshold)
     {
+        this.tableName = tableName;
         this.apc = new AccessPatternCache(lifeTime, threshold);
         APCFactory.Instance().put(tableName, apc);
     }
@@ -61,7 +62,7 @@ public class WorkloadServer implements Server
         this.shutdown = false;
         while (shutdown == false)
         {
-            System.out.println("workload is running...");
+            System.out.println("workload server [" + this.tableName + "] is running...");
             try {
                 SqlParser parser = new SqlParser();
                 Object obj = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
@@ -93,6 +94,7 @@ public class WorkloadServer implements Server
                                 // tableName
                                 Table table = (Table) queryBody.getFrom().get();
 
+                                System.out.println("workload server [" + this.tableName + "] is caching query: " + sql);
                                 if (this.tableName.equalsIgnoreCase(table.getName().toString()))
                                 {
                                     // this is the query we care about in this pipeline (specified by tableName);

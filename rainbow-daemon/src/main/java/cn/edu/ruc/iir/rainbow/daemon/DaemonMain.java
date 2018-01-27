@@ -2,6 +2,7 @@ package cn.edu.ruc.iir.rainbow.daemon;
 
 import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.daemon.layout.LayoutServer;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadServer;
 
 import java.io.IOException;
@@ -23,7 +24,6 @@ public class DaemonMain
                 // this is the main daemon
                 System.out.println("starting main daemon...");
                 Daemon guardDaemon = new Daemon();
-                System.out.println(daemonJarPath);
                 String[] guardCmd = {"java", "-jar", daemonJarPath, "guard"};
                 guardDaemon.setup(mainFile, guardFile, guardCmd);
                 Thread daemonThread = new Thread(guardDaemon);
@@ -32,8 +32,16 @@ public class DaemonMain
                 daemonThread.start();
 
                 ServerContainer container = new ServerContainer();
-                container.addServer("workload", new WorkloadServer());
-                //container.addServer("layout", new LayoutServer());
+                String[] tables = ConfigFactory.Instance().getProperty("workload.server.managed.tables").split(",");
+                for (String table : tables)
+                {
+                    String[] splits = table.split(":");
+                    String tableName = splits[0];
+                    long lifeTime = Long.parseLong(splits[1]);
+                    double threshold = Double.parseDouble(splits[2]);
+                    container.addServer("workload", new WorkloadServer(tableName, lifeTime, threshold));
+                    container.addServer("layout", new LayoutServer(tableName));
+                }
                 // continue the main thread
                 while (true)
                 {
