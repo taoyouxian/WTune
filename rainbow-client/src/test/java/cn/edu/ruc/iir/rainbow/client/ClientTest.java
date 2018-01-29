@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.client;
 
-import cn.edu.ruc.iir.rainbow.common.util.HttpSettings;
-import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.HttpSettings;
+import cn.edu.ruc.iir.rainbow.common.HttpUtil;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;

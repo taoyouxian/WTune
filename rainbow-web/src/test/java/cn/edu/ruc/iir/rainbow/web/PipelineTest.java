@@ -1,9 +1,9 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.SysSettings;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;

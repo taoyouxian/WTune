@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.client.presto;
 
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 
 import java.sql.*;
 import java.util.Properties;

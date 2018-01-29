@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.eva.metrics;
 
 import cn.edu.ruc.iir.rainbow.common.exception.MetricsException;
-import cn.edu.ruc.iir.rainbow.common.util.HttpFactory;
+import cn.edu.ruc.iir.rainbow.common.HttpFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.htmlparser.Parser;

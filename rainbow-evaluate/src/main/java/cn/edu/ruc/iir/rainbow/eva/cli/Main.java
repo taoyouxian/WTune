@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.eva.cli;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadEvaluation;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;

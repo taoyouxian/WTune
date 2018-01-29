@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.daemon;
 
-import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -103,7 +103,7 @@ public class Daemon implements Runnable
 
         } catch (Exception e)
         {
-            LogFactory.Instance().getLog().error("Exception when running.", e);
+            LogFactory.Instance().getLog().error("exception when running.", e);
         }
     }
 }

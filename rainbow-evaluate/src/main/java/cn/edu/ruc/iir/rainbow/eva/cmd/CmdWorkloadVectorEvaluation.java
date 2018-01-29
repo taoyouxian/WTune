@@ -9,7 +9,7 @@ import cn.edu.ruc.iir.rainbow.common.exception.MetadataException;
 import cn.edu.ruc.iir.rainbow.common.exception.NotSupportedException;
 import cn.edu.ruc.iir.rainbow.common.metadata.OrcMetadataStat;
 import cn.edu.ruc.iir.rainbow.common.metadata.ParquetMetadataStat;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.eva.LocalParquetEvaluator;
 import cn.edu.ruc.iir.rainbow.eva.PrestoEvaluator;
 import cn.edu.ruc.iir.rainbow.eva.SparkV1Evaluator;

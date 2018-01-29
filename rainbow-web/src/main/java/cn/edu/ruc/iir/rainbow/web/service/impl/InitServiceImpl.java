@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web.service.impl;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.*;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;

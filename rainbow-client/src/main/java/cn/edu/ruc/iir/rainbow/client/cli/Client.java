@@ -1,9 +1,9 @@
 package cn.edu.ruc.iir.rainbow.client.cli;
 
 import cn.edu.ruc.iir.rainbow.client.cmd.CmdWorkloadEva;
-import cn.edu.ruc.iir.rainbow.common.util.HttpSettings;
-import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
-import cn.edu.ruc.iir.rainbow.common.util.Settings;
+import cn.edu.ruc.iir.rainbow.common.HttpSettings;
+import cn.edu.ruc.iir.rainbow.common.HttpUtil;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;

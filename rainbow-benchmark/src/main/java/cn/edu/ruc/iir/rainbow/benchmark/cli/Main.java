@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.benchmark.cli;
 
 import cn.edu.ruc.iir.rainbow.benchmark.generator.DataGenerator;
-import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.SysSettings;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;

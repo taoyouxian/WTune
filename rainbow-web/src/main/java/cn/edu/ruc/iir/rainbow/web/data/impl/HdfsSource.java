@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.web.data.impl;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.SysSettings;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.data.DataSource;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;

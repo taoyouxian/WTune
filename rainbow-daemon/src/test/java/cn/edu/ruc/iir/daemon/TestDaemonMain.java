@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.daemon;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.daemon.DaemonMain;
 import org.junit.jupiter.api.Test;
 

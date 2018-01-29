@@ -1,9 +1,9 @@
 package cn.edu.ruc.iir.rainbow.layout.sql;
 
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnNotFoundException;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.InputFactory;
-import cn.edu.ruc.iir.rainbow.common.util.OutputFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.InputFactory;
+import cn.edu.ruc.iir.rainbow.common.OutputFactory;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;

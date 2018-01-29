@@ -4,7 +4,7 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.ProgressListener;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.*;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.Algorithm;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.AlgorithmFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.ExecutorContainer;

@@ -2,8 +2,8 @@ package cn.edu.ruc.iir.rainbow.daemon.workload;
 
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.HttpUtil;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.HttpUtil;
 import cn.edu.ruc.iir.rainbow.daemon.Server;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.ParsingOptions;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;

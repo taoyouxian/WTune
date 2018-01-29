@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web.service;
 
+import cn.edu.ruc.iir.rainbow.common.*;
 import cn.edu.ruc.iir.rainbow.common.exception.DataSourceException;
-import cn.edu.ruc.iir.rainbow.common.util.*;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.data.DataSource;
 import cn.edu.ruc.iir.rainbow.web.data.DataSourceFactory;

@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
 import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;

@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.daemon;
 
-import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
-import cn.edu.ruc.iir.rainbow.daemon.Exception.NoSuchServerException;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
+import cn.edu.ruc.iir.rainbow.daemon.exception.NoSuchServerException;
 
 import java.util.ArrayList;
 import java.util.HashMap;

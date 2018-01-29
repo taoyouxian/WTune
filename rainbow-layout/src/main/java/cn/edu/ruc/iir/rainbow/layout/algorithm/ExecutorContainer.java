@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.layout.algorithm;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.ProgressListener;
 import cn.edu.ruc.iir.rainbow.common.exception.NotMultiThreadedException;
-import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
