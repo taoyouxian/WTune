@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.web.service;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.util.InputFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.InputFactory;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Statistic;
 import com.alibaba.fastjson.JSON;

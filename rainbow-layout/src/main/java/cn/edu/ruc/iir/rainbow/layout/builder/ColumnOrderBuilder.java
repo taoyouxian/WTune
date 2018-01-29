@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.layout.builder;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 
 import java.io.*;

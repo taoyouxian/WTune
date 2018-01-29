@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.common.util;
+package cn.edu.ruc.iir.rainbow.common;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;

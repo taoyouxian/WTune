@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.daemon;
 
+import cn.edu.ruc.iir.rainbow.common.*;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.util.*;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
 import cn.edu.ruc.iir.rainbow.parser.sql.tree.Query;
 import cn.edu.ruc.iir.rainbow.parser.sql.tree.QuerySpecification;

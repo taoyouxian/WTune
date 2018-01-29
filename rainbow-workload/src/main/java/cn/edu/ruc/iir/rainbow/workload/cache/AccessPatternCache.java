@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.workload.cache;
 
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.util.OutputFactory;
+import cn.edu.ruc.iir.rainbow.common.OutputFactory;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

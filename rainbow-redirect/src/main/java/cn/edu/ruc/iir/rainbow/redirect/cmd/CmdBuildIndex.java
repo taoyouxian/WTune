@@ -5,7 +5,7 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnNotFoundException;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.redirect.builder.PatternBuilder;
 import cn.edu.ruc.iir.rainbow.redirect.index.Index;
 import cn.edu.ruc.iir.rainbow.redirect.index.IndexFactory;

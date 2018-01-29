@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.seek;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.ProgressListener;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileStatus;

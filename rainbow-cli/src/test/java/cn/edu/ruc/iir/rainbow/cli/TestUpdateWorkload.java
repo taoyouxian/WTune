@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.cli;
 
-import cn.edu.ruc.iir.rainbow.common.util.InputFactory;
-import cn.edu.ruc.iir.rainbow.common.util.OutputFactory;
+import cn.edu.ruc.iir.rainbow.common.InputFactory;
+import cn.edu.ruc.iir.rainbow.common.OutputFactory;
 import org.junit.Test;
 
 import java.io.BufferedReader;

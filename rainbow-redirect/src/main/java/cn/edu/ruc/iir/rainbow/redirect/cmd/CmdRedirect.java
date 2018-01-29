@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.redirect.cmd;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.redirect.domain.AccessPattern;
 import cn.edu.ruc.iir.rainbow.redirect.domain.ColumnSet;
 import cn.edu.ruc.iir.rainbow.redirect.index.Index;

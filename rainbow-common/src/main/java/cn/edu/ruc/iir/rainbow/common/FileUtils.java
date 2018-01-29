@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.common.util;
+package cn.edu.ruc.iir.rainbow.common;
 
 import java.io.File;
 import java.io.FileWriter;
