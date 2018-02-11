@@ -13,7 +13,7 @@ public class TestWorkloadVectorEvaluation
     @Test
     public void test()
     {
-        ConfigFactory.Instance().LoadProperties("H:\\SelfLearning\\SAI\\DBIIR\\rainbow\\rainbow-common\\src\\main\\resources\\" +
+        ConfigFactory.Instance().loadProperties("H:\\SelfLearning\\SAI\\DBIIR\\rainbow\\rainbow-common\\src\\main\\resources\\" +
                 "rainbow.properties");
         Properties params = new Properties();
         params.setProperty("method", "PRESTO");

@@ -1,5 +1,6 @@
 package cn.edu.ruc.iir.rainbow.web.util;
 
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -24,10 +25,10 @@ public class DBUtils
         try
         {
             ConfigFactory config = ConfigFactory.Instance();
-            DRIVER = config.getProperty("driver");
-            URL = config.getProperty("url");
-            USERID = config.getProperty("user");
-            USERPASSWORD = config.getProperty("password");
+            DRIVER = config.getProperty("web.db.driver");
+            URL = config.getProperty("web.db.url");
+            USERID = config.getProperty("web.db.user");
+            USERPASSWORD = config.getProperty("web.db.password");
 
             Class.forName(DRIVER);
             conn = DriverManager.getConnection(URL, USERID, USERPASSWORD);

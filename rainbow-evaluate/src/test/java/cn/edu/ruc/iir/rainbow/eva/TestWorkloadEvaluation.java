@@ -13,7 +13,7 @@ public class TestWorkloadEvaluation
     @Test
     public void test()
     {
-        ConfigFactory.Instance().LoadProperties("/home/hank/Desktop/rainbow/rainbow-evaluate/rainbow.properties");
+        ConfigFactory.Instance().loadProperties("/home/hank/Desktop/rainbow/rainbow-evaluate/rainbow.properties");
         Properties params = new Properties();
         params.setProperty("method", "PRESTO");
         params.setProperty("format", "ORC");

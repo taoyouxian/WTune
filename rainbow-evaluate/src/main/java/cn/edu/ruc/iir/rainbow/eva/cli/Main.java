@@ -40,7 +40,7 @@ public class Main
 
             if (configFilePath != null)
             {
-                ConfigFactory.Instance().LoadProperties(configFilePath);
+                ConfigFactory.Instance().loadProperties(configFilePath);
                 System.out.println("System settings loaded from " + configFilePath + ".");
             } else
             {
