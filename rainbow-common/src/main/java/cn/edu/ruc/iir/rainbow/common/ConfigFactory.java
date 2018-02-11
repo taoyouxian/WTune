@@ -56,7 +56,7 @@ public class ConfigFactory
 
     private Properties prop = null;
 
-    public void LoadProperties(String propFilePath)
+    public void loadProperties(String propFilePath)
     {
         FileInputStream in = null;
         try
