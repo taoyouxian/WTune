@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.eva.metrics;
 
 import cn.edu.ruc.iir.rainbow.common.exception.MetricsException;
-import cn.edu.ruc.iir.rainbow.common.HttpFactory;
+import cn.edu.ruc.iir.rainbow.common.HttpUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.htmlparser.Parser;
@@ -40,7 +40,7 @@ public class Crawler {
         String url = "http://" + ip + ":" + port + "/stages";
         String html = null;
         try {
-            html = HttpFactory.getInstance().getPageHtml(url);
+            html = HttpUtils.Instance().getPageContent(url);
         } catch (IOException e) {
             log.error("Get html error:", e);
         }
@@ -80,7 +80,7 @@ public class Crawler {
         String url = "http://" + ip + ":" + port + "/stages";
         String html = null;
         try {
-            html = HttpFactory.getInstance().getPageHtml(url);
+            html = HttpUtils.Instance().getPageContent(url);
         } catch (IOException e) {
             log.error("Get html error:", e);
         }
@@ -149,7 +149,7 @@ public class Crawler {
         String url = "http://" + ip + ":" + port + "/stages/stage/?id=" + stageId + "&attempt=" + attemptId;
         String html = null;
         try {
-            html = HttpFactory.getInstance().getPageHtml(url);
+            html = HttpUtils.Instance().getPageContent(url);
         } catch (IOException e) {
             log.error("Get html error:", e);
         }

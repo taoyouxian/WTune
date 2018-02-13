@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web;
 
 import cn.edu.ruc.iir.rainbow.common.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.util.HdfsUtil;
@@ -55,7 +55,7 @@ public class HdfsTest {
     public void appendContentTest() {
         try {
             List<String> listFile = hUtil.listAll(filePath);
-            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, SysSettings.MB * 10);
+            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, Settings.MB * 10);
         } catch (IOException e) {
             log.debug("Hdfs error info: {}", e.getMessage());
             e.printStackTrace();
@@ -66,8 +66,8 @@ public class HdfsTest {
     public void createFileTest() {
         try {
             List<String> listFile = hUtil.listAll(filePath);
-//            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/201709261830040.csv", SysSettings.MB * 100);
-            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/" + DateUtil.getCurTime() + ".csv", SysSettings.MB * 100);
+//            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/201709261830040.csv", Settings.MB * 100);
+            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/" + DateUtil.getCurTime() + ".csv", Settings.MB * 100);
             log.debug("Hdfs error info: {}", listFile.size());
         } catch (IOException e) {
             log.debug("Hdfs error info: {}", e.getMessage());
@@ -80,7 +80,7 @@ public class HdfsTest {
         try {
             int minBatch = Integer.valueOf(ConfigFactory.Instance().getProperty("sampling.size"));
             List<String> listFile = hUtil.listAll(filePath);
-            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, SysSettings.MB * minBatch);
+            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, Settings.MB * minBatch);
         } catch (IOException e) {
             log.debug("Hdfs error info: {}", e.getMessage());
             e.printStackTrace();

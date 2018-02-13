@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.web.hdfs.util;
 
-import cn.edu.ruc.iir.rainbow.common.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
@@ -339,7 +339,7 @@ public class HdfsUtil
             fsr = fileSystem.open(new Path(hdfsFile));
             fos = fileSystem.create(new Path(hdfsPath));
             bufferedReader = new BufferedReader(new InputStreamReader(fsr));
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos), SysSettings.BUFFER_SIZE);
+            bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos), Settings.BUFFER_SIZE);
             while ((lineTxt = bufferedReader.readLine()) != null)
             {
                 buffer.append(lineTxt + "\n");

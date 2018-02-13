@@ -73,7 +73,7 @@ public class RwMain {
 //            layouts.add(l);   // flag is true -> curLayout.txt; false -> layout.txt
             String curLayoutList = JSONArray.toJSONString(SysConfig.CurLayout);
             try {
-                FileUtils.writeFile(curLayoutList, SysConfig.Catalog_Project + "cache/curLayout.txt");
+                FileUtils.Instance().writeFile(curLayoutList, SysConfig.Catalog_Project + "cache/curLayout.txt");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -82,7 +82,7 @@ public class RwMain {
         }
         String aJson = JSONArray.toJSONString(layouts);
         try {
-            FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/layout.txt");
+            FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/layout.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class RwMain {
             }
             aJson = JSONArray.toJSONString(SysConfig.CurOrderedLayout);
             try {
-                FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/orderedLayout.txt");
+                FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/orderedLayout.txt");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -120,7 +120,7 @@ public class RwMain {
 
     private List<Layout> getLayoutInfo(Pipeline pipeline) {
         List<Layout> l = new ArrayList<Layout>(); // Layout lists
-        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/layout.txt");
+        String aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/layout.txt");
         if (!aJson.equals("")) {
             l = JSON.parseArray(aJson,
                     Layout.class);
@@ -136,7 +136,7 @@ public class RwMain {
         String aJson = JSONArray.toJSONString(SysConfig.PipelineList);
         // write to local
         try {
-            FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/cache.txt");
+            FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/cache.txt");
 //            HdfsUtil hdfsUtil = HdfsUtil.getHdfsUtil();
             // write to hdfs
 //        hdfsUtil.copyFile(SysConfig.Catalog_Project + "cache/cache.txt", SysConfig.Catalog_Cache);
@@ -191,7 +191,7 @@ public class RwMain {
         }
         String processListJson = JSONArray.toJSONString(SysConfig.ProcessList);
         try {
-            FileUtils.writeFile(processListJson, SysConfig.Catalog_Project + "cache/process.txt");
+            FileUtils.Instance().writeFile(processListJson, SysConfig.Catalog_Project + "cache/process.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -210,7 +210,7 @@ public class RwMain {
         }
         String processListJson = JSONArray.toJSONString(SysConfig.ProcessList);
         try {
-            FileUtils.writeFile(processListJson, SysConfig.Catalog_Project + "cache/process.txt");
+            FileUtils.Instance().writeFile(processListJson, SysConfig.Catalog_Project + "cache/process.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -258,7 +258,7 @@ public class RwMain {
             i++;
         }
         String path = SysConfig.Catalog_Project + "pipeline/" + no;
-        FileUtils.deleteDirectory(path);
+        FileUtils.Instance().deleteDirectory(path);
         Thread t = new Thread(() -> updatePipelineList(true));
         t.start();
     }
@@ -266,20 +266,20 @@ public class RwMain {
     private void updatePipelineList(boolean flag) {
         String aJson = JSONArray.toJSONString(SysConfig.PipelineList);
         try {
-            FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/cache.txt");
+            FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/cache.txt");
             // remove process
             if (flag) {
                 aJson = JSONArray.toJSONString(SysConfig.ProcessList);
-                FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/process.txt");
+                FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/process.txt");
 
                 aJson = JSONArray.toJSONString(SysConfig.CurLayout);
-                FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/curLayout.txt");
+                FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/curLayout.txt");
 
                 aJson = JSONArray.toJSONString(SysConfig.CurOrderedLayout);
-                FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/orderedLayout.txt");
+                FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/orderedLayout.txt");
 
                 aJson = JSONArray.toJSONString(SysConfig.CurEstimate);
-                FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/curEstimate.txt");
+                FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/curEstimate.txt");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -370,7 +370,7 @@ public class RwMain {
         String realSavePath = SysConfig.Catalog_Project + "\\pipeline\\" + pno + "/" + "\\workload.txt";
         String line = UUID.randomUUID() + "\t1\t" + arg + "\r\n";
         try {
-            FileUtils.writeFile(line, realSavePath, true);
+            FileUtils.Instance().writeFile(line, realSavePath, true);
             Thread t = new Thread(() -> changeState(pno, 1));
             t.start();
         } catch (IOException e) {
@@ -383,7 +383,7 @@ public class RwMain {
         String realSavePath = SysConfig.Catalog_Project + "\\pipeline\\" + pno + "/" + "workload.txt";
         String line = id + "\t" + weight + "\t" + arg + "\r\n";
         try {
-//            FileUtils.writeFile(line, realSavePath, true);
+//            FileUtils.Instance().writeFile(line, realSavePath, true);
             res = "{\"Res\":\"OK\"}";
             if (Client_Flag) {
                 Thread t = new Thread(() -> changeState(pno, 1));
@@ -410,7 +410,7 @@ public class RwMain {
         }
         String aJson = JSONArray.toJSONString(SysConfig.PipelineList);
         try {
-            FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/cache.txt");
+            FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/cache.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -462,10 +462,10 @@ public class RwMain {
         if (!f.exists()) {
 
         } else {
-            try (BufferedReader reader = InputFactory.Instance().getReader(filePath)) {
+            try (BufferedReader reader = FileUtils.Instance().getReader(filePath)) {
                 String line = reader.readLine();
                 String[] splits = line.split("=");  //  row.group.size=1073741824
-                p.setRowGroupSize((int) (Double.valueOf(splits[1]) / SysSettings.MB));
+                p.setRowGroupSize((int) (Double.valueOf(splits[1]) / Settings.MB));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -493,7 +493,7 @@ public class RwMain {
         curLayout.setCount(curLayout.getCount() + 1);
         String aJson = JSONArray.toJSONString(SysConfig.CurOrderedLayout);
         try {
-            FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/orderedLayout.txt");
+            FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/orderedLayout.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -502,7 +502,7 @@ public class RwMain {
         String msg = "Layout Calculation : %    ";
         System.out.println(msg);
         try {
-            FileUtils.writeFile(msg, filePath);
+            FileUtils.Instance().writeFile(msg, filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -543,7 +543,7 @@ public class RwMain {
     private void saveCurLayout() {
         String aJson = JSONArray.toJSONString(SysConfig.CurLayout);
         try {
-            FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/curLayout.txt");
+            FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/curLayout.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -552,7 +552,7 @@ public class RwMain {
     private void saveCurEstimate() {
         String aJson = JSONArray.toJSONString(SysConfig.CurEstimate);
         try {
-            FileUtils.writeFile(aJson, SysConfig.Catalog_Project + "cache/curEstimate.txt");
+            FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/curEstimate.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -581,7 +581,7 @@ public class RwMain {
         if (!f.exists()) {
             return "";
         }
-        String msg = FileUtils.readFileToString(filePath);
+        String msg = FileUtils.Instance().readFileToString(filePath);
         return msg;
     }
 
@@ -612,7 +612,7 @@ public class RwMain {
     private Statistic getStatisticByFilePath(String filePath, String name) {
         DecimalFormat df = new DecimalFormat("######0.00");
         Statistic s1 = null;
-        try (BufferedReader reader = InputFactory.Instance().getReader(filePath)) {
+        try (BufferedReader reader = FileUtils.Instance().getReader(filePath)) {
             String line = reader.readLine();
             String[] splits;
             int i = 0;
@@ -636,7 +636,7 @@ public class RwMain {
         if (!f.exists()) {
             return "[]";
         }
-        String aJson = FileUtils.readFileToString(filePath);
+        String aJson = FileUtils.Instance().readFileToString(filePath);
         SysConfig.PipelineLayout = JSON.parseArray(aJson, Layout.class);
         return JSON.toJSONString(SysConfig.PipelineLayout);
     }
@@ -703,7 +703,7 @@ public class RwMain {
             return "[]";
         }
         List<Statistic> list = new ArrayList<Statistic>();
-        try (BufferedReader reader = InputFactory.Instance().getReader(filePath)) {
+        try (BufferedReader reader = FileUtils.Instance().getReader(filePath)) {
             String line = reader.readLine();
             String[] splits;
             int i = 0;
@@ -740,7 +740,7 @@ public class RwMain {
     public String getQueryByRowID(int rowID, String pno) {
         String filePath = SysConfig.Catalog_Project + "pipeline/" + pno + "/workload.txt";
         String query = null;
-        try (BufferedReader reader = InputFactory.Instance().getReader(filePath)) {
+        try (BufferedReader reader = FileUtils.Instance().getReader(filePath)) {
             String line = reader.readLine();
             String[] splits;
             int i = 0;
@@ -770,7 +770,7 @@ public class RwMain {
      */
     public String getPipelineDetail(String pno, String time, String desc) {
         String filePath = SysConfig.Catalog_Project + "pipeline/" + pno + "/layout.txt";
-        String aJson = FileUtils.readFileToString(filePath);
+        String aJson = FileUtils.Instance().readFileToString(filePath);
         List<Layout> l = new ArrayList<Layout>(); // Layout lists
         if (aJson.length() > 0) {
             l = JSON.parseArray(aJson,

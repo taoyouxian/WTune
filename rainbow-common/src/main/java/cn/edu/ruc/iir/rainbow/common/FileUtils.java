@@ -1,12 +1,48 @@
 package cn.edu.ruc.iir.rainbow.common;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+
+import java.io.*;
+import java.net.URI;
 
 public class FileUtils
 {
+    static private FileUtils instance = null;
+
+    private FileUtils()
+    {
+    }
+
+    public static FileUtils Instance()
+    {
+        if (instance == null)
+        {
+            instance = new FileUtils();
+        }
+        return instance;
+    }
+
+    public BufferedReader getReader(String path) throws FileNotFoundException
+    {
+        BufferedReader reader = new BufferedReader(new FileReader(path));
+        return reader;
+    }
+
+    public File[] getFiles(String dirPath)
+    {
+        File dir = new File(dirPath);
+        return dir.listFiles();
+    }
+
+    public FileStatus[] getHDFSFileStatuses(String dirPath, Configuration conf) throws IOException
+    {
+        FileSystem fs = FileSystem.get(URI.create(dirPath), conf);
+        return fs.listStatus(new Path(dirPath));
+    }
+
     /**
      * @param fileName
      * @return String
@@ -127,18 +163,6 @@ public class FileUtils
         }
     }
 
-    private void write(String aCache) throws IOException
-    {
-        File file = new File(this.getClass().getClassLoader()
-                .getResource(("cache/cache.txt")).getFile());
-        String filename = file.getAbsolutePath();
-        filename = filename.replace("cache.txt", "20170518205458.txt");
-        // filename = filename.replace("cache.txt", DateUtil.mkTime(new Date())
-        // + ".txt");
-        System.out.println(filename);
-        FileUtils.appendFile(aCache, filename);
-    }
-
     public static void deleteDirectory (String fileName)
     {
         try
@@ -149,4 +173,10 @@ public class FileUtils
             e.printStackTrace();
         }
     }
+
+    public BufferedWriter getWriter(String path) throws IOException
+    {
+        return new BufferedWriter(new FileWriter(path));
+    }
+
 }

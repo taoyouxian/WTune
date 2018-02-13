@@ -2,10 +2,10 @@ package cn.edu.ruc.iir.rainbow.web;
 
 import cn.edu.ruc.iir.rainbow.cli.INVOKER;
 import cn.edu.ruc.iir.rainbow.cli.InvokerFactory;
-import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
-import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
+import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.*;
@@ -46,19 +46,19 @@ public class AdaptiveTest {
 
     public void getDefaultInfo() {
         SysConfig.Catalog_Project = path;
-        String aJson = FileUtils.readFileToString(path + "cache/cache.txt");
+        String aJson = FileUtils.Instance().readFileToString(path + "cache/cache.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
-        aJson = FileUtils.readFileToString(path + "cache/process.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/process.txt");
         SysConfig.ProcessList = JSON.parseArray(aJson,
                 Process.class);
-        aJson = FileUtils.readFileToString(path + "cache/curLayout.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/curLayout.txt");
         SysConfig.CurLayout = JSON.parseArray(aJson,
                 Layout.class);
-        aJson = FileUtils.readFileToString(path + "cache/orderedLayout.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/orderedLayout.txt");
         SysConfig.CurOrderedLayout = JSON.parseArray(aJson,
                 OrderedLayout.class);
-        aJson = FileUtils.readFileToString(path + "cache/curEstimate.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/curEstimate.txt");
         SysConfig.CurEstimate = JSON.parseArray(aJson,
                 Estimate.class);
     }

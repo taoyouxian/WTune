@@ -1,14 +1,13 @@
 package cn.edu.ruc.iir.rainbow.seek.cmd;
 
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.ProgressListener;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 import cn.edu.ruc.iir.rainbow.common.exception.ParameterNotSupportedException;
-import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.HDFSInputFactory;
-import cn.edu.ruc.iir.rainbow.common.InputFactory;
 import cn.edu.ruc.iir.rainbow.seek.SeekPerformer;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
@@ -120,7 +119,7 @@ public class CmdSeekEvaluation implements Command
                     ConfigFactory.Instance().getProperty("namenode.port");
             try
             {
-                FileStatus[] statuses = HDFSInputFactory.Instance().getFileStatuses("hdfs://" + namenode + dataPath, conf);
+                FileStatus[] statuses = FileUtils.Instance().getHDFSFileStatuses("hdfs://" + namenode + dataPath, conf);
 
                 BufferedWriter seekCostWriter = new BufferedWriter(new FileWriter(logDir + "seek_cost.txt"));
                 seekCostWriter.write(seekDistInterval + "\n");
@@ -172,7 +171,7 @@ public class CmdSeekEvaluation implements Command
             //test local seek cost
             try
             {
-                File[] files = InputFactory.Instance().getFiles(dataPath);
+                File[] files = FileUtils.Instance().getFiles(dataPath);
 
                 BufferedWriter seekCostWriter = new BufferedWriter(new FileWriter(logDir + "seek_cost.txt"));
                 seekCostWriter.write(seekDistInterval + "\n");

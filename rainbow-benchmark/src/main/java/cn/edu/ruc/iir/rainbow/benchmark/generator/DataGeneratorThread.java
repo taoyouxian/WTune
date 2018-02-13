@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.benchmark.generator;
 
 import cn.edu.ruc.iir.rainbow.benchmark.domain.Column;
 import cn.edu.ruc.iir.rainbow.common.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 
 import java.io.*;
 import java.text.DecimalFormat;
@@ -76,7 +76,7 @@ public class DataGeneratorThread extends Thread
             {
                 f.mkdirs();
             }
-            bw = new BufferedWriter(new FileWriter(outGenPath), SysSettings.BUFFER_SIZE);
+            bw = new BufferedWriter(new FileWriter(outGenPath), Settings.BUFFER_SIZE);
             int col = 0;
             String fileSize;
             int randNum;
@@ -87,7 +87,7 @@ public class DataGeneratorThread extends Thread
                 for (int i = 0; i < columnName.length; i++)
                 {
                     List<Column> columnRate = columnList.get(i);
-                    randNum = random.nextInt(SysSettings.DATA_MAX) + 1;
+                    randNum = random.nextInt(Settings.DATA_MAX) + 1;
                     // binary search -> content
                     value = getValueByBinarySearch(randNum, columnRate);
                     writeLine.append(value);
@@ -101,7 +101,7 @@ public class DataGeneratorThread extends Thread
                 fileS += writeLine.toString().getBytes().length;
                 // set "", start next line to write
                 DecimalFormat df = new DecimalFormat("#.00");
-                fileSize = df.format((double) fileS / SysSettings.MB);
+                fileSize = df.format((double) fileS / Settings.MB);
                 if (Double.valueOf(fileSize) >= dataSize)
                 {
                     break;

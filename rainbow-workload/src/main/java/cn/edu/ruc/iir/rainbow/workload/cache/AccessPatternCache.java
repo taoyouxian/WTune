@@ -1,12 +1,15 @@
 package cn.edu.ruc.iir.rainbow.workload.cache;
 
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.OutputFactory;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class AccessPatternCache
 {
@@ -26,7 +29,7 @@ public class AccessPatternCache
 
     public void saveAsWorkloadFile (String path)
     {
-        try (BufferedWriter writer = OutputFactory.Instance().getWriter(path))
+        try (BufferedWriter writer = FileUtils.Instance().getWriter(path))
         {
             for (AccessPattern pattern : this.APC)
             {
