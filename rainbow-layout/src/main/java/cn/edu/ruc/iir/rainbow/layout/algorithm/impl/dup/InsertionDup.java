@@ -6,7 +6,7 @@ import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.DupAlgorithm;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.DistanceCalculator;
+import cn.edu.ruc.iir.rainbow.layout.cost.DistanceCalculator;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
 import cn.edu.ruc.iir.rainbow.layout.domian.WorkloadPattern;

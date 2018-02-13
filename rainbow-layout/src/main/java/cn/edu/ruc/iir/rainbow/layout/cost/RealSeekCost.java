@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.layout.seekcost;
+package cn.edu.ruc.iir.rainbow.layout.cost;
 
 import cn.edu.ruc.iir.rainbow.layout.domian.Coordinate;
 import cn.edu.ruc.iir.rainbow.layout.domian.Line;
@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class SimulatedSeekCostFunction implements SeekCostFunction
+public class RealSeekCost implements SeekCost
 {
     private List<Line> segments = null;
     private long interval = 0;
     private double K = 0;
 
-    public SimulatedSeekCostFunction(long interval, List<Coordinate> points)
+    public RealSeekCost(long interval, List<Coordinate> points)
     {
         this.interval = interval;
         segments = new ArrayList<Line>();

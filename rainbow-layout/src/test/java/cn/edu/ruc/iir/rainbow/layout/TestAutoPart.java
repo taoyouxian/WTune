@@ -10,8 +10,8 @@ import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.PowerSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 import org.junit.Test;
 
 import java.io.File;
@@ -29,7 +29,7 @@ public class TestAutoPart
         List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestAutoPart.class.getResource("/schema.txt").getFile()));
         List<Query> workload = WorkloadBuilder.build(new File(TestAutoPart.class.getResource("/workload.txt").getFile()), initColumnOrder);
 
-        SeekCostFunction seekCostFunction = new PowerSeekCostFunction();
+        SeekCost seekCostFunction = new PowerSeekCost();
 
         Algorithm algo = AlgorithmFactory.Instance().getAlgorithm("autopart", 5, initColumnOrder, workload, seekCostFunction);
         double initSeekCost = algo.getSchemaSeekCost();

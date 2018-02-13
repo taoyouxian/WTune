@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.builder;
 
 
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SimulatedSeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.RealSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.domian.Coordinate;
 
 import java.io.BufferedReader;
@@ -14,11 +14,11 @@ import java.util.List;
 /**
  * Created by hank on 2015/4/28.
  */
-public class SimulatedSeekCostBuilder
+public class RealSeekCostBuilder
 {
-    private SimulatedSeekCostBuilder () {}
+    private RealSeekCostBuilder() {}
 
-    public static SimulatedSeekCostFunction build (File columnOrderFile) throws IOException
+    public static RealSeekCost buildFromFile(File columnOrderFile) throws IOException
     {
         BufferedReader reader = new BufferedReader(new FileReader(columnOrderFile));
 
@@ -36,6 +36,11 @@ public class SimulatedSeekCostBuilder
 
         reader.close();
 
-        return new SimulatedSeekCostFunction(interval, coordinates);
+        return new RealSeekCost(interval, coordinates);
+    }
+
+    public static RealSeekCost buildFromPrometheus()
+    {
+        return null;
     }
 }

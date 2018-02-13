@@ -1,6 +1,6 @@
-package cn.edu.ruc.iir.rainbow.layout.seekcost;
+package cn.edu.ruc.iir.rainbow.layout.cost;
 
-public class LinearSeekCostFunction implements SeekCostFunction
+public class LinearSeekCost implements SeekCost
 {
     private static final double K = 0.005;
 
