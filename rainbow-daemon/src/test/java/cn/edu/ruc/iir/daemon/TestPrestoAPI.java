@@ -30,7 +30,7 @@ public class TestPrestoAPI
     Map<String, Boolean> queryMap = new HashedMap();
 
     @Test
-    public void latestTest ()
+    public void latestTest () throws IOException
     {
         SqlParser parser = new SqlParser();
         Query q = null;
@@ -39,7 +39,7 @@ public class TestPrestoAPI
 
         int cou = 0;
         while (true) {
-            o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
+            o = HttpUtils.Instance().getPageContent(ConfigFactory.Instance().getProperty("presto.query.url"));
             jsonArray = JSON.parseArray(o.toString());
 
             String queryId = null;
@@ -78,7 +78,7 @@ public class TestPrestoAPI
                         try {
                             if (!flag) {
                                 flag = true;
-                                FileUtils.writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.Instance().writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -96,7 +96,7 @@ public class TestPrestoAPI
                             try {
                                 flag = false;
                                 System.out.println(time);
-                                FileUtils.writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.Instance().writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -123,7 +123,7 @@ public class TestPrestoAPI
         int num = 0, cou = 0;
         while (true) {
             try {
-                o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
+                o = HttpUtils.Instance().getPageContent(ConfigFactory.Instance().getProperty("presto.query.url"));
             } catch (Exception e) {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR, "http get error", e);
             }
@@ -161,7 +161,7 @@ public class TestPrestoAPI
                         try {
                             if (!flag) {
                                 flag = true;
-                                FileUtils.writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.Instance().writeFile(time + "\tBegin\t" + i + "\r\n", Settings.APC_PATH, true);
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -179,7 +179,7 @@ public class TestPrestoAPI
                             try {
                                 flag = false;
                                 System.out.println(time);
-                                FileUtils.writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
+                                FileUtils.Instance().writeFile(time + "\tEnd\t" + i + "\r\n", Settings.APC_PATH, true);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -200,7 +200,8 @@ public class TestPrestoAPI
     }
 
     @Test
-    public void HttpGetFilterTest() {
+    public void HttpGetFilterTest() throws IOException
+    {
         SqlParser parser = new SqlParser();
         Query q = null;
         Object o = new Object();
@@ -208,7 +209,7 @@ public class TestPrestoAPI
 
         int num = 0, cou = 0;
         while (true) {
-            o = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
+            o = HttpUtils.Instance().getPageContent(ConfigFactory.Instance().getProperty("presto.query.url"));
             jsonArray = JSON.parseArray(o.toString());
 
             String queryId = null;

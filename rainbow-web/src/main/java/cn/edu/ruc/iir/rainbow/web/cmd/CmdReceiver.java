@@ -2,13 +2,13 @@ package cn.edu.ruc.iir.rainbow.web.cmd;
 
 import cn.edu.ruc.iir.rainbow.cli.INVOKER;
 import cn.edu.ruc.iir.rainbow.cli.InvokerFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
-import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEvaluation;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdGetColumnSize;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdOrdering;
@@ -180,7 +180,7 @@ public class CmdReceiver {
                 String msg = "Layout Calculation : " + ((int) (percentage * 10000) / 100.0) + " %    ";
                 System.out.println(msg);
                 try {
-                    FileUtils.writeFile(msg, filePath);
+                    FileUtils.Instance().writeFile(msg, filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -255,7 +255,7 @@ public class CmdReceiver {
             SysConfig.APC_FLAG = true;
             try {
                 String time = DateUtil.formatTime(new Date());
-                FileUtils.writeFile(time + "\t" + id + "\r\n", SysConfig.Catalog_Project + "APC.txt", true);
+                FileUtils.Instance().writeFile(time + "\t" + id + "\r\n", SysConfig.Catalog_Project + "APC.txt", true);
             } catch (IOException e) {
                 e.printStackTrace();
             }

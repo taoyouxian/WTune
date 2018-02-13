@@ -23,20 +23,22 @@ import org.apache.http.protocol.HttpContext;
 import javax.net.ssl.SSLException;
 import java.io.*;
 import java.net.ConnectException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class HttpFactory
+public class HttpUtils
 {
-    private static HttpFactory instance = null;
+    private static HttpUtils instance = null;
 
     private PoolingClientConnectionManager cm = null;
     private List<String> userAgents = null;
     private Random rand = null;
 
-    private HttpFactory()
+    private HttpUtils()
     {
         try
         {
@@ -198,14 +200,14 @@ public class HttpFactory
     }
 
     /**
-     * get the content of html source code from given url
+     * get the content of content (html source code) from given url
      *
      * @param url
      * @return
      * @throws IOException
      * @throws ClientProtocolException
      */
-    public String getPageHtml(String url) throws ClientProtocolException, IOException
+    public String getPageContent(String url) throws ClientProtocolException, IOException
     {
         InputStream in = null;
         String page = null;
@@ -236,11 +238,66 @@ public class HttpFactory
         return page;
     }
 
-    public static HttpFactory getInstance()
+    /**
+     * author: tao
+     * @param aUrl
+     * @param param
+     * @return
+     */
+    public Object acHttpPost(String aUrl, String param)
+    {
+        PrintWriter out = null;
+        BufferedReader in = null;
+        String result = "";
+        try
+        {
+            URL realUrl = new URL(aUrl);
+            URLConnection conn = realUrl.openConnection();
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            out = new PrintWriter(conn.getOutputStream());
+            out.print(param);
+            out.flush();
+            in = new BufferedReader(
+                    new InputStreamReader(conn.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null)
+            {
+                result += line;
+            }
+        } catch (Exception e)
+        {
+            System.out.println("POST error！" + e);
+            e.printStackTrace();
+        } finally
+        {
+            try
+            {
+                if (out != null)
+                {
+                    out.close();
+                }
+                if (in != null)
+                {
+                    in.close();
+                }
+            } catch (IOException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    public static HttpUtils Instance()
     {
         if (instance == null)
         {
-            instance = new HttpFactory();
+            instance = new HttpUtils();
         }
         return instance;
     }

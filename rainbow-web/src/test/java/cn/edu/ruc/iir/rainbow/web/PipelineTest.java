@@ -1,9 +1,6 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.DateUtil;
-import cn.edu.ruc.iir.rainbow.common.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.*;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
@@ -53,9 +50,9 @@ public class PipelineTest {
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
         try {
             List<String> listFile = hUtil.listAll(pipline.getUrl());
-            String statement = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/text_ddl.sql");
-            String statement1 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_ddl.sql");
-            String statement2 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_load.sql");
+            String statement = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/text_ddl.sql");
+            String statement1 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_ddl.sql");
+            String statement2 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_load.sql");
 
             String sql = null;
             for (int i = listFile.size() - 1; i >= 0; i--) {
@@ -84,7 +81,7 @@ public class PipelineTest {
     }
 
     private void getDefaultInfo() {
-        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/cache.txt");
+        String aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "cache/cache.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
     }
@@ -111,7 +108,7 @@ public class PipelineTest {
 
     @Test
     public void GetLayoutTest() {
-        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipline/" + pno + "/layout.txt");
+        String aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pno + "/layout.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
     }

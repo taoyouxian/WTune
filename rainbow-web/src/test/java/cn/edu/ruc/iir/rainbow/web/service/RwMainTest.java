@@ -2,7 +2,6 @@ package cn.edu.ruc.iir.rainbow.web.service;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.InputFactory;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Statistic;
 import com.alibaba.fastjson.JSON;
@@ -11,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * @version V1.0
@@ -31,7 +33,7 @@ public class RwMainTest {
         String arg = "5ff6b2e4db4e8245bd1e809a8ec98b65";
         String filePath = SysConfig.Catalog_Project + "pipline/" + arg + "/presto_duration.csv";
         List<Statistic> list = new ArrayList<Statistic>();
-        try (BufferedReader reader = InputFactory.Instance().getReader(filePath)) {
+        try (BufferedReader reader = FileUtils.Instance().getReader(filePath)) {
             String line;
             String[] splits;
             int i = 0;
@@ -94,7 +96,7 @@ public class RwMainTest {
             queryID = UUID.randomUUID().toString();
             time = r.nextInt(100);
             try {
-                FileUtils.appendFile(queryID + "\t" + time, filePath);
+                FileUtils.Instance().appendFile(queryID + "\t" + time, filePath);
             } catch (IOException e) {
                 e.printStackTrace();
             }

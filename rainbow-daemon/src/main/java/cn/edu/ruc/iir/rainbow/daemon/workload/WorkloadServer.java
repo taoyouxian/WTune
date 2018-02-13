@@ -1,9 +1,9 @@
 package cn.edu.ruc.iir.rainbow.daemon.workload;
 
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.HttpUtils;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.HttpUtil;
 import cn.edu.ruc.iir.rainbow.daemon.Server;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.ParsingOptions;
 import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
@@ -63,9 +63,10 @@ public class WorkloadServer implements Server
         while (shutdown == false)
         {
             System.out.println("workload server [" + this.tableName + "] is running...");
-            try {
+            try
+            {
                 SqlParser parser = new SqlParser();
-                Object obj = HttpUtil.HttpGet(ConfigFactory.Instance().getProperty("presto.query.url"));
+                Object obj = HttpUtils.Instance().getPageContent(ConfigFactory.Instance().getProperty("presto.query.url"));
                 JSONArray jsonArray = JSON.parseArray(obj.toString());
 
                 for (int i = 0; i < jsonArray.size(); i++)
@@ -113,7 +114,7 @@ public class WorkloadServer implements Server
                 }
                 // check the queries from presto query url every 5 seconds.
                 TimeUnit.SECONDS.sleep(5);
-            } catch (InterruptedException e)
+            } catch (Exception e)
             {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR, "error while fetching workload from presto.", e);
             }

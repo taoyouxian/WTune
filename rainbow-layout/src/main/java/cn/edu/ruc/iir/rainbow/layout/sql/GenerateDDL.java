@@ -1,8 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.sql;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.InputFactory;
-import cn.edu.ruc.iir.rainbow.common.OutputFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,8 +15,8 @@ public class GenerateDDL
 
 	public static void GenCreateOrc (String tableName, String schemaFilePath, String createStatementPath) throws IOException
 	{
-		try (BufferedReader reader = InputFactory.Instance().getReader(schemaFilePath);
-			 BufferedWriter writer = OutputFactory.Instance().getWriter(createStatementPath))
+		try (BufferedReader reader = FileUtils.Instance().getReader(schemaFilePath);
+			 BufferedWriter writer = FileUtils.Instance().getWriter(createStatementPath))
 		{
 			String line;
 			writer.write("CREATE EXTERNAL TABLE " + tableName + "\n(\n");
@@ -38,8 +37,8 @@ public class GenerateDDL
 	
 	public static void GenCreateText (String schemaFilePath, String createStatementPath) throws IOException
 	{
-		try (BufferedReader reader = InputFactory.Instance().getReader(schemaFilePath);
-			 BufferedWriter writer = OutputFactory.Instance().getWriter(createStatementPath))
+		try (BufferedReader reader = FileUtils.Instance().getReader(schemaFilePath);
+			 BufferedWriter writer = FileUtils.Instance().getWriter(createStatementPath))
 		{
 			String line;
 			writer.write("CREATE EXTERNAL TABLE " + ConfigFactory.Instance().getProperty("text.table.name") + "\n(\n");
@@ -60,8 +59,8 @@ public class GenerateDDL
 
 	public static void GenCreateParq (String tableName, String schemaFilePath, String createStatementPath) throws IOException
 	{
-		try (BufferedReader reader = InputFactory.Instance().getReader(schemaFilePath);
-			 BufferedWriter writer = OutputFactory.Instance().getWriter(createStatementPath);)
+		try (BufferedReader reader = FileUtils.Instance().getReader(schemaFilePath);
+			 BufferedWriter writer = FileUtils.Instance().getWriter(createStatementPath);)
 		{
 			String line;
 			writer.write("CREATE EXTERNAL TABLE " + tableName + "\n(\n");

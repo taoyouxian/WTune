@@ -27,35 +27,35 @@ public class InitServiceImpl implements InitServiceI {
             file.mkdirs();
         }
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
-        String aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/cache.txt");
+        String aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "cache/cache.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.PipelineList = JSON.parseArray(aJson,
                     Pipeline.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/process.txt");
+        aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "cache/process.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.ProcessList = JSON.parseArray(aJson,
                     Process.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/curLayout.txt");
+        aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "cache/curLayout.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurLayout = JSON.parseArray(aJson,
                     Layout.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/curEstimate.txt");
+        aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "cache/curEstimate.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurEstimate = JSON.parseArray(aJson,
                     Estimate.class);
         }
 
-        aJson = FileUtils.readFileToString(SysConfig.Catalog_Project + "cache/orderedLayout.txt");
+        aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "cache/orderedLayout.txt");
         if (aJson == "" || aJson == null) {
         } else {
             SysConfig.CurOrderedLayout = JSON.parseArray(aJson,

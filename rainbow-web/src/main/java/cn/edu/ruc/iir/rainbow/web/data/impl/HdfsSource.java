@@ -59,9 +59,9 @@ public class HdfsSource extends DataSource {
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
         try {
             List<String> listFile = hUtil.listAll(pipeline.getUrl());
-            String statement = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/text_ddl.sql");
-            String statement1 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/parquet_ddl.sql");
-            String statement2 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/parquet_load.sql");
+            String statement = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/text_ddl.sql");
+            String statement1 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/parquet_ddl.sql");
+            String statement2 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/parquet_load.sql");
 
             String sql = null;
             for (int i = listFile.size() - 1; i >= 0; i--) {
@@ -93,7 +93,7 @@ public class HdfsSource extends DataSource {
 //        String method = ConfigFactory.Instance().getProperty("evaluation.method");
         HiveClient client = HiveClient.Instance(SysConfig.HOST_URL, SysConfig.HOST_NAME, SysConfig.HOST_PWD);
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
-        String statement = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/text_ddl.sql");
+        String statement = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/text_ddl.sql");
         String statement1 = null, statement2 = null, sql = null;
 //        client.drop("text");
         String table = "";
@@ -104,13 +104,13 @@ public class HdfsSource extends DataSource {
 //            sql = statement.replace("/rainbow/text", SysConfig.Catalog_Sampling + pipeline.getNo() + "/copy");
 //            if(client.IsTableExist("text") < 0)
 //                client.execute(sql);
-            statement1 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_0_ddl.sql");
-            statement2 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_0_load.sql");
+            statement1 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_0_ddl.sql");
+            statement2 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_0_load.sql");
             sql = statement1.replace("/rainbow/" + table, SysConfig.Catalog_Sampling + pipeline.getNo() + "/ordered_0") + getSqlParameter(pipeline);
         } else {
             table = pipeline.getFormat().toLowerCase() + "_" + pipeline.getNo() + "_" + count;
-            statement1 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_" + count + "_ddl.sql");
-            statement2 = FileUtils.readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_" + count + "_load.sql");
+            statement1 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_" + count + "_ddl.sql");
+            statement2 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipeline/" + pipeline.getNo() + "/" + pipeline.getFormat().toLowerCase() + "_" + count + "_load.sql");
             sql = statement1.replace("/rainbow/" + table, SysConfig.Catalog_Sampling + pipeline.getNo() + "/ordered_" + count) + getSqlParameter(pipeline);
         }
         client.execute(sql);

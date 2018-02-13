@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.client;
 
-import cn.edu.ruc.iir.rainbow.common.HttpSettings;
-import cn.edu.ruc.iir.rainbow.common.HttpUtil;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.HttpUtils;
+import cn.edu.ruc.iir.rainbow.common.HttpSettings;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedReader;
@@ -49,7 +49,7 @@ public class ClientTest
                 String[] tokens = line.split("\t");
                 double weight = Double.parseDouble(tokens[1]);
                 String aPostData = "query=" + tokens[2] + "&pno=" + pno + "&id=" + tokens[0] + "&weight=" + weight;
-                String res = HttpUtil.acHttpPost(HttpSettings.WORKLOAD_POST_URL, aPostData).toString();
+                String res = HttpUtils.Instance().acHttpPost(HttpSettings.WORKLOAD_POST_URL, aPostData).toString();
                 Thread.sleep(random.nextInt(500));
             }
         } catch (IOException e)
