@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.layout.seekcost;
+package cn.edu.ruc.iir.rainbow.layout.cost;
 
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnNotFoundException;
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnOrderException;

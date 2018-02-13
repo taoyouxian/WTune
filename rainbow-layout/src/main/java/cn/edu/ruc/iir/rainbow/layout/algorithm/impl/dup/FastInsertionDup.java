@@ -11,7 +11,7 @@ import cn.edu.ruc.iir.rainbow.layout.algorithm.RefineAlgorithm;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
 import cn.edu.ruc.iir.rainbow.layout.domian.WorkloadPattern;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.util.*;
 
@@ -171,7 +171,7 @@ public class FastInsertionDup extends DupAlgorithm
         int lastPos = -1;
         int queryIndex = this.getWorkload().indexOf(query);
         double seekCost = 0;
-        SeekCostFunction sc = this.getSeekCostFunction();
+        SeekCost sc = this.getSeekCostFunction();
         for (int pos : this.queryAccessedPos.get(queryIndex))
         {
             if (lastPos != -1)
@@ -340,7 +340,7 @@ public class FastInsertionDup extends DupAlgorithm
         //calculate gravity
         double[] gravity = new double[this.colIdsOriginal.size()];
         List<Column> columns = this.getColumnOrder();
-        SeekCostFunction sc = this.getSeekCostFunction();
+        SeekCost sc = this.getSeekCostFunction();
         for (int i = 0; i < this.getWorkload().size(); i ++)
         {
             TreeSet<Integer> accessedPos = this.queryAccessedPos.get(i);
@@ -506,7 +506,7 @@ public class FastInsertionDup extends DupAlgorithm
     private double calculateDeltaCost(int colIdToDup, int posToDup)
     {
         double delta = 0;
-        SeekCostFunction sc = this.getSeekCostFunction();
+        SeekCost sc = this.getSeekCostFunction();
         for (int i = 0; i < this.getWorkload().size(); i++)
         {
             // for each query,

@@ -1,6 +1,6 @@
-package cn.edu.ruc.iir.rainbow.layout.seekcost;
+package cn.edu.ruc.iir.rainbow.layout.cost;
 
-public class PowerSeekCostFunction implements SeekCostFunction
+public class PowerSeekCost implements SeekCost
 {
     private static final double K1 = 0.005;
     private static final double TURNING_POINT = 36000000;

@@ -4,7 +4,7 @@ import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 import cn.edu.ruc.iir.rainbow.common.exception.AlgoException;
 import org.apache.commons.logging.Log;
 
@@ -34,7 +34,7 @@ public class AlgorithmFactory
                                   long computationBudget,
                                   List<Column> initColumnOrder,
                                   List<Query> workload,
-                                  SeekCostFunction seekCostFunction) throws ClassNotFoundException, AlgoException
+                                  SeekCost seekCostFunction) throws ClassNotFoundException, AlgoException
     {
         String className = ConfigFactory.Instance().getProperty(algoName);
         Class<?> algoClass = Class.forName(className);
