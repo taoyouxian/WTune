@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.web.data.impl;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.FileUtils;
-import cn.edu.ruc.iir.rainbow.common.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.data.DataSource;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
@@ -44,7 +44,7 @@ public class HdfsSource extends DataSource {
         boolean flag = false;
         try {
             if (!hUtil.isTableExists(SysConfig.Catalog_Sampling + pipeline.getNo() + "/copy/sample")) {
-//                flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Sampling + pipeline.getNo() + "/copy/sample", SysSettings.MB * samplingSize);
+//                flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Sampling + pipeline.getNo() + "/copy/sample", Settings.MB * samplingSize);
                 hUtil.copyFile(listFile.get(0), SysConfig.Catalog_Sampling + pipeline.getNo() + "/copy/sample", false);
                 flag = true;
             }
@@ -123,10 +123,10 @@ public class HdfsSource extends DataSource {
     private String getSqlParameter(Pipeline pipeline) {
         String sql = null;
         if (pipeline.getFormat().toLowerCase().equals("parquet")) {
-            sql = "TBLPROPERTIES (\"parquet.block.size\"=\"" + pipeline.getRowGroupSize() * SysSettings.MB + "\", ";
+            sql = "TBLPROPERTIES (\"parquet.block.size\"=\"" + pipeline.getRowGroupSize() * Settings.MB + "\", ";
             sql += "\"parquet.compression\"=\"" + pipeline.getCompression() + "\")";
         } else {
-            sql = "TBLPROPERTIES (\"orc.stripe.size\"=\"" + pipeline.getRowGroupSize() * SysSettings.MB + "\", ";
+            sql = "TBLPROPERTIES (\"orc.stripe.size\"=\"" + pipeline.getRowGroupSize() * Settings.MB + "\", ";
             sql += "\"orc.compress\"=\"" + pipeline.getCompression() + "\")";
         }
         return sql;

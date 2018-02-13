@@ -465,7 +465,7 @@ public class RwMain {
             try (BufferedReader reader = FileUtils.Instance().getReader(filePath)) {
                 String line = reader.readLine();
                 String[] splits = line.split("=");  //  row.group.size=1073741824
-                p.setRowGroupSize((int) (Double.valueOf(splits[1]) / SysSettings.MB));
+                p.setRowGroupSize((int) (Double.valueOf(splits[1]) / Settings.MB));
             } catch (IOException e) {
                 e.printStackTrace();
             }

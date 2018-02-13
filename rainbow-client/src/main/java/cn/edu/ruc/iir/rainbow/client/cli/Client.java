@@ -2,7 +2,6 @@ package cn.edu.ruc.iir.rainbow.client.cli;
 
 import cn.edu.ruc.iir.rainbow.client.cmd.CmdWorkloadEva;
 import cn.edu.ruc.iir.rainbow.common.HttpUtils;
-import cn.edu.ruc.iir.rainbow.common.HttpSettings;
 import cn.edu.ruc.iir.rainbow.common.Settings;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
@@ -72,7 +71,7 @@ public class Client
                     String[] tokens = line.split("\t");
                     double weight = Double.parseDouble(tokens[1]);
                     String aPostData = "query=" + tokens[2] + "&pno=" + pno + "&id=" + tokens[0] + "&weight=" + weight;
-                    String res = HttpUtils.Instance().acHttpPost(HttpSettings.WORKLOAD_POST_URL, aPostData).toString();
+                    String res = HttpUtils.Instance().acHttpPost(Settings.WORKLOAD_POST_URL, aPostData).toString();
                     Thread.sleep(random.nextInt(500));
                 }
             } catch (IOException e)

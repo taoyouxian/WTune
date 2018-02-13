@@ -89,10 +89,10 @@ public class PipelineTest {
     private String getSqlParameter(Pipeline pipline) {
         String sql = null;
         if (pipline.getFormat().toLowerCase().equals("parquet")) {
-            sql = "TBLPROPERTIES (\"parquet.block.size\"=\"" + pipline.getRowGroupSize() * SysSettings.MB + "\", ";
+            sql = "TBLPROPERTIES (\"parquet.block.size\"=\"" + pipline.getRowGroupSize() * Settings.MB + "\", ";
             sql += "\"parquet.compression\"=\"" + pipline.getCompression() + "\")";
         } else {
-            sql = "TBLPROPERTIES (\"orc.stripe.size\"=\"" + pipline.getRowGroupSize() * SysSettings.MB + "\", ";
+            sql = "TBLPROPERTIES (\"orc.stripe.size\"=\"" + pipline.getRowGroupSize() * Settings.MB + "\", ";
             sql += "\"orc.compress\"=\"" + pipline.getCompression() + "\")";
         }
         return sql;

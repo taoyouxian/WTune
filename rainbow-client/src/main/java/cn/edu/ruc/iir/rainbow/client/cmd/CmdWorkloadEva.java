@@ -1,10 +1,10 @@
 package cn.edu.ruc.iir.rainbow.client.cmd;
 
+import cn.edu.ruc.iir.rainbow.client.presto.QuerySubmitter;
 import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
-import cn.edu.ruc.iir.rainbow.client.presto.QuerySubmitter;
-import cn.edu.ruc.iir.rainbow.common.Settings;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
