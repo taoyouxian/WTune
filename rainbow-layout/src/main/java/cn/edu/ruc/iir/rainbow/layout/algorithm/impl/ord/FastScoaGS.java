@@ -7,6 +7,9 @@ import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 
 import java.util.List;
 
+/**
+ * This is the fast scoa algorithm with row group size optimization.
+ */
 public class FastScoaGS extends FastScoa
 {
     public static class RowGroupSize
@@ -132,12 +135,20 @@ public class FastScoaGS extends FastScoa
         this.taskInitMs = taskInitMs;
     }
 
+    /**
+     * get the total overhead of schema (initial column order)
+     * @return
+     */
     public double getSchemaOverhead ()
     {
         return this.getNumRowGroups() * this.getWorkload().size() *  this.getTaskInitMs() +
                 this.getSchemaSeekCost() * this.getNumRowGroups();
     }
 
+    /**
+     * get the total overhead of the current column order
+     * @return
+     */
     public double getCurrentOverhead ()
     {
         return this.getCurrentWorkloadSeekCost() * this.numRowGroups +
