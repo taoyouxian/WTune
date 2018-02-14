@@ -18,9 +18,9 @@ public class RealSeekCostBuilder
 {
     private RealSeekCostBuilder() {}
 
-    public static RealSeekCost buildFromFile(File columnOrderFile) throws IOException
+    public static RealSeekCost buildFromFile(File seekCostFile) throws IOException
     {
-        BufferedReader reader = new BufferedReader(new FileReader(columnOrderFile));
+        BufferedReader reader = new BufferedReader(new FileReader(seekCostFile));
 
         List<Coordinate> coordinates = new ArrayList<Coordinate>();
 
