@@ -29,7 +29,7 @@ public class TestScoa
         List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/workload.txt").getFile()), initColumnOrder);
         System.out.println(workload.size());
         SeekCost seekCostFunction = new PowerSeekCost();
-        //RealSeekCostBuilder.buildFromFile(new File("cord-generator/resources/seek_cost.txt"));
+        //RealSeekCostBuilder.buildFromFile(new File("layout/resources/seek_cost.txt"));
 
         Algorithm fastScoa = AlgorithmFactory.Instance().getAlgorithm("scoa", 200, new ArrayList<>(initColumnOrder), workload, seekCostFunction);
         System.out.println("Init cost: " + fastScoa.getSchemaSeekCost());

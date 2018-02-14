@@ -121,6 +121,11 @@ public class Column implements Comparable<Column>
         return this.queryIds.contains(queryId);
     }
 
+    public Set<Integer> getQueryIds ()
+    {
+        return this.queryIds;
+    }
+
     @Override
     public int compareTo(Column c)
     {

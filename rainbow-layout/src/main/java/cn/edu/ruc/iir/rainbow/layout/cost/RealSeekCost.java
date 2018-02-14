@@ -17,7 +17,7 @@ public class RealSeekCost implements SeekCost
     public RealSeekCost(long interval, List<Coordinate> points)
     {
         this.interval = interval;
-        segments = new ArrayList<Line>();
+        segments = new ArrayList<>();
         Collections.sort(points);
 
         for (int i = 0; i < points.size() - 1; ++i)
@@ -49,5 +49,4 @@ public class RealSeekCost implements SeekCost
             return this.K * Math.sqrt(distance);
         }
     }
-
 }
