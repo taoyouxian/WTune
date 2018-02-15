@@ -1,4 +1,4 @@
-{//avg(pixels_read_lambda_cost)by(name)
+{
   "status": "success",
   "data": {
     "resultType": "vector",

@@ -1,33 +1,29 @@
 package cn.edu.ruc.iir.rainbow.layout.cost;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LambdaCost
 {
-    private String name;
-    private double cost;
+    private List<NamedCost> namedCosts = new ArrayList<>();
 
-    public LambdaCost(String name, double cost)
+    public void addNamedCost(NamedCost namedCost)
     {
-        this.name = name;
-        this.cost = cost;
+        this.namedCosts.add(namedCost);
     }
 
-    public String getName()
+    public List<NamedCost> getNamedCosts()
     {
-        return name;
+        return namedCosts;
     }
 
-    public void setName(String name)
+    public double calculate ()
     {
-        this.name = name;
-    }
-
-    public double getCost()
-    {
-        return cost;
-    }
-
-    public void setCost(double cost)
-    {
-        this.cost = cost;
+        double ms = 0;
+        for (NamedCost cost : this.namedCosts)
+        {
+            ms += cost.getMs();
+        }
+        return ms;
     }
 }

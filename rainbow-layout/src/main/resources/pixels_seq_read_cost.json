@@ -1,4 +1,4 @@
-{//avg(pixels_seq_read_cost)by(length)
+{
   "status": "success",
   "data": {
     "resultType": "vector",
