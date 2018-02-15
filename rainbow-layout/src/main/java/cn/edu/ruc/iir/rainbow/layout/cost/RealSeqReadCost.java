@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.cost;
 
 import cn.edu.ruc.iir.rainbow.common.exception.CostFunctionException;
-import cn.edu.ruc.iir.rainbow.layout.domian.Coordinate;
+import cn.edu.ruc.iir.rainbow.layout.cost.domain.Coordinate;
 
 import java.util.List;
 

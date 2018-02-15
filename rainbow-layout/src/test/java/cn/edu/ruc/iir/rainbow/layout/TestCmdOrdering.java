@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.rainbow.layout;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdOrdering;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Properties;
 

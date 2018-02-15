@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.rainbow.workload;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import org.apache.commons.httpclient.util.DateUtil;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

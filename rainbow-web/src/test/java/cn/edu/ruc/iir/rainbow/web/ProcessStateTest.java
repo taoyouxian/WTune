@@ -6,7 +6,7 @@ import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.State;
 import com.alibaba.fastjson.JSONArray;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;

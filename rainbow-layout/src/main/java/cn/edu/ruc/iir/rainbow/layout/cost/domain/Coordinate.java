@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.layout.domian;
+package cn.edu.ruc.iir.rainbow.layout.cost.domain;
 
 public class Coordinate implements Comparable<Coordinate>
 {

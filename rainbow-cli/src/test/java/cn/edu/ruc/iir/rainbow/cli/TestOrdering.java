@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.cli;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Properties;
 

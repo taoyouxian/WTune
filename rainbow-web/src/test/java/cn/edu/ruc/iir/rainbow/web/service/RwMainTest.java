@@ -5,7 +5,7 @@ import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Statistic;
 import com.alibaba.fastjson.JSON;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;

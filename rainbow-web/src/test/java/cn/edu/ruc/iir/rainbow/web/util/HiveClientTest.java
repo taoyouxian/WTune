@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web.util;
 
 import cn.edu.ruc.iir.rainbow.web.hive.util.HiveClient;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.rainbow.client;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.HttpUtils;
 import cn.edu.ruc.iir.rainbow.common.Settings;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

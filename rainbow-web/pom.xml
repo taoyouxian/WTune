@@ -16,7 +16,6 @@
         <dep.spring.version>4.2.7.RELEASE</dep.spring.version>
         <dep.jetty.version>9.0.5.v20130815</dep.jetty.version>
         <dep.jackson.version>1.9.13</dep.jackson.version>
-        <dep.hadoop.version>2.7.1</dep.hadoop.version>
         <dep.hive.version>1.2.2</dep.hive.version>
         <dep.postgresql.version>9.4.1207</dep.postgresql.version>
         <jdk.version>1.8</jdk.version>
@@ -29,34 +28,29 @@
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-evaluate</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-common</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-benchmark</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-cli</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-workload</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.0.0-M6</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -161,29 +155,13 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.21</version>
         </dependency>
+
         <!--fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.31</version>
         </dependency>
-        <!--hadoop begin -->
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${dep.hadoop.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-common</artifactId>
-            <version>${dep.hadoop.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-hdfs</artifactId>
-            <version>${dep.hadoop.version}</version>
-        </dependency>
-        <!--hadoop end -->
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>

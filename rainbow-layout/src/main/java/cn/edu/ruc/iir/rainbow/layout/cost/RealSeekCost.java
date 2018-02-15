@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.cost;
 
-import cn.edu.ruc.iir.rainbow.layout.domian.Coordinate;
-import cn.edu.ruc.iir.rainbow.layout.domian.Line;
+import cn.edu.ruc.iir.rainbow.layout.cost.domain.Coordinate;
+import cn.edu.ruc.iir.rainbow.layout.cost.domain.Line;
 
 import java.util.ArrayList;
 import java.util.Collections;
