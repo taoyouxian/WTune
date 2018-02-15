@@ -20,7 +20,7 @@ http://www.springframework.org/schema/jee http://www.springframework.org/schema/
 								expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
-	<bean id="rwMain" class="cn.edu.ruc.iir.rainbow.web.service.RwMain">
+	<bean id="rainbowWebMain" class="cn.edu.ruc.iir.rainbow.web.service.RainbowWebMain">
 	</bean>
 
 

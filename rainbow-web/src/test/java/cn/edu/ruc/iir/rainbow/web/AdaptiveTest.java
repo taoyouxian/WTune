@@ -10,7 +10,7 @@ import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.*;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
-import cn.edu.ruc.iir.rainbow.web.service.RwMain;
+import cn.edu.ruc.iir.rainbow.web.service.RainbowWebMain;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ import java.util.Properties;
  **/
 public class AdaptiveTest {
 
-    private RwMain rwMain = RwMain.Instance();
+    private RainbowWebMain rainbowWebMain = RainbowWebMain.Instance();
 
     private String no = "44ba30d7abdbe13ab2c886f18c0f5555";
     String path = ConfigFactory.Instance().getProperty("pipline.path");
@@ -34,14 +34,14 @@ public class AdaptiveTest {
     @Test
     public void SamplingTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo(no, 0);
-        rwMain.getSampling(p, true);
+        Pipeline p = rainbowWebMain.getPipelineByNo(no, 0);
+        rainbowWebMain.getSampling(p, true);
     }
 
     @Test
     public void deleteTest() {
         getDefaultInfo();
-        rwMain.delete(no);
+        rainbowWebMain.delete(no);
     }
 
     public void getDefaultInfo() {
@@ -66,21 +66,21 @@ public class AdaptiveTest {
     @Test
     public void getEstimationTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo(no, 0);
-        rwMain.getEstimation(p, false);
+        Pipeline p = rainbowWebMain.getPipelineByNo(no, 0);
+        rainbowWebMain.getEstimation(p, false);
     }
 
     @Test
     public void getCurrentLayoutTest() {
         getDefaultInfo();
-        String aJson = rwMain.getCurrentLayout("1");
+        String aJson = rainbowWebMain.getCurrentLayout("1");
         System.out.println(aJson);
     }
 
     @Test
     public void getColumnSizeTest() {
         getDefaultInfo();
-        Pipeline pipeline = rwMain.getPipelineByNo(no, 0);
+        Pipeline pipeline = rainbowWebMain.getPipelineByNo(no, 0);
         CmdReceiver instance = CmdReceiver.getInstance(pipeline);
         instance.generateEstimation(false);
     }
