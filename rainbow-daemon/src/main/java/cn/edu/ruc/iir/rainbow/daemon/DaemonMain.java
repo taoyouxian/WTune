@@ -2,6 +2,7 @@ package cn.edu.ruc.iir.rainbow.daemon;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
+import cn.edu.ruc.iir.rainbow.daemon.etl.ETLServer;
 import cn.edu.ruc.iir.rainbow.daemon.layout.LayoutServer;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadServer;
 
@@ -23,12 +24,13 @@ public class DaemonMain
             String jarName = ConfigFactory.Instance().getProperty("daemon.jar");
             String daemonJarPath = ConfigFactory.Instance().getProperty("rainbow.home") + jarName;
 
-            if (role.equalsIgnoreCase("main"))
+            if (role.equalsIgnoreCase("main") && args.length == 1 &&
+                    (args[0].equalsIgnoreCase("workload-layout") || args[0].equalsIgnoreCase("etl")))
             {
                 // this is the main daemon
                 System.out.println("starting main daemon...");
                 Daemon guardDaemon = new Daemon();
-                String[] guardCmd = {"java", "-jar", daemonJarPath, "guard"};
+                String[] guardCmd = {"java", "-Drole=guard", "-jar", daemonJarPath, args[0]};
                 guardDaemon.setup(mainFile, guardFile, guardCmd);
                 Thread daemonThread = new Thread(guardDaemon);
                 daemonThread.setName("main daemon thread");
@@ -36,16 +38,26 @@ public class DaemonMain
                 daemonThread.start();
 
                 ServerContainer container = new ServerContainer();
+
                 String[] tables = ConfigFactory.Instance().getProperty("workload.server.managed.tables").split(",");
                 for (String table : tables)
                 {
                     String[] splits = table.split(":");
                     String tableName = splits[0];
-                    long lifeTime = Long.parseLong(splits[1]);
-                    double threshold = Double.parseDouble(splits[2]);
-                    container.addServer("workload", new WorkloadServer(tableName, lifeTime, threshold));
-                    container.addServer("layout", new LayoutServer(tableName));
+                    if (args[0].equalsIgnoreCase("workload-layout"))
+                    {
+
+                        long lifeTime = Long.parseLong(splits[1]);
+                        double threshold = Double.parseDouble(splits[2]);
+                        container.addServer("workload-" + tableName, new WorkloadServer(tableName, lifeTime, threshold));
+                        container.addServer("layout-" + tableName, new LayoutServer(tableName));
+                    }
+                    else
+                    {
+                        container.addServer("etl", new ETLServer(tableName));
+                    }
                 }
+
                 // continue the main thread
                 while (true)
                 {
@@ -65,12 +77,13 @@ public class DaemonMain
                         LogFactory.Instance().getLog().error("error in the main loop of daemon.", e);
                     }
                 }
-            } else if (role.equalsIgnoreCase("guard"))
+            } else if (role.equalsIgnoreCase("guard") && args.length == 1 &&
+                    (args[0].equalsIgnoreCase("workload-layout") || args[0].equalsIgnoreCase("etl")))
             {
                 // this is the guard daemon
                 System.out.println("starting guard daemon...");
                 Daemon guardDaemon = new Daemon();
-                String[] guardCmd = {"java", "-jar", daemonJarPath, "main"};
+                String[] guardCmd = {"java", "-Drole=main", "-jar", daemonJarPath, args[0]};
                 guardDaemon.setup(guardFile, mainFile, guardCmd);
                 guardDaemon.run();
             } else if (role.equalsIgnoreCase("kill"))
@@ -105,12 +118,12 @@ public class DaemonMain
             }
             else
             {
-                System.err.println("Run with -Drole=[main,guard,kill]");
+                System.err.println("Run with -Drole=[main,guard,kill], when role=main, there should be an args [workload-layout/etl]");
             }
         }
         else
         {
-            System.err.println("Run with -Drole=[main,guard,kill]");
+            System.err.println("Run with -Drole=[main,guard,kill], when role=main, there should be an args [workload-layout/etl]");
         }
     }
 }

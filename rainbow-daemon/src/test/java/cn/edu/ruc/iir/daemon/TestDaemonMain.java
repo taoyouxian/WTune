@@ -10,6 +10,6 @@ public class TestDaemonMain
     public void test()
     {
         ConfigFactory.Instance().addProperty("rainbow.home", "/home/hank/dev/idea-projects/rainbow/rainbow-daemon/target/");
-        DaemonMain.main(new String[]{"main"});
+        DaemonMain.main(new String[]{"workload-layout"});
     }
 }
