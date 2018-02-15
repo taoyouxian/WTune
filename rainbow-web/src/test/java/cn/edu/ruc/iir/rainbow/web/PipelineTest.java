@@ -1,6 +1,9 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.common.*;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
@@ -10,7 +13,7 @@ import cn.edu.ruc.iir.rainbow.web.service.RwMain;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import com.alibaba.fastjson.JSON;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

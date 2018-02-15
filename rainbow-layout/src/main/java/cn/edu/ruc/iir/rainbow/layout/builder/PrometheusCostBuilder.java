@@ -35,10 +35,4 @@ public class PrometheusCostBuilder
         }
         return null;
     }
-
-
-    public static void main(String[] args)
-    {
-        build("10.77.40.241", 9090);
-    }
 }

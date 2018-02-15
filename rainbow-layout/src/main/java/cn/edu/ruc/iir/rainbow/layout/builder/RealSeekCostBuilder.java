@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.layout.builder;
 
 
 import cn.edu.ruc.iir.rainbow.layout.cost.RealSeekCost;
-import cn.edu.ruc.iir.rainbow.layout.domian.Coordinate;
+import cn.edu.ruc.iir.rainbow.layout.cost.domain.Coordinate;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -12,7 +12,7 @@ import cn.edu.ruc.iir.rainbow.web.hdfs.model.*;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
 import cn.edu.ruc.iir.rainbow.web.service.RwMain;
 import com.alibaba.fastjson.JSON;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Properties;
 

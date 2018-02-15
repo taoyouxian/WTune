@@ -14,16 +14,10 @@
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-common</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
         <!-- testing -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.0.0-M6</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
