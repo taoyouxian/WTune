@@ -4,12 +4,14 @@ import java.util.HashSet;
 
 public class ColumnChunk extends Column
 {
+    private int numColumns = 0;
     private int rowGroupId = 0;
 
-    public ColumnChunk(int rowGroupId, int columnId, String name, String type, double size)
+    public ColumnChunk(int rowGroupId, int columnId, int numColumns, String name, String type, double size)
     {
         super(columnId, name, type, size);
         this.rowGroupId = rowGroupId;
+        this.numColumns = numColumns;
     }
 
     public int getRowGroupId()
@@ -33,9 +35,20 @@ public class ColumnChunk extends Column
         return false;
     }
 
+    public int getNumColumns()
+    {
+        return numColumns;
+    }
+
     public int getColumnId ()
     {
-        return this.getId();
+        return super.getId();
+    }
+
+    @Override
+    public int getId ()
+    {
+        return (this.rowGroupId * this.numColumns) + this.getColumnId();
     }
 
     @Override
@@ -65,10 +78,10 @@ public class ColumnChunk extends Column
     }
 
     @Override
-    public Column clone()
+    public ColumnChunk clone()
     {
         ColumnChunk columnChunk = new ColumnChunk(this.getRowGroupId(), this.getColumnId(),
-                this.getName(), this.getType(), this.getSize());
+                this.getNumColumns(), this.getName(), this.getType(), this.getSize());
         columnChunk.setDupId(this.getDupId());
         columnChunk.setDuplicated(this.isDuplicated());
         columnChunk.setQueryIds(new HashSet<>(this.getQueryIds()));
