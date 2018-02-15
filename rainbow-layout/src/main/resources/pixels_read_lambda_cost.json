@@ -1,0 +1,35 @@
+{//avg(pixels_read_lambda_cost)by(name)
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "name": "init_seek"
+        },
+        "value": [
+          1518669757.872,
+          "5.1"
+        ]
+      },
+      {
+        "metric": {
+          "name": "network"
+        },
+        "value": [
+          1518669757.872,
+          "2.7"
+        ]
+      },
+      {
+        "metric": {
+          "name": "cpu"
+        },
+        "value": [
+          1518669757.872,
+          "1.5"
+        ]
+      }
+    ]
+  }
+}

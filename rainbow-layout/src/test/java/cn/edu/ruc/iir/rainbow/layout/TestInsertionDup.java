@@ -27,7 +27,7 @@ public class TestInsertionDup
     {
         List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestInsertionDup.class.getResource("/schema.txt").getFile()));
         List<Query> workload = WorkloadBuilder.build(new File(TestInsertionDup.class.getResource("/workload.txt").getFile()), initColumnOrder);
-        SeekCost seekCostFunction = new PowerSeekCost();//RealSeekCostBuilder.buildFromFile(new File("cord-generator/resources/seek_cost.txt"));
+        SeekCost seekCostFunction = new PowerSeekCost();//RealSeekCostBuilder.build(new File("cord-generator/resources/seek_cost.txt"));
 
         DupAlgorithm dup = (DupAlgorithm) AlgorithmFactory.Instance().getAlgorithm("insertion", 100, new ArrayList<>(initColumnOrder), workload, seekCostFunction);
         try

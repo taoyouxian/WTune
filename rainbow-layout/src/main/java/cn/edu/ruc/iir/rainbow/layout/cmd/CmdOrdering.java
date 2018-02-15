@@ -91,7 +91,7 @@ public class CmdOrdering implements Command
             try
             {
                 String seekCostFilePath = params.getProperty("seek.cost.file");
-                seekCostFunction = RealSeekCostBuilder.buildFromFile(new File(seekCostFilePath));
+                seekCostFunction = RealSeekCostBuilder.build(new File(seekCostFilePath));
             } catch (IOException e)
             {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR,

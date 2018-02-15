@@ -18,7 +18,7 @@ public class RealSeekCostBuilder
 {
     private RealSeekCostBuilder() {}
 
-    public static RealSeekCost buildFromFile(File seekCostFile) throws IOException
+    public static RealSeekCost build (File seekCostFile) throws IOException
     {
         BufferedReader reader = new BufferedReader(new FileReader(seekCostFile));
 
@@ -37,10 +37,5 @@ public class RealSeekCostBuilder
         reader.close();
 
         return new RealSeekCost(interval, coordinates);
-    }
-
-    public static RealSeekCost buildFromPrometheus()
-    {
-        return null;
     }
 }

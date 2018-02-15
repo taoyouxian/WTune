@@ -25,7 +25,7 @@ public class TestScoaGS
         List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoaGS.class.getResource("/schema.txt").getFile()));
         List<Query> workload = WorkloadBuilder.build(new File(TestScoaGS.class.getResource("/workload.txt").getFile()), initColumnOrder);
         SeekCost seekCostFunction = new PowerSeekCost();
-        //RealSeekCostBuilder.buildFromFile(new File("cord-generator/resources/seek_cost.txt"));
+        //RealSeekCostBuilder.build(new File("cord-generator/resources/seek_cost.txt"));
 
         FastScoaGS fastScoa = (FastScoaGS) AlgorithmFactory.Instance().getAlgorithm("scoa.gs", 200, new ArrayList<>(initColumnOrder), workload, seekCostFunction);
         fastScoa.setNumRowGroups(100);
