@@ -6,10 +6,9 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RwServer
+public class RainbowWebServer
 {
-
-    private static Logger log = LoggerFactory.getLogger(RwServer.class);
+    private static Logger log = LoggerFactory.getLogger(RainbowWebServer.class);
     private Server server;
     private static int port = 8080;
 
@@ -25,7 +24,7 @@ public class RwServer
         server = new Server(port);
         WebAppContext webAppContext = new WebAppContext();
         webAppContext.setContextPath("/");
-        webAppContext.setWar(relativelyPath + "\\rainbow-web\\target\\rainbow-web.war");
+        webAppContext.setWar(relativelyPath + "/rainbow-web/target/rainbow-web.war");
         webAppContext.setParentLoaderPriority(true);
         webAppContext.setServer(server);
         webAppContext.setClassLoader(ClassLoader.getSystemClassLoader());
@@ -37,8 +36,8 @@ public class RwServer
 
     public static void main(String[] args) throws Exception
     {
-        RwServer rwServer = new RwServer();
-        rwServer.start();
+        RainbowWebServer rainbowWebServer = new RainbowWebServer();
+        rainbowWebServer.start();
     }
 
 }

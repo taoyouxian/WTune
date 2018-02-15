@@ -27,23 +27,24 @@ import java.util.UUID;
 /**
  * @version V1.0
  * @Package: cn.edu.ruc.iir.rainbow.web
- * @ClassName: RwMain
+ * @ClassName: RainbowWebMain
  * @Description: Main service to support the front request
  * @author: Tao
  * @date: Create in 2017-09-12 23:17
  **/
-public class RwMain {
+public class RainbowWebMain
+{
 
-    private static RwMain instance = null;
+    private static RainbowWebMain instance = null;
     private boolean Client_Flag = true;
 
-    private RwMain() {
+    private RainbowWebMain() {
 
     }
 
-    public static RwMain Instance() {
+    public static RainbowWebMain Instance() {
         if (instance == null) {
-            instance = new RwMain();
+            instance = new RainbowWebMain();
         }
         return instance;
     }

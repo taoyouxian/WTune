@@ -18,15 +18,16 @@ import java.util.UUID;
 /**
  * @version V1.0
  * @Package: cn.edu.ruc.iir.rainbow.web.service
- * @ClassName: RwMainTest
+ * @ClassName: RainbowWebMainTest
  * @Description:
  * @author: Tao
  * @date: Create in 2017-09-18 16:41
  **/
-public class RwMainTest {
+public class RainbowWebMainTest
+{
 
     @Autowired
-    private RwMain rwMain;
+    private RainbowWebMain rainbowWebMain;
 
     @Test
     public void getStatistic() {
@@ -82,7 +83,7 @@ public class RwMainTest {
 
     @Test
     public void getPipelineByNo() {
-        rwMain.getPipelineByNo("116578a4e56f61cb50c937b2150790b5", 1);
+        rainbowWebMain.getPipelineByNo("116578a4e56f61cb50c937b2150790b5", 1);
     }
 
 

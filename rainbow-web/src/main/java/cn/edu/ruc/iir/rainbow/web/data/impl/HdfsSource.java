@@ -9,7 +9,7 @@ import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
 import cn.edu.ruc.iir.rainbow.web.hdfs.util.HdfsUtil;
 import cn.edu.ruc.iir.rainbow.web.hive.util.HiveClient;
-import cn.edu.ruc.iir.rainbow.web.service.RwMain;
+import cn.edu.ruc.iir.rainbow.web.service.RainbowWebMain;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,10 +24,10 @@ import java.util.List;
  **/
 public class HdfsSource extends DataSource {
 
-    private RwMain rwMain;
+    private RainbowWebMain rainbowWebMain;
 
     public HdfsSource() {
-        rwMain = RwMain.Instance();
+        rainbowWebMain = RainbowWebMain.Instance();
     }
 
     public boolean getSampling(Pipeline pipeline) {
@@ -81,8 +81,8 @@ public class HdfsSource extends DataSource {
                     client.execute(sql);
                 }
                 client.drop(pipeline.getFormat().toLowerCase() + "_" + pipeline.getNo() + "_" + i);
-                rwMain.getPipelineData();
-                pipeline = rwMain.getPipelineByNo(pipeline.getNo(), 0);
+                rainbowWebMain.getPipelineData();
+                pipeline = rainbowWebMain.getPipelineByNo(pipeline.getNo(), 0);
             }
         } catch (IOException e) {
             e.printStackTrace();
