@@ -1,6 +1,8 @@
 package cn.edu.ruc.iir.rainbow.layout.builder;
 
 
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.exception.CostFunctionException;
 import cn.edu.ruc.iir.rainbow.layout.cost.RealSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.cost.domain.Coordinate;
 
@@ -36,6 +38,14 @@ public class RealSeekCostBuilder
 
         reader.close();
 
-        return new RealSeekCost(interval, coordinates);
+        RealSeekCost seekCost = null;
+        try
+        {
+            seekCost = new RealSeekCost(interval, coordinates);
+        } catch (CostFunctionException e)
+        {
+            LogFactory.Instance().getLog().error("seek cost file format error.", e);
+        }
+        return seekCost;
     }
 }

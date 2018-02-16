@@ -5,28 +5,31 @@
     "result": [
       {
         "metric": {
+          "job": "cluster-monitor",
           "name": "init_seek"
         },
         "value": [
-          1518669757.872,
-          "5.1"
+          1518766302.717,
+          "5.099999999999939"
         ]
       },
       {
         "metric": {
+          "job": "cluster-monitor",
           "name": "network"
         },
         "value": [
-          1518669757.872,
-          "2.7"
+          1518766302.717,
+          "2.7000000000000313"
         ]
       },
       {
         "metric": {
+          "job": "cluster-monitor",
           "name": "cpu"
         },
         "value": [
-          1518669757.872,
+          1518766302.717,
           "1.5"
         ]
       }

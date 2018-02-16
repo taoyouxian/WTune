@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.rainbow.layout.builder.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeqReadCostObj
+public class IntervalObj
 {
     private String status;
     private Data data;
@@ -92,18 +92,7 @@ public class SeqReadCostObj
 
     public static class Metric
     {
-        private long length;
         private String job;
-
-        public long getLength()
-        {
-            return length;
-        }
-
-        public void setLength(long length)
-        {
-            this.length = length;
-        }
 
         public String getJob()
         {

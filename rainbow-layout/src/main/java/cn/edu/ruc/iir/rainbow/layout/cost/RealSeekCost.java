@@ -1,5 +1,6 @@
 package cn.edu.ruc.iir.rainbow.layout.cost;
 
+import cn.edu.ruc.iir.rainbow.common.exception.CostFunctionException;
 import cn.edu.ruc.iir.rainbow.layout.cost.domain.Coordinate;
 import cn.edu.ruc.iir.rainbow.layout.cost.domain.Line;
 
@@ -14,8 +15,12 @@ public class RealSeekCost implements SeekCost
     private long interval = 0;
     private double K = 0;
 
-    public RealSeekCost(long interval, List<Coordinate> points)
+    public RealSeekCost(long interval, List<Coordinate> points) throws CostFunctionException
     {
+        if (points == null || points.size() < 1)
+        {
+            throw new CostFunctionException("points is null or number of points is less than 1.");
+        }
         this.interval = interval;
         segments = new ArrayList<>();
         Collections.sort(points);
