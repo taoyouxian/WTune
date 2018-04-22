@@ -80,7 +80,7 @@ public class Scoa extends Algorithm
     @Override
     public void setup()
     {
-        super.setColumnOrder(super.getSchema());
+        super.setColumnOrder(new ArrayList<>(super.getSchema()));
         String strCoolingRate = ConfigFactory.Instance().getProperty("scoa.cooling_rate");
         String strInitTemp = ConfigFactory.Instance().getProperty("scoa.init.temperature");
         if (strCoolingRate != null)

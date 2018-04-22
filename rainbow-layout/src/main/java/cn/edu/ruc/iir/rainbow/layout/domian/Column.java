@@ -19,7 +19,14 @@ public class Column implements Comparable<Column>
         Column column = new Column(this.id, this.name, this.type, this.size);
         column.setDupId(this.dupId);
         column.setDuplicated(this.duplicated);
-        column.setQueryIds(new HashSet<>(this.queryIds));
+        if (this.queryIds != null)
+        {
+            column.setQueryIds(new HashSet<>(this.queryIds));
+        }
+        else
+        {
+            column.setQueryIds(null);
+        }
         return column;
     }
 

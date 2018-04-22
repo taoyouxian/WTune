@@ -45,7 +45,10 @@ public class AlgorithmFactory
             algo.setComputationBudget(computationBudget);
             algo.setSchema(initColumnOrder);
             algo.setWorkload(workload);
-            algo.setSeekCostFunction(seekCostFunction);
+            if (seekCostFunction != null)
+            {
+                algo.setSeekCostFunction(seekCostFunction);
+            }
         } catch (Exception e)
         {
             log.error("algorithm construction error: ", e);

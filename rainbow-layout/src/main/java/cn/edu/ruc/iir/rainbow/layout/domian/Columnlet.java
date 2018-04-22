@@ -2,16 +2,22 @@ package cn.edu.ruc.iir.rainbow.layout.domian;
 
 import java.util.HashSet;
 
-public class ColumnChunk extends Column
+public class Columnlet extends Column
 {
     private int numColumns = 0;
     private int rowGroupId = 0;
 
-    public ColumnChunk(int rowGroupId, int columnId, int numColumns, String name, String type, double size)
+    public Columnlet(int rowGroupId, int columnId, int numColumns, String name, String type, double size)
     {
         super(columnId, name, type, size);
         this.rowGroupId = rowGroupId;
         this.numColumns = numColumns;
+    }
+
+    public Columnlet(int rowGroupId, int numColumns, Column column)
+    {
+        this(rowGroupId, column.getId(), numColumns, column.getName(),
+                column.getType(), column.getSize());
     }
 
     public int getRowGroupId()
@@ -24,12 +30,18 @@ public class ColumnChunk extends Column
         this.rowGroupId = rowGroupId;
     }
 
+    public String getName()
+    {
+        return super.getName() + "_" + this.rowGroupId;
+    }
+
+
     @Override
     public boolean equals(Object obj)
     {
-        if (obj instanceof ColumnChunk)
+        if (obj instanceof Columnlet)
         {
-            ColumnChunk c = (ColumnChunk) obj;
+            Columnlet c = (Columnlet) obj;
             return super.equals(c) && this.rowGroupId == c.rowGroupId;
         }
         return false;
@@ -60,9 +72,9 @@ public class ColumnChunk extends Column
     @Override
     public int compareTo(Column c)
     {
-        if (c instanceof ColumnChunk)
+        if (c instanceof Columnlet)
         {
-            ColumnChunk cc = (ColumnChunk) c;
+            Columnlet cc = (Columnlet) c;
             if (this.rowGroupId != cc.rowGroupId)
             {
                 return this.rowGroupId - cc.rowGroupId;
@@ -78,13 +90,20 @@ public class ColumnChunk extends Column
     }
 
     @Override
-    public ColumnChunk clone()
+    public Columnlet clone()
     {
-        ColumnChunk columnChunk = new ColumnChunk(this.getRowGroupId(), this.getColumnId(),
+        Columnlet columnlet = new Columnlet(this.getRowGroupId(), this.getColumnId(),
                 this.getNumColumns(), this.getName(), this.getType(), this.getSize());
-        columnChunk.setDupId(this.getDupId());
-        columnChunk.setDuplicated(this.isDuplicated());
-        columnChunk.setQueryIds(new HashSet<>(this.getQueryIds()));
-        return columnChunk;
+        columnlet.setDupId(this.getDupId());
+        columnlet.setDuplicated(this.isDuplicated());
+        if (this.getQueryIds() != null)
+        {
+            columnlet.setQueryIds(new HashSet<>(this.getQueryIds()));
+        }
+        else
+        {
+            columnlet.setQueryIds(null);
+        }
+        return columnlet;
     }
 }
