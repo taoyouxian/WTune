@@ -45,7 +45,10 @@ public class AlgorithmFactory
             algo.setComputationBudget(computationBudget);
             algo.setSchema(initColumnOrder);
             algo.setWorkload(workload);
-            algo.setSeekCostFunction(seekCostFunction);
+            if (seekCostFunction != null)
+            {
+                algo.setSeekCostFunction(seekCostFunction);
+            }
         } catch (Exception e)
         {
             log.error("algorithm construction error: ", e);
@@ -53,5 +56,24 @@ public class AlgorithmFactory
         }
 
         return algo;
+    }
+
+    /**
+     * Build the algorithm instance without providing seek cost function.
+     * In this case, the algorithm should build cost model by itself.
+     * @param algoName
+     * @param computationBudget
+     * @param initColumnOrder
+     * @param workload
+     * @return
+     * @throws ClassNotFoundException
+     * @throws AlgoException
+     */
+    public Algorithm getAlgorithm(String algoName,
+                                  long computationBudget,
+                                  List<Column> initColumnOrder,
+                                  List<Query> workload) throws ClassNotFoundException, AlgoException
+    {
+        return this.getAlgorithm(algoName, computationBudget, initColumnOrder, workload, null);
     }
 }

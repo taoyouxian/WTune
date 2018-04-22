@@ -93,6 +93,7 @@ public class SeekCostObj
     public static class Metric
     {
         private long distance;
+        private String job;
 
         public long getDistance()
         {
@@ -102,6 +103,16 @@ public class SeekCostObj
         public void setDistance(long distance)
         {
             this.distance = distance;
+        }
+
+        public String getJob()
+        {
+            return job;
+        }
+
+        public void setJob(String job)
+        {
+            this.job = job;
         }
     }
 }

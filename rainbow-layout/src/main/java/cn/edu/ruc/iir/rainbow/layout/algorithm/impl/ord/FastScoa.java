@@ -26,7 +26,7 @@ public class FastScoa extends Scoa
     @Override
     public void setup()
     {
-        super.setColumnOrder(super.getSchema());
+        super.setColumnOrder(new ArrayList<>(super.getSchema()));
         String strCoolingRate = ConfigFactory.Instance().getProperty("scoa.cooling_rate");
         String strInitTemp = ConfigFactory.Instance().getProperty("scoa.init.temperature");
         if (strCoolingRate != null)
@@ -164,7 +164,6 @@ public class FastScoa extends Scoa
         double sizeX = this.getColumnOrder().get(x).getSize();
         double sizeY = this.getColumnOrder().get(y).getSize();
         double originSeekCost = this.currentEnergy;
-
 
         double deltaCost = 0;
         for (int i = 0; i < Q; i ++)
