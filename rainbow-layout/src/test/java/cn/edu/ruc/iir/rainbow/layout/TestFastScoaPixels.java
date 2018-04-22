@@ -20,13 +20,13 @@ public class TestFastScoaPixels
     @Test
     public void test () throws IOException, ColumnNotFoundException, AlgoException, ClassNotFoundException, InterruptedException
     {
-        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/schema.txt").getFile()));
+        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/scoa_ordered_schema.txt").getFile()));
         List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/workload.txt").getFile()), initColumnOrder);
         System.out.println(workload.size());
         //SeekCost seekCostFunction = new PowerSeekCost();
         //RealSeekCostBuilder.build(new File("layout/resources/seek_cost.txt"));
 
-        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 10, new ArrayList<>(initColumnOrder), workload);
+        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 20000, new ArrayList<>(initColumnOrder), workload);
         System.out.println("Init cost: " + scoaPixels.getSchemaSeekCost());
 
         try
@@ -41,8 +41,8 @@ public class TestFastScoaPixels
         }
 
         System.out.println("Final cost: " + scoaPixels.getCurrentWorkloadSeekCost());
-        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema1.txt"), scoaPixels.getColumnOrder());
-        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema1.txt");
+        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_20000s.txt"), scoaPixels.getColumnOrder());
+        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_20000s.txt");
 
     }
 }

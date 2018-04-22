@@ -261,6 +261,17 @@ public class FastScoaPixels extends FastScoa
 
         super.setup();
 
+        String strCoolingRate = ConfigFactory.Instance().getProperty("scoa.pixels.cooling_rate");
+        String strInitTemp = ConfigFactory.Instance().getProperty("scoa.pixels.init.temperature");
+        if (strCoolingRate != null)
+        {
+            this.coolingRate = Double.parseDouble(strCoolingRate);
+        }
+        if (strInitTemp != null)
+        {
+            this.temperature = Double.parseDouble(strInitTemp);
+        }
+
         this.isSetup = true;
     }
 
