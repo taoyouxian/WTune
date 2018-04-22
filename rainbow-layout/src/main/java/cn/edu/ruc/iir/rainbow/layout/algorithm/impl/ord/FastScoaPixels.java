@@ -249,9 +249,9 @@ public class FastScoaPixels extends FastScoa
 
         // rebuild schema
         List<Column> rebuiltSchema = new ArrayList<>();
-        for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
+        for (Column column : this.getSchema())
         {
-            for (Column column : this.getSchema())
+            for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
             {
                 Columnlet columnlet = new Columnlet(rowGroupId, numColumns, column);
                 rebuiltSchema.add(columnlet);
