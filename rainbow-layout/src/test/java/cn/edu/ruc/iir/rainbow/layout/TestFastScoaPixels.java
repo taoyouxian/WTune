@@ -26,7 +26,8 @@ public class TestFastScoaPixels
         //SeekCost seekCostFunction = new PowerSeekCost();
         //RealSeekCostBuilder.build(new File("layout/resources/seek_cost.txt"));
 
-        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 20000, new ArrayList<>(initColumnOrder), workload);
+        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 1000, new ArrayList<>(initColumnOrder), workload);
+        //scoaPixels.setup();
         System.out.println("Init cost: " + scoaPixels.getSchemaSeekCost());
 
         try
@@ -41,8 +42,8 @@ public class TestFastScoaPixels
         }
 
         System.out.println("Final cost: " + scoaPixels.getCurrentWorkloadSeekCost());
-        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_20000s.txt"), scoaPixels.getColumnOrder());
-        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_20000s.txt");
+        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_1000s.txt"), scoaPixels.getColumnOrder());
+        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_1000s.txt");
 
     }
 }
