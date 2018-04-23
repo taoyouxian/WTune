@@ -211,7 +211,6 @@ public class FastScoaPixels extends FastScoa
             }
             //System.out.println(maxSplitSize + ", " + splitSize + ", " + (splitSize*size/1024/1024));
 
-
             // rebuild the workload
             if (splitSize < numRowGroupPerBlock)
             {
@@ -249,6 +248,7 @@ public class FastScoaPixels extends FastScoa
 
         // rebuild schema
         List<Column> rebuiltSchema = new ArrayList<>();
+        // by sequentially duplicate the columnlet, we can generally start from a very good point.
         for (Column column : this.getSchema())
         {
             for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
@@ -339,5 +339,52 @@ public class FastScoaPixels extends FastScoa
         {
             return this.numRowGroupPerBlock * super.getSchemaSeekCost();
         }
+    }
+
+    /**
+     * get the seek cost of a query (on the given column order).
+     * this is a general function, sub classes can override it.
+     *
+     * @param columnOrder
+     * @param query
+     * @return
+     */
+    @Override
+    protected double getQuerySeekCost(List<Column> columnOrder, Query query)
+    {
+        double querySeekCost = 0, seekDistance = 0;
+        int accessedColumnNum = 0;
+        boolean finishFirstRead = false;
+        for (int i = 0; i < columnOrder.size(); ++i)
+        {
+            if (query.getColumnIds().contains(columnOrder.get(i).getId()))
+            {
+                // column i has been accessed by the query
+                if (finishFirstRead == false)
+                {
+                    finishFirstRead = true;
+                }
+                else
+                {
+                    querySeekCost += this.getSeekCostFunction().calculate(seekDistance);
+                }
+                seekDistance = 0;
+                ++accessedColumnNum;
+
+                if (accessedColumnNum >= query.getColumnIds().size())
+                {
+                    // the query has accessed all the necessary columns
+                    break;
+                }
+            } else
+            {
+                if (finishFirstRead == true)
+                {
+                    // column i has been skipped (seek over) by the query
+                    seekDistance += columnOrder.get(i).getSize();
+                }
+            }
+        }
+        return querySeekCost;
     }
 }
