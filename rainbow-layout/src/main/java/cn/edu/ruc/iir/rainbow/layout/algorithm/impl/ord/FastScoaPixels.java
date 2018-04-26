@@ -196,19 +196,25 @@ public class FastScoaPixels extends FastScoa
                     break;
                 }
             }
-            if (maxSplitSize == splitSize)
-            {
+
+            /**
+             * this loop is not correct.
+             * we should always use the max map slots.
+             */
+            //if (maxSplitSize == splitSize)
+            //{
                 /**
                  * while loop #2
                  * we use the seqReadCost to estimate the CPU cost of processing a row group.
                  * by the following while loop, we ensure the map slot is not set too high.
                  * TODO: it is better to collect task CPU cost through Prometheus.
                  */
-                while (splitSize < Integer.MAX_VALUE && splitSize * seqReadCost < lambdaCost)
-                {
-                    splitSize <<= 2;
-                }
-            }
+            //    while (splitSize < Integer.MAX_VALUE && splitSize * seqReadCost < lambdaCost)
+            //    {
+            //        splitSize <<= 2;
+            //    }
+            //}
+
             //System.out.println(maxSplitSize + ", " + splitSize + ", " + (splitSize*size/1024/1024));
 
             // rebuild the workload
