@@ -53,9 +53,9 @@ public class TestDMA
 
     public static void main(String[] args) throws IOException
     {
-        genFile();
+        //genFile();
 
-/*
+        /*
         long start = System.nanoTime();
         int[] a  = {4361, 860, 8334, 3310, 8337 -7929, 6575, -6825, 9373, -110,
                 -2040, -198, -8604, 1007, -9685, -8613};
@@ -78,6 +78,62 @@ public class TestDMA
             }
         }
 
-        System.out.println((System.nanoTime()-start)/1000/1000);*/
+        System.out.println((System.nanoTime()-start)/1000/1000);
+        */
+
+        Thread thread0 = new Thread(new MyThread("/home/presto/testfile0"));
+        Thread thread1 = new Thread(new MyThread("/home/presto/testfile1"));
+        Thread thread2 = new Thread(new MyThread("/home/presto/testfile2"));
+        Thread thread3 = new Thread(new MyThread("/home/presto/testfile3"));
+        thread0.start();
+        thread1.start();
+        thread2.start();
+        thread3.start();
+
+    }
+
+    public static class MyThread implements Runnable
+    {
+        private String file = null;
+
+        public MyThread (String file)
+        {
+            this.file = file;
+        }
+
+        @Override
+        public void run()
+        {
+            try
+            {
+                long start = System.nanoTime();
+                int[] a = {4361, 860, 8334, 3310, 8337 - 7929, 6575, -6825, 9373, -110,
+                        -2040, -198, -8604, 1007, -9685, -8613};
+
+                BufferedReader reader = new BufferedReader(new FileReader(this.file));
+
+
+                for (long i = 0; i < 1024 * 1024 * 1024 / 16; i++)
+                {
+                    readBatch(reader, a);
+                }
+
+                for (long i = 0; i < 1024 * 1024 * 1024 / 16; i++)
+                {
+                    a = readBatch(reader, a);
+                    for (int j = 0; j < 16 * 100; ++j)
+                    {
+                        int min = min(a);
+                        int max = max(a);
+                    }
+                }
+
+                System.out.println((System.nanoTime() - start) / 1000 / 1000);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 }
