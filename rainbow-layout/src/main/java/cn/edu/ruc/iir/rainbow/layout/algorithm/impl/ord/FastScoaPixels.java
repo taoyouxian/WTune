@@ -7,6 +7,7 @@ import cn.edu.ruc.iir.rainbow.common.exception.CostFunctionException;
 import cn.edu.ruc.iir.rainbow.layout.builder.PixelsCostModelBuilder;
 import cn.edu.ruc.iir.rainbow.layout.cost.PixelsCostModel;
 import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.RealSeqReadCost;
 import cn.edu.ruc.iir.rainbow.layout.cost.SeqReadCost;
 import cn.edu.ruc.iir.rainbow.layout.domian.*;
 
@@ -23,6 +24,13 @@ public class FastScoaPixels extends FastScoa
     private boolean isSetup = false;
     // this is the seek cost of the layout in which row groups are store one by one in the block.
     private double originSeekCost = 0.0;
+    // this is the seek cost after SA based ordering (but before cache optimization).
+    private double orderedSeekCost = 0.0;
+    private double startCachedCost = 0.0;
+    private double orderedCachedCost = 0.0;
+    private double cacheBudgetRatio = 0.2;
+    private double cacheSpaceRatio = 0.3;
+    private double blockSize = 0.0;
 
     public FastScoaPixels ()
     {
@@ -36,6 +44,28 @@ public class FastScoaPixels extends FastScoa
         {
             LogFactory.Instance().getLog().error("FastScoaPixels configuration error",
                     new ConfigrationException("pixels.row.group.num is not a valid number."));
+        }
+
+        String strCacheBudgetRatio = ConfigFactory.Instance().getProperty("pixels.cache.compute.budget.ratio");
+        try
+        {
+            this.cacheBudgetRatio = Double.parseDouble(strCacheBudgetRatio);
+        }
+        catch (Exception e)
+        {
+            LogFactory.Instance().getLog().error("FastScoaPixels configuration error",
+                    new ConfigrationException("pixels.cache.compute.budget.ratio is not a valid number."));
+        }
+
+        String strCacheSpaceRatio = ConfigFactory.Instance().getProperty("pixels.cache.space.ratio");
+        try
+        {
+            this.cacheSpaceRatio = Double.parseDouble(strCacheSpaceRatio);
+        }
+        catch (Exception e)
+        {
+            LogFactory.Instance().getLog().error("FastScoaPixels configuration error",
+                    new ConfigrationException("pixels.cache.space.ratio is not a valid number."));
         }
 
         String promHost = ConfigFactory.Instance().getProperty("prometheus.host");
@@ -56,7 +86,7 @@ public class FastScoaPixels extends FastScoa
         {
             PixelsCostModel costModel = PixelsCostModelBuilder.build(promHost, promPort);
             this.setSeekCostFunction(new PowerSeekCost());
-            this.setSeqReadCostFunction(costModel.getSeqReadCost());
+            this.setSeqReadCostFunction(new RealSeqReadCost(0.00001));
             this.setLambdaCost(costModel.getLambdaCost().calculate());
         } catch (CostFunctionException e)
         {
@@ -142,11 +172,12 @@ public class FastScoaPixels extends FastScoa
 
         int numColumns = this.getSchema().size();
 
-        /*double rowGroupSize = 0;
+        double rowGroupSize = 0;
         for (Column column : this.getSchema())
         {
             rowGroupSize += column.getSize();
-        }*/
+        }
+        this.blockSize = rowGroupSize * this.numRowGroupPerBlock;
 
         List<Query> rebuiltWorklod = new ArrayList<>();
         for (Query query : this.getWorkload())
@@ -370,13 +401,210 @@ public class FastScoaPixels extends FastScoa
         return res;
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public void runAlgorithm()
     {
-        super.runAlgorithm();
+        long orderingBudget = (long) (this.getComputationBudget() * (1-this.cacheBudgetRatio));
+
+        long startSeconds = System.currentTimeMillis() / 1000;
+        this.currentEnergy = this.getCurrentWorkloadSeekCost();
+
+        for (long currentSeconds = System.currentTimeMillis() / 1000;
+             (currentSeconds - startSeconds) < orderingBudget;
+             currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations)
+        {
+            //generate two random indices
+            int i = rand.nextInt(this.getColumnOrder().size());
+            int j = i;
+            while (j == i)
+                j = rand.nextInt(this.getColumnOrder().size());
+            rand.setSeed(System.nanoTime());
+
+            //calculate new cost
+            double neighbourEnergy = getNeighbourSeekCost(i, j);
+
+            //try to accept it
+            double temperature = this.getTemperature();
+            if (this.probability(currentEnergy, neighbourEnergy, temperature) > Math.random())
+            {
+                currentEnergy = neighbourEnergy;
+                updateColumnOrder(i, j);
+            }
+        }
+
+        this.orderedSeekCost = this.getCurrentWorkloadSeekCost();
+        // System.out.println(orderedSeekCost);
+
+        long cacheComputeBudget = this.getComputationBudget() - orderingBudget;
+
+        startSeconds = System.currentTimeMillis() / 1000;
+        this.currentEnergy = this.getCurrentCachedCost();
+        this.startCachedCost = this.currentEnergy;
+        // we do not need the annealing.
+        this.temperature = 0;
+
+        for (long currentSeconds = System.currentTimeMillis() / 1000;
+             (currentSeconds - startSeconds) < cacheComputeBudget;
+             currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations)
+        {
+            List<Column> neighbour = this.getCachedNeighbour();
+            double neighbourEnergy = this.getCachedCost(neighbour);
+
+            this.accept(neighbour, neighbourEnergy);
+        }
+
+        this.orderedCachedCost = this.getCurrentCachedCost();
     }
 
-    
+    /**
+     * this method is not thread safe.
+     * @return
+     */
+    private int getCacheBorder (List<Column> columnOrder)
+    {
+        double cacheSpace = this.cacheSpaceRatio * this.blockSize;
+        int cacheBorder = 0;
+        double cachedSize = 0;
+        for (Column column : columnOrder)
+        {
+            cachedSize += column.getSize();
+            if (cachedSize >= cacheSpace)
+            {
+                break;
+            }
+            cacheBorder++;
+        }
+
+        return cacheBorder;
+    }
+
+    /**
+     * this method is not thread safe.
+     * It must be called immediately after getting cacheBorder (before cacheBorder may change).
+     * @return
+     */
+    private List<Column> getCachedNeighbour ()
+    {
+        List<Column> neighbour = new ArrayList<>(this.getColumnOrder());
+        int cacheBorder = this.getCacheBorder(this.getColumnOrder());
+
+        if (cacheBorder == 0)
+        {
+            cacheBorder = 1;
+        }
+
+        int i = rand.nextInt(cacheBorder);
+        int j = rand.nextInt(neighbour.size()-cacheBorder) + cacheBorder;
+
+        Column c = neighbour.get(i);
+        neighbour.set(i, neighbour.get(j));
+        neighbour.set(j, c);
+        rand.setSeed(System.nanoTime());
+
+        return neighbour;
+    }
+
+    @SuppressWarnings("Duplicates")
+    private double getCachedCost (List<Column> columnOrder)
+    {
+        int cacheBorder = this.getCacheBorder(columnOrder);
+
+        Comparator<Integer> naturalOrder = Comparator.naturalOrder();
+
+        List<Column> uncachedColumnOrder = columnOrder.subList(cacheBorder, columnOrder.size());
+
+        Set<Integer> cacheColumnIds = new HashSet<>();
+
+        for (int i = 0; i < cacheBorder; ++i)
+        {
+            cacheColumnIds.add(columnOrder.get(i).getId());
+        }
+
+        //make a prefix summation array
+        List<Double> sumSize = new ArrayList<Double>();
+
+        for (int i = 0; i < uncachedColumnOrder.size(); i++)
+        {
+            if (i == 0)
+            {
+                sumSize.add(0.0);
+            }
+            else
+            {
+                sumSize.add(sumSize.get(i - 1) + uncachedColumnOrder.get(i - 1).getSize());
+            }
+        }
+
+        //mark a map from column id to neighbor index
+        Map<Integer, Integer> uncachedIdMap = new HashMap<Integer, Integer>();
+        for (int i = 0; i < uncachedColumnOrder.size(); i++)
+        {
+            uncachedIdMap.put(uncachedColumnOrder.get(i).getId(), i);
+        }
+
+        /**
+        Map<Integer, Integer> allIdMap = new HashMap<>();
+        for (int i = 0; i < columnOrder.size(); ++i)
+        {
+            allIdMap.put(columnOrder.get(i).getId(), i);
+        }
+        */
+
+        //calculate cost
+        double workloadCost = 0;
+        for (Query query : super.getWorkload())
+        {
+            // curColumns is the index of each column in the neighbour ordering.
+            List<Integer> curColumns = new ArrayList<>();
+            double querySeqReadCost = 0.0;
+            for (int cid : query.getColumnIds())
+            {
+                if (cacheColumnIds.contains(cid) == false)
+                {
+                    curColumns.add(uncachedIdMap.get(cid));
+                    Column column = columnOrder.get(uncachedIdMap.get(cid));
+                    querySeqReadCost += this.getSeqReadCostFunction().calculate(column.getSize());
+                }
+            }
+            curColumns.sort(naturalOrder);
+
+            double querySeekCost = 0;
+            double lastOffset = 0;
+            for (int i = 0; i < curColumns.size(); i++)
+            {
+                // id is the index of the column in neighbour
+                int id = curColumns.get(i);
+                if (lastOffset != 0)
+                {
+                    querySeekCost += this.getSeekCostFunction().calculate(sumSize.get(id) - lastOffset);
+                }
+                lastOffset = sumSize.get(id) + uncachedColumnOrder.get(id).getSize();
+            }
+            workloadCost += query.getWeight() * (querySeekCost + querySeqReadCost);
+        }
+        return workloadCost;
+    }
+
+    public double getCurrentCachedCost ()
+    {
+        return this.getCachedCost(this.getColumnOrder());
+    }
+
+    public double getOrderedSeekCost()
+    {
+        return orderedSeekCost;
+    }
+
+    public double getStartCachedCost()
+    {
+        return startCachedCost;
+    }
+
+    public double getOrderedCachedCost()
+    {
+        return orderedCachedCost;
+    }
 
     public SeqReadCost getSeqReadCostFunction()
     {
@@ -454,6 +682,37 @@ public class FastScoaPixels extends FastScoa
         return workloadSeekCost;
     }
 
+    private double innerGetWorkloadSeqReadCost(List<Column> columnOrder, List<Query> workload)
+    {
+        double readCost = 0;
+        for (Query query : workload)
+        {
+            readCost += query.getWeight() * this.getQuerySeqReadCost(columnOrder, query);
+        }
+        return readCost;
+    }
+
+    private double getQuerySeqReadCost (List<Column> columnOrder, Query query)
+    {
+        double seqReadCost = 0;
+        int accessedColumnNum = 0;
+        for (Column column : columnOrder)
+        {
+            if (query.getColumnIds().contains(column.getId()))
+            {
+                // column i has been accessed by the query
+                seqReadCost += this.seqReadCostFunction.calculate(column.getSize());
+                ++accessedColumnNum;
+                if (accessedColumnNum >= query.getColumnIds().size())
+                {
+                    // the query has accessed all the necessary columns
+                    break;
+                }
+            }
+        }
+        return seqReadCost;
+    }
+
     /**
      * get the seek cost of the whole workload (on the current column order).
      *
@@ -485,6 +744,17 @@ public class FastScoaPixels extends FastScoa
         }
     }
 
+    public double getCurrentWorkloadCost()
+    {
+        return this.getCurrentWorkloadSeekCost() +
+                this.innerGetWorkloadSeqReadCost(this.getColumnOrder(), this.getWorkload());
+    }
+
+    public double getSchemaCost()
+    {
+        return this.getCurrentWorkloadSeekCost() +
+                this.innerGetWorkloadSeqReadCost(this.getSchema(), this.getWorkload());
+    }
 
     /**
      * get the seek cost of a query (on the given column order).

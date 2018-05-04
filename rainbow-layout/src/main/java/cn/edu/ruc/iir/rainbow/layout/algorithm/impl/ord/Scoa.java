@@ -176,6 +176,7 @@ public class Scoa extends Algorithm
      * @param neighbor
      * @return
      */
+    @SuppressWarnings("Duplicates")
     protected double getNeighbourSeekCost(List<Column> neighbor)
     {
         // new a comparator, this is the way in java7. in java8, we can use Comparator.<Integer>naturalOrder() instead.

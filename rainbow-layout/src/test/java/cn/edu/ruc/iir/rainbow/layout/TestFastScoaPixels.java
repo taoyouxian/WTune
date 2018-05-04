@@ -26,13 +26,14 @@ public class TestFastScoaPixels
         //SeekCost seekCostFunction = new PowerSeekCost();
         //RealSeekCostBuilder.build(new File("layout/resources/seek_cost.txt"));
 
-        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 100, new ArrayList<>(initColumnOrder), workload);
+        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 200, new ArrayList<>(initColumnOrder), workload);
 
         try
         {
             ExecutorContainer container = new ExecutorContainer(scoaPixels, 1);
-            System.out.println("origin cost: " + scoaPixels.getOriginSeekCost());
-            System.out.println("Init cost: " + scoaPixels.getSchemaSeekCost());
+            System.out.println("origin seek cost: " + scoaPixels.getOriginSeekCost());
+            System.out.println("Init seek cost: " + scoaPixels.getSchemaSeekCost());
+            System.out.println("Init cost: " + scoaPixels.getSchemaCost());
             container.waitForCompletion(1, percentage -> {
                 System.out.println(percentage);
             });
@@ -41,7 +42,10 @@ public class TestFastScoaPixels
             ExceptionHandler.Instance().log(ExceptionType.ERROR, "thread number is " + 1, e);
         }
 
-        System.out.println("Final cost: " + scoaPixels.getCurrentWorkloadSeekCost());
+        System.out.println("Final seek cost: " + scoaPixels.getOrderedSeekCost());
+        System.out.println("start cached cost: " + scoaPixels.getStartCachedCost());
+        System.out.println("ordered cached cost: " + scoaPixels.getOrderedCachedCost());
+        System.out.println(scoaPixels.getCurrentWorkloadSeekCost());
         ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "105_scoa_pixels_ordered_schema_1000s.txt"), scoaPixels.getRealColumnOrder());
         System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "105_scoa_pixels_ordered_schema_1000s.txt");
 

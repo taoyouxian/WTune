@@ -41,6 +41,11 @@ public class RealSeqReadCost implements SeqReadCost
         }
     }
 
+    public RealSeqReadCost (double K)
+    {
+        this.K = K;
+    }
+
     @Override
     public double calculate(double length)
     {
