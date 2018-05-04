@@ -57,6 +57,7 @@ public class FastScoa extends Scoa
         }
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public void runAlgorithm()
     {
