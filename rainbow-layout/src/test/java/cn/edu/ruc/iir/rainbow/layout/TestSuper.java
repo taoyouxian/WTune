@@ -11,6 +11,16 @@ public class TestSuper
             this.a = a;
         }
 
+        public void func ()
+        {
+            System.out.println("func in A.");
+        }
+
+        public void func2 ()
+        {
+            this.func();
+        }
+
     }
 
     static class B extends A
@@ -25,6 +35,16 @@ public class TestSuper
         {
             return super.a;
         }
+
+        public void func ()
+        {
+            System.out.println("func in B.");
+        }
+
+        public void func2 ()
+        {
+            super.func2();
+        }
     }
 
     public static void main(String[] args)
@@ -32,5 +52,11 @@ public class TestSuper
         B b = new B();
         b.setA(1);
         System.out.println(b.getA());
+
+        A a = new A();
+        a.func();
+        a.func2();
+        b.func();
+        b.func2();
     }
 }

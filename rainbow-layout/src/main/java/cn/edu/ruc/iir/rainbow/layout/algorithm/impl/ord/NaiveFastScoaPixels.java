@@ -8,23 +8,24 @@ import cn.edu.ruc.iir.rainbow.layout.builder.PixelsCostModelBuilder;
 import cn.edu.ruc.iir.rainbow.layout.cost.PixelsCostModel;
 import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.cost.SeqReadCost;
-import cn.edu.ruc.iir.rainbow.layout.domian.*;
+import cn.edu.ruc.iir.rainbow.layout.domian.Column;
+import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
+import cn.edu.ruc.iir.rainbow.layout.domian.Query;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * column ordering and query-wise split size optimization for Pixels
  */
-public class FastScoaPixels extends FastScoa
+public class NaiveFastScoaPixels extends FastScoa
 {
     private SeqReadCost seqReadCostFunction = null;
     private double lambdaCost = 0.0;
     private int numRowGroupPerBlock = 0;
     private boolean isSetup = false;
-    // this is the seek cost of the layout in which row groups are store one by one in the block.
-    private double originSeekCost = 0.0;
 
-    public FastScoaPixels ()
+    public NaiveFastScoaPixels()
     {
         // read #row group inside a block from configuration
         String strNumRowGroup = ConfigFactory.Instance().getProperty("pixels.num.row.group.perblock");
@@ -224,7 +225,7 @@ public class FastScoaPixels extends FastScoa
                 for (int splitId = 0; splitId < numSplits; ++splitId)
                 {
                     int rowgroupIdBase = splitId*splitSize;
-                    Query rebuiltQuery = new Querylet(query.getId(), query.getSid(), query.getWeight());
+                    Query rebuiltQuery = new Query(query.getId(), query.getSid(), query.getWeight());
                     for (int i = 0; i < splitSize; ++i)
                     {
                         int rowGroupId = rowgroupIdBase + i;
@@ -238,7 +239,7 @@ public class FastScoaPixels extends FastScoa
             }
             else
             {
-                Query rebuiltQuery = new Querylet(query.getId(), query.getSid(), query.getWeight());
+                Query rebuiltQuery = new Query(query.getId(), query.getSid(), query.getWeight());
                 for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
                 {
                     for (int columnId : query.getColumnIds())
@@ -249,97 +250,24 @@ public class FastScoaPixels extends FastScoa
                 rebuiltWorklod.add(rebuiltQuery);
             }
         }
-        // assign the new query id.
-        for (int i = 0; i < rebuiltWorklod.size(); ++i)
-        {
-            rebuiltWorklod.get(i).setId(i);
-        }
+
+        this.setWorkload(rebuiltWorklod);
 
         // rebuild schema
-        List<Columnlet> columnlets = new ArrayList<>();
-        Map<Integer, Columnlet> idToColumnletMap = new HashMap<>();
+        List<Column> rebuiltSchema = new ArrayList<>();
         // by sequentially duplicate the columnlet, we can generally start from a very good point.
         for (Column column : this.getSchema())
         {
             for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
             {
                 Columnlet columnlet = new Columnlet(rowGroupId, numColumns, column);
-                columnlets.add(columnlet);
-                idToColumnletMap.put(columnlet.getId(), columnlet);
+                rebuiltSchema.add(columnlet);
             }
         }
-
-        // init the originSeekCost
-        List<Column> tmpColumnOrder = new ArrayList<>();
-        for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
-        {
-            for (Column column : this.getSchema())
-            {
-                tmpColumnOrder.add(new Columnlet(rowGroupId, numColumns, column));
-            }
-        }
-        this.originSeekCost = this.innerGetWorkloadSeekCost(tmpColumnOrder, rebuiltWorklod);
-
-        // set the query ids for each columnlet.
-        for (Query query : rebuiltWorklod)
-        {
-            for (int id : query.getColumnIds())
-            {
-                idToColumnletMap.get(id).addQueryId(query.getId());
-            }
-        }
-
-        // rebuild the atomic grouped schema
-        List<Column> rebuiltSchema = new ArrayList<>();
-        AtomicColumnletGroup first = null;
-        int cid = 0;
-        for (Columnlet columnlet : columnlets)
-        {
-            if (first == null || first.has(columnlet) == false)
-            {
-                first = new AtomicColumnletGroup(cid++, columnlet);
-                rebuiltSchema.add(first);
-            }
-            else
-            {
-                first.addColumnlet(columnlet);
-            }
-        }
-
-        for (Column column : rebuiltSchema)
-        {
-            AtomicColumnletGroup acg = (AtomicColumnletGroup) column;
-            for (int qid : acg.getQueryIds())
-            {
-                // for each query accesses this acg, remove the origin columnlet ids belong to this acg.
-                // note that we assigned the sequential qid to the queries in rebuiltWorkload.
-                Query query = rebuiltWorklod.get(qid);
-                for (Columnlet columnlet : acg.getColumnlets())
-                {
-                    query.getColumnIds().remove(columnlet.getId());
-                }
-            }
-        }
-
-        for (Column column : rebuiltSchema)
-        {
-            AtomicColumnletGroup acg = (AtomicColumnletGroup) column;
-            for (int qid : acg.getQueryIds())
-            {
-                // for each query accesses this acg, add the column id of this acg to the columnIds of the query.
-                // note that we assigned the sequential qid to the queries in rebuiltWorkload.
-                Query query = rebuiltWorklod.get(qid);
-                query.addColumnId(acg.getId());
-            }
-        }
-
-        // update schema and workload
         this.setSchema(rebuiltSchema);
-        this.setWorkload(rebuiltWorklod);
-        // setup supper
+
         super.setup();
 
-        // update parameters
         String strCoolingRate = ConfigFactory.Instance().getProperty("scoa.pixels.cooling_rate");
         String strInitTemp = ConfigFactory.Instance().getProperty("scoa.pixels.init.temperature");
         if (strCoolingRate != null)
@@ -351,7 +279,6 @@ public class FastScoaPixels extends FastScoa
             this.temperature = Double.parseDouble(strInitTemp);
         }
 
-        // setup finished
         this.isSetup = true;
     }
 
@@ -370,14 +297,6 @@ public class FastScoaPixels extends FastScoa
         return res;
     }
 
-    @Override
-    public void runAlgorithm()
-    {
-        super.runAlgorithm();
-    }
-
-    
-
     public SeqReadCost getSeqReadCostFunction()
     {
         return seqReadCostFunction;
@@ -393,65 +312,9 @@ public class FastScoaPixels extends FastScoa
         return lambdaCost;
     }
 
-    public double getOriginSeekCost()
-    {
-        return originSeekCost;
-    }
-
     protected void setLambdaCost(double lambdaCost)
     {
         this.lambdaCost = lambdaCost;
-    }
-
-    /**
-     * get the real column order, not the rebuilt column order.
-     * @return
-     */
-    public List<Column> getRealColumnOrder()
-    {
-        List<Column> columnOrder = new ArrayList<>();
-        for (Column column : this.getColumnOrder())
-        {
-            AtomicColumnletGroup acg = (AtomicColumnletGroup) column;
-            for (Columnlet columnlet : acg.getColumnlets())
-            {
-                columnOrder.add(columnlet);
-            }
-        }
-        return columnOrder;
-    }
-
-    public double innerGetWorkloadSeekCost(List<Column> columnOrder, List<Query> workload)
-    {
-        double workloadSeekCost = 0;
-        Map<Integer, List<Query>> originIdToQueryMap = new HashMap<>();
-        for (Query query : workload)
-        {
-            Querylet querylet = (Querylet) query;
-            if (originIdToQueryMap.containsKey(querylet.getOriginId()))
-            {
-                originIdToQueryMap.get(querylet.getOriginId()).add(query);
-            }
-            else
-            {
-                List<Query> queries = new ArrayList<>();
-                queries.add(query);
-                originIdToQueryMap.put(querylet.getOriginId(), queries);
-            }
-        }
-
-        for (Map.Entry<Integer, List<Query>> entry : originIdToQueryMap.entrySet())
-        {
-            double seekCost = 0;
-            for (Query query : entry.getValue())
-            {
-                seekCost += query.getWeight() * getQuerySeekCost(columnOrder, query);
-            }
-            // note: it is currently not reasonable to use average seek cost.
-            workloadSeekCost += seekCost;// / entry.getValue().size();
-        }
-
-        return workloadSeekCost;
     }
 
     /**
@@ -464,7 +327,7 @@ public class FastScoaPixels extends FastScoa
     {
         if (this.isSetup)
         {
-            return innerGetWorkloadSeekCost(this.getColumnOrder(), this.getWorkload());
+            return super.getCurrentWorkloadSeekCost();
         }
         else
         {
@@ -477,14 +340,13 @@ public class FastScoaPixels extends FastScoa
     {
         if (this.isSetup)
         {
-            return innerGetWorkloadSeekCost(this.getSchema(), this.getWorkload());
+            return super.getSchemaSeekCost();
         }
         else
         {
             return this.numRowGroupPerBlock * super.getSchemaSeekCost();
         }
     }
-
 
     /**
      * get the seek cost of a query (on the given column order).
