@@ -30,6 +30,11 @@ public class Columnlet extends Column
         this.rowGroupId = rowGroupId;
     }
 
+    protected String getOriginName ()
+    {
+        return super.getName();
+    }
+
     public String getName()
     {
         return super.getName() + "_" + this.rowGroupId;
@@ -96,13 +101,9 @@ public class Columnlet extends Column
                 this.getNumColumns(), this.getName(), this.getType(), this.getSize());
         columnlet.setDupId(this.getDupId());
         columnlet.setDuplicated(this.isDuplicated());
-        if (this.getQueryIds() != null)
+        if (this.getQueryIds().isEmpty() == false)
         {
             columnlet.setQueryIds(new HashSet<>(this.getQueryIds()));
-        }
-        else
-        {
-            columnlet.setQueryIds(null);
         }
         return columnlet;
     }

@@ -22,7 +22,7 @@ public class LogFactory
 
     private LogFactory()
     {
-        this.log = org.apache.commons.logging.LogFactory.getLog("oil logs");
+        this.log = org.apache.commons.logging.LogFactory.getLog("rainbow logs");
     }
 
     public Log getLog()

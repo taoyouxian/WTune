@@ -16,7 +16,7 @@ public class TestParquetMetadata
     public void testGetMetadata () throws IOException, MetadataException
     {
         //ParquetMetadataStat stat = new ParquetMetadataStat("10.172.96.77", 9000, "/lineitem_grouped_test_parq");
-        ParquetMetadataStat stat = new ParquetMetadataStat("192.168.124.15", 9000, "/rainbow/parq");
+        ParquetMetadataStat stat = new ParquetMetadataStat("10.77.40.236", 9000, "/dataset/105_parq");
         double[] avgs = stat.getAvgColumnChunkSize();
         double[] devs = stat.getColumnChunkSizeStdDev(avgs);
         List<String> names = stat.getFieldNames();
@@ -24,7 +24,7 @@ public class TestParquetMetadata
 
         for (int i = 0; i < avgs.length; ++i)
         {
-            System.out.println(names.get(i) + "\t" + avgs[i]);
+            System.out.println(names.get(i) + '\t' + avgs[i]);
         }
         System.out.println(stat.getTotalSize());
     }

@@ -77,7 +77,9 @@ public abstract class Algorithm
         this.currentColumnOrder = columnOrder;
     }
 
-    // get the current column order
+    /**
+     * get the current column order
+     */
     public List<Column> getColumnOrder()
     {
         return currentColumnOrder;

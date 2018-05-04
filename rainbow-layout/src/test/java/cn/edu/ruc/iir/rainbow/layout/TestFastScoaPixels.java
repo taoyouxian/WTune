@@ -20,19 +20,19 @@ public class TestFastScoaPixels
     @Test
     public void test () throws IOException, ColumnNotFoundException, AlgoException, ClassNotFoundException, InterruptedException
     {
-        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/scoa_ordered_schema.txt").getFile()));
-        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/workload.txt").getFile()), initColumnOrder);
+        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/105_scoa_ordered_schema.txt").getFile()));
+        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/105_workload.txt").getFile()), initColumnOrder);
         System.out.println(workload.size());
         //SeekCost seekCostFunction = new PowerSeekCost();
         //RealSeekCostBuilder.build(new File("layout/resources/seek_cost.txt"));
 
-        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 1000, new ArrayList<>(initColumnOrder), workload);
-        //scoaPixels.setup();
-        System.out.println("Init cost: " + scoaPixels.getSchemaSeekCost());
+        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 100, new ArrayList<>(initColumnOrder), workload);
 
         try
         {
             ExecutorContainer container = new ExecutorContainer(scoaPixels, 1);
+            System.out.println("origin cost: " + scoaPixels.getOriginSeekCost());
+            System.out.println("Init cost: " + scoaPixels.getSchemaSeekCost());
             container.waitForCompletion(1, percentage -> {
                 System.out.println(percentage);
             });
@@ -42,8 +42,8 @@ public class TestFastScoaPixels
         }
 
         System.out.println("Final cost: " + scoaPixels.getCurrentWorkloadSeekCost());
-        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_1000s.txt"), scoaPixels.getColumnOrder());
-        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_1000s.txt");
+        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "105_scoa_pixels_ordered_schema_1000s.txt"), scoaPixels.getRealColumnOrder());
+        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "105_scoa_pixels_ordered_schema_1000s.txt");
 
     }
 }

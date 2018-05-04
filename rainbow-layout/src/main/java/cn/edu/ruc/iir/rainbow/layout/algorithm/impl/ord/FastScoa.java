@@ -61,7 +61,7 @@ public class FastScoa extends Scoa
     public void runAlgorithm()
     {
         long startSeconds = System.currentTimeMillis() / 1000;
-        this.currentEnergy = super.getCurrentWorkloadSeekCost();
+        this.currentEnergy = this.getCurrentWorkloadSeekCost();
 
         for (long currentSeconds = System.currentTimeMillis() / 1000;
              (currentSeconds - startSeconds) < super.getComputationBudget();
