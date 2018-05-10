@@ -3,9 +3,6 @@ package cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.common.exception.ConfigrationException;
-import cn.edu.ruc.iir.rainbow.common.exception.CostFunctionException;
-import cn.edu.ruc.iir.rainbow.layout.builder.PixelsCostModelBuilder;
-import cn.edu.ruc.iir.rainbow.layout.cost.PixelsCostModel;
 import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.cost.RealSeqReadCost;
 import cn.edu.ruc.iir.rainbow.layout.cost.SeqReadCost;
@@ -82,16 +79,16 @@ public class FastScoaPixels extends FastScoa
         }
 
         // build pixels cost model from prometheus
-        try
-        {
-            PixelsCostModel costModel = PixelsCostModelBuilder.build(promHost, promPort);
+        //try
+        //{
+            //PixelsCostModel costModel = PixelsCostModelBuilder.build(promHost, promPort);
             this.setSeekCostFunction(new PowerSeekCost());
             this.setSeqReadCostFunction(new RealSeqReadCost(0.00001));
-            this.setLambdaCost(costModel.getLambdaCost().calculate());
-        } catch (CostFunctionException e)
-        {
-            LogFactory.Instance().getLog().error("FastScoaPixels build prometheus cost error.", e);
-        }
+            this.setLambdaCost(10);
+        //} catch (CostFunctionException e)
+        //{
+        //    LogFactory.Instance().getLog().error("FastScoaPixels build prometheus cost error.", e);
+        //}
     }
 
     @SuppressWarnings("Duplicates")
