@@ -1,13 +1,14 @@
 package cn.edu.ruc.iir.rainbow.layout.model.domain;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Schema
 {
     private int id;
     private String name;
     private String desc;
-    private List<Table> tables;
+    private Set<Table> tables = new HashSet<>();
 
     public int getId()
     {
@@ -39,13 +40,34 @@ public class Schema
         this.desc = desc;
     }
 
-    public List<Table> getTables()
+    public Set<Table> getTables()
     {
         return tables;
     }
 
-    public void setTables(List<Table> tables)
+    public void setTables(Set<Table> tables)
     {
         this.tables = tables;
+    }
+
+    public void addTable (Table table)
+    {
+        this.tables.add(table);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o instanceof Schema)
+        {
+            return this.id == ((Schema) o).id;
+        }
+        return false;
     }
 }

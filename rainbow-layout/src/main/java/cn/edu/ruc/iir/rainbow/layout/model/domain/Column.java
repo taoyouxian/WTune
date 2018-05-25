@@ -46,4 +46,20 @@ public class Column
     {
         this.table = table;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o instanceof Column)
+        {
+            return this.id == ((Column) o).id;
+        }
+        return false;
+    }
 }

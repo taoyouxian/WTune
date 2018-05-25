@@ -134,4 +134,20 @@ public class Layout
     {
         this.table = table;
     }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o instanceof Layout)
+        {
+            return this.id == ((Layout) o).id;
+        }
+        return false;
+    }
 }

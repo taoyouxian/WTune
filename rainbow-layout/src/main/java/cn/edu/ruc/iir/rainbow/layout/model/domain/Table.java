@@ -1,5 +1,6 @@
 package cn.edu.ruc.iir.rainbow.layout.model.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Table
@@ -8,8 +9,8 @@ public class Table
     private String name;
     private String type;
     private Schema schema;
-    private List<Column> columns;
-    private List<Layout> layouts;
+    private List<Column> columns = new ArrayList<>();
+    private List<Layout> layouts = new ArrayList<>();
 
     public int getId()
     {
@@ -61,6 +62,11 @@ public class Table
         this.columns = columns;
     }
 
+    public void addColumn (Column column)
+    {
+        this.columns.add(column);
+    }
+
     public List<Layout> getLayouts()
     {
         return layouts;
@@ -69,5 +75,26 @@ public class Table
     public void setLayouts(List<Layout> layouts)
     {
         this.layouts = layouts;
+    }
+
+    public void addLayout (Layout layout)
+    {
+        this.layouts.add(layout);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return this.id;
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (o instanceof Table)
+        {
+            return this.id == ((Table) o).id;
+        }
+        return false;
     }
 }
