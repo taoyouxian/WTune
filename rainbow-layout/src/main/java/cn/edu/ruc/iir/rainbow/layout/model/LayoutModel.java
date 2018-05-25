@@ -12,11 +12,11 @@ import java.util.List;
 
 public class LayoutModel implements Model<Layout>
 {
-    protected LayoutModel () {}
+    public LayoutModel () {}
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final TableModel tableModel = (TableModel) ModelFactory.Instance().getModel("table");
+    private static final TableModel tableModel = new TableModel();
 
     @Override
     public Layout getById(int id)
@@ -72,6 +72,7 @@ public class LayoutModel implements Model<Layout>
                 layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
                 layout.setSplit(rs.getString("LAYOUT_SPLIT"));
                 layout.setTable(table);
+                table.addLayout(layout);
                 layouts.add(layout);
             }
             return layouts;

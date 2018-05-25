@@ -2,6 +2,7 @@ package cn.edu.ruc.iir.rainbow.layout.model;
 
 import cn.edu.ruc.iir.rainbow.common.DBUtil;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
+import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
 import org.apache.commons.logging.Log;
 
@@ -14,11 +15,11 @@ import java.util.List;
 
 public class TableModel implements Model<Table>
 {
-    protected TableModel () {}
+    public TableModel () {}
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final SchemaModel schemaModel = (SchemaModel) ModelFactory.Instance().getModel("schema");
+    private static final SchemaModel schemaModel = new SchemaModel();
 
     @Override
     public Table getById(int id)
@@ -40,6 +41,32 @@ public class TableModel implements Model<Table>
         } catch (SQLException e)
         {
             log.error("getById in TableModel", e);
+        }
+
+        return null;
+    }
+
+    public Table getByNameAndSchema (String name, Schema schema)
+    {
+        Connection conn = db.getConnection();
+        try (Statement st = conn.createStatement())
+        {
+            ResultSet rs = st.executeQuery("SELECT TBL_ID, TBL_TYPE FROM TBLS WHERE TBL_NAME='" + name +
+                    "' AND DBS_DB_ID=" + schema.getId());
+            if (rs.next())
+            {
+                Table table = new Table();
+                table.setId(rs.getInt("TBL_ID"));
+                table.setName(name);
+                table.setType(rs.getString("TBL_TYPE"));
+                table.setSchema(schema);
+                schema.addTable(table);
+                return table;
+            }
+
+        } catch (SQLException e)
+        {
+            log.error("getByNameAndDB in TableModel", e);
         }
 
         return null;

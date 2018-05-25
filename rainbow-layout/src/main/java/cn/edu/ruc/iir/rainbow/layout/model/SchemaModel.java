@@ -12,7 +12,7 @@ import java.sql.Statement;
 
 public class SchemaModel implements Model<Schema>
 {
-    protected SchemaModel () {}
+    public SchemaModel () {}
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();

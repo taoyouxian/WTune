@@ -15,11 +15,11 @@ import java.util.List;
 
 public class ColumnModel implements Model<Column>
 {
-    protected ColumnModel () {}
+    public ColumnModel () {}
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final TableModel tableModel = (TableModel) ModelFactory.Instance().getModel("table");
+    private static final TableModel tableModel = new TableModel();
 
     @Override
     public Column getById(int id)
@@ -60,6 +60,7 @@ public class ColumnModel implements Model<Column>
                 column.setName(rs.getString("COL_NAME"));
                 column.setType(rs.getString("COL_TYPE"));
                 column.setTable(table);
+                table.addColumn(column);
                 columns.add(column);
             }
             return columns;
