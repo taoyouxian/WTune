@@ -1,6 +1,0 @@
-Column_71	0	39666
-Column_71	11	1
-Column_71	1	306
-Column_71	2	19
-Column_71	3	6
-Column_71	4	2

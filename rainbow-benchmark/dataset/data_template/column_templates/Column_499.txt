@@ -1,7 +1,0 @@
-Column_499	0	36232
-Column_499	1	3538
-Column_499	2	167
-Column_499	3	33
-Column_499	4	18
-Column_499	5	8
-Column_499	6	4

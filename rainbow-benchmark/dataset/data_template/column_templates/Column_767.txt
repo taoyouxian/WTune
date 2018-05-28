@@ -1,3 +1,0 @@
-Column_767	0	39961
-Column_767	1	37
-Column_767	2	2

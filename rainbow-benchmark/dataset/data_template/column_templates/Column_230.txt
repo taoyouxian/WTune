@@ -1,8 +1,0 @@
-Column_230	0	39993
-Column_230	6252	1
-Column_230	6586	1
-Column_230	30152	1
-Column_230	21210	1
-Column_230	19011	1
-Column_230	16205	1
-Column_230	4515	1

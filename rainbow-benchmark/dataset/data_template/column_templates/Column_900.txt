@@ -1,4 +1,0 @@
-Column_900	0	39997
-Column_900	1	1
-Column_900	1.35168	1
-Column_900	1.056	1

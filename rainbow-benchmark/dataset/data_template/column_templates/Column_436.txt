@@ -1,6 +1,0 @@
-Column_436		33316
-Column_436	3ce982a9-6	8
-Column_436	1e1c3e	68
-Column_436	af03	14
-Column_436	cf56bcd5	18
-Column_436	a42950a7	6576

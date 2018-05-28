@@ -1,3 +1,0 @@
-Column_326	0	781
-Column_326	9	3924
-Column_326	fdb64	35295

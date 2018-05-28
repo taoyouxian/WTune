@@ -1,3 +1,0 @@
-Column_904	0	39995
-Column_904	1	4
-Column_904	2	1

@@ -1,3 +1,0 @@
-Column_19	0	38815
-Column_19	1	1184
-Column_19	7	1

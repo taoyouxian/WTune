@@ -1,6 +1,0 @@
-Column_598	0	39007
-Column_598	3	14
-Column_598	4	158
-Column_598	5	28
-Column_598	6	791
-Column_598	9	2

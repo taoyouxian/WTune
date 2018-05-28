@@ -1,8 +1,0 @@
-Column_353	e	5
-Column_353	c	6
-Column_353	f	27
-Column_353	215	14
-Column_353	259	35
-Column_353	bbd	3
-Column_353	a25	423
-Column_353	2baf	39487

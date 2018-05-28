@@ -1,5 +1,0 @@
-Column_190	0	39706
-Column_190	1	279
-Column_190	2	10
-Column_190	3	4
-Column_190	5	1

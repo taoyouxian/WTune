@@ -1,6 +1,0 @@
-Column_648	0	39463
-Column_648	1	514
-Column_648	2	18
-Column_648	3	3
-Column_648	4	1
-Column_648	8	1

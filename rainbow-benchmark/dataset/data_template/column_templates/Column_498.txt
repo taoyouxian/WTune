@@ -1,8 +1,0 @@
-Column_498	0	36187
-Column_498	1	3568
-Column_498	2	177
-Column_498	3	35
-Column_498	14	1
-Column_498	4	19
-Column_498	5	9
-Column_498	6	4

@@ -1,9 +1,0 @@
-Column_233	0	39992
-Column_233	5864473	1
-Column_233	24241	1
-Column_233	8802	1
-Column_233	5622	1
-Column_233	162883	1
-Column_233	5327	1
-Column_233	11401	1
-Column_233	30797	1

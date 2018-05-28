@@ -1,4 +1,0 @@
-Column_722	0	39798
-Column_722	1	200
-Column_722	2	1
-Column_722	3	1

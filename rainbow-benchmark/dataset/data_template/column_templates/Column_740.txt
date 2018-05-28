@@ -1,9 +1,0 @@
-Column_740	0	39937
-Column_740	1	20
-Column_740	2	12
-Column_740	3	10
-Column_740	4	1
-Column_740	5	12
-Column_740	6	1
-Column_740	7	2
-Column_740	8	5

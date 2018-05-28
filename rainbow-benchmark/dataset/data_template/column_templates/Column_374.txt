@@ -1,2 +1,0 @@
-Column_374	True	38966
-Column_374	False	1034

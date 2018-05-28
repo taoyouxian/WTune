@@ -1,9 +1,0 @@
-Column_488	0	35745
-Column_488	1	3981
-Column_488	2	200
-Column_488	3	40
-Column_488	14	1
-Column_488	4	19
-Column_488	5	8
-Column_488	6	5
-Column_488	7	1

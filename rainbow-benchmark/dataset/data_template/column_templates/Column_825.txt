@@ -1,2 +1,0 @@
-Column_825	True	1139
-Column_825	False	38861

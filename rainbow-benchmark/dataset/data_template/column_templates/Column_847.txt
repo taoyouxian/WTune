@@ -1,3 +1,0 @@
-Column_847	0	39991
-Column_847	1	8
-Column_847	2	1

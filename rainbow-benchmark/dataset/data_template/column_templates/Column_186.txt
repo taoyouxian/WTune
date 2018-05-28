@@ -1,6 +1,0 @@
-Column_186	63	36198
-Column_186	fdb877	1296
-Column_186	b2f2d980-5d1	13
-Column_186	23d155	2398
-Column_186	55bd0a16-b14	68
-Column_186	8c863	27

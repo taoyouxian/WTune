@@ -1,2 +1,0 @@
-Column_320	True	39993
-Column_320	false	7

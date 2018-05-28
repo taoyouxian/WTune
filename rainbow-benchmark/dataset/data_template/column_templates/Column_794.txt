@@ -1,2 +1,0 @@
-Column_794	True	184
-Column_794	False	39816

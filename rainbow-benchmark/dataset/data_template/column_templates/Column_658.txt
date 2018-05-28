@@ -1,4 +1,0 @@
-Column_658	0	39709
-Column_658	1	281
-Column_658	2	8
-Column_658	3	2

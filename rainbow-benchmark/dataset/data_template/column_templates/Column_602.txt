@@ -1,8 +1,0 @@
-Column_602	0	39807
-Column_602	1	9
-Column_602	3	59
-Column_602	4	47
-Column_602	5	17
-Column_602	6	6
-Column_602	7	5
-Column_602	8	50

@@ -1,4 +1,0 @@
-Column_234	0	39997
-Column_234	2932	1
-Column_234	2018	1
-Column_234	5966	1

@@ -1,7 +1,0 @@
-Column_332	1b93967	20
-Column_332	58f0a043-f	48
-Column_332	a1d5f397-b906-437f-a	178
-Column_332	b1527f87-c404-	742
-Column_332	2c0cc991-09bb-42	47
-Column_332	9eb9e4b9-c9cf-49da-9268	10
-Column_332	5f3048b	38955

@@ -1,4 +1,0 @@
-Column_775	0	39935
-Column_775	1	59
-Column_775	2	5
-Column_775	3	1

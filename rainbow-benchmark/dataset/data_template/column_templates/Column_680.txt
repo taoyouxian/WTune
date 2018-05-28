@@ -1,5 +1,0 @@
-Column_680	0	39706
-Column_680	1	279
-Column_680	2	10
-Column_680	3	4
-Column_680	5	1

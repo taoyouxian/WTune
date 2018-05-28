@@ -1,2 +1,0 @@
-Column_590	True	6050
-Column_590	False	33950

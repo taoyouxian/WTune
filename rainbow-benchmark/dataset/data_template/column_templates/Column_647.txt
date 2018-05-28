@@ -1,8 +1,0 @@
-Column_647	0	39771
-Column_647	1	219
-Column_647	2	4
-Column_647	3	2
-Column_647	15	1
-Column_647	17	1
-Column_647	9	1
-Column_647	10	1

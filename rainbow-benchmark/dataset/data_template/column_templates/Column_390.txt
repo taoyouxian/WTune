@@ -1,9 +1,0 @@
-Column_390	0	30001
-Column_390	1	1
-Column_390	2	10
-Column_390	3	5
-Column_390	4	439
-Column_390	5	1399
-Column_390	6	7573
-Column_390	7	571
-Column_390	9	1

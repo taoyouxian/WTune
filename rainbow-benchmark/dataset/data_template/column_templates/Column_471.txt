@@ -1,9 +1,0 @@
-Column_471	0	33890
-Column_471	1	137
-Column_471	2	81
-Column_471	3	106
-Column_471	4	105
-Column_471	5	119
-Column_471	6	2793
-Column_471	7	121
-Column_471	8	2648

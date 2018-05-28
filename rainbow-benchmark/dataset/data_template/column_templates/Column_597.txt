@@ -1,3 +1,0 @@
-Column_597	0	39003
-Column_597	1	19
-Column_597	2	978

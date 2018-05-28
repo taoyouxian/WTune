@@ -1,7 +1,0 @@
-Column_544	0	37576
-Column_544	1	36
-Column_544	2	21
-Column_544	3	31
-Column_544	4	32
-Column_544	5	38
-Column_544	6	2266

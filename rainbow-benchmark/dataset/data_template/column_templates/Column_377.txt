@@ -1,4 +1,0 @@
-Column_377		2536
-Column_377	7b7abf	4464
-Column_377	52b	2038
-Column_377	7191b965	30962

@@ -1,9 +1,0 @@
-Column_586	0	39801
-Column_586	1	9
-Column_586	2	6
-Column_586	3	59
-Column_586	4	47
-Column_586	5	17
-Column_586	6	6
-Column_586	7	5
-Column_586	8	50

@@ -1,5 +1,0 @@
-Column_531	0	37924
-Column_531	2	216
-Column_531	3	38
-Column_531	5	1814
-Column_531	6	8

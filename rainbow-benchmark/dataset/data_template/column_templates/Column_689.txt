@@ -1,4 +1,0 @@
-Column_689	0	39672
-Column_689	1	320
-Column_689	2	5
-Column_689	3	3

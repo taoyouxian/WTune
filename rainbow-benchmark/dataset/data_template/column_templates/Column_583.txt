@@ -1,4 +1,0 @@
-Column_583	0	39052
-Column_583	1	944
-Column_583	2	3
-Column_583	5	1

@@ -1,9 +1,0 @@
-Column_803	0	39393
-Column_803	1	16
-Column_803	2	24
-Column_803	3	444
-Column_803	4	4
-Column_803	5	102
-Column_803	6	11
-Column_803	7	4
-Column_803	9	2

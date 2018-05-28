@@ -1,2 +1,0 @@
-Column_93	True	4
-Column_93	False	39996

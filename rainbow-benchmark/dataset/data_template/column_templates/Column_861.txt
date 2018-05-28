@@ -1,4 +1,0 @@
-Column_861	0	39991
-Column_861	1	6
-Column_861	2	2
-Column_861	3	1

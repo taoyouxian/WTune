@@ -1,6 +1,0 @@
-Column_188		38975
-Column_188	8	235
-Column_188	7	19
-Column_188	097223d8-b	741
-Column_188	8	29
-Column_188	ea3b2937-c	1

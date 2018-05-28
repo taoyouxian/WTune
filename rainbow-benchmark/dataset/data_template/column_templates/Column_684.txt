@@ -1,3 +1,0 @@
-Column_684	0	39789
-Column_684	1	209
-Column_684	2	2

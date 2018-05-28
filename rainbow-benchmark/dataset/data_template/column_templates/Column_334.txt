@@ -1,8 +1,0 @@
-Column_334	f7808d	2145
-Column_334	8343	325
-Column_334	c078fb	2420
-Column_334	e4b91d	4353
-Column_334	64	28091
-Column_334	640e	468
-Column_334	1c780	51
-Column_334	3c70fcf	2147

@@ -1,4 +1,0 @@
-Column_6		5309
-Column_6	573	37
-Column_6	3833	34511
-Column_6	3463	143

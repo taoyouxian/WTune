@@ -1,7 +1,0 @@
-Column_317	78ff40d	20
-Column_317	edaba682-6	48
-Column_317	8ba87068-ba78-4ed6-9	178
-Column_317	52659504-2b4c-	742
-Column_317	ced8bbad-a7b8-43	47
-Column_317	f6976e72-67fd-461d-9a01	10
-Column_317	3a86336	38955

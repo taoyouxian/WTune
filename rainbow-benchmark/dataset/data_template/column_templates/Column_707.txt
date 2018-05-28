@@ -1,3 +1,0 @@
-Column_707	0	39793
-Column_707	1	204
-Column_707	2	3

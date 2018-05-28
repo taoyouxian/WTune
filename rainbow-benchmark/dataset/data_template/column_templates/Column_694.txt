@@ -1,3 +1,0 @@
-Column_694	0	39779
-Column_694	1	210
-Column_694	2	11

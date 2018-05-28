@@ -1,6 +1,0 @@
-Column_677	0	39750
-Column_677	1	238
-Column_677	2	9
-Column_677	3	1
-Column_677	4	1
-Column_677	8	1

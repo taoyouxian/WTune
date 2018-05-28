@@ -1,4 +1,0 @@
-Column_739	0	39882
-Column_739	1	115
-Column_739	2	2
-Column_739	3	1

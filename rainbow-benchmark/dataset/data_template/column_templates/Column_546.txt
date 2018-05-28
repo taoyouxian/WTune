@@ -1,5 +1,0 @@
-Column_546	0	38239
-Column_546	1	717
-Column_546	2	332
-Column_546	3	232
-Column_546	4	480

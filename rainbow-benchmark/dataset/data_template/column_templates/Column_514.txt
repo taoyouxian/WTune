@@ -1,6 +1,0 @@
-Column_514	0	38601
-Column_514	1	1201
-Column_514	2	173
-Column_514	3	9
-Column_514	4	13
-Column_514	5	3

@@ -1,2 +1,0 @@
-Column_385	True	5022
-Column_385	False	34978

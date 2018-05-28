@@ -1,9 +1,0 @@
-Column_820	0	39937
-Column_820	1	52
-Column_820	24	2
-Column_820	2	2
-Column_820	13	1
-Column_820	5	1
-Column_820	6	2
-Column_820	18	1
-Column_820	20	2

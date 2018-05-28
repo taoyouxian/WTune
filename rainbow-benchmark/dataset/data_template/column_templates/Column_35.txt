@@ -1,3 +1,0 @@
-Column_35	0	39900
-Column_35	1	98
-Column_35	2	2

@@ -1,2 +1,0 @@
-Column_284	True	5
-Column_284	False	39995
