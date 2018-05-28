@@ -7,10 +7,12 @@ import java.util.concurrent.TimeUnit;
 public class LayoutServer implements Server
 {
     private boolean shutdown = true;
+    private String schemaName;
     private String tableName;
 
-    public LayoutServer (String tableName)
+    public LayoutServer (String schemaName, String tableName)
     {
+        this.schemaName = schemaName;
         this.tableName = tableName;
     }
 

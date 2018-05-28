@@ -1,7 +1,11 @@
 package cn.edu.ruc.iir.rainbow.layout.builder;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.layout.builder.domain.CompactLayoutObj;
+import cn.edu.ruc.iir.rainbow.layout.builder.domain.InitOrderObj;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
+import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
+import com.alibaba.fastjson.JSON;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -51,5 +55,32 @@ public class ColumnOrderBuilder
         }
 
         writer.close();
+    }
+
+    public static String initOrderToJsonString (List<Column> columnOrder)
+    {
+        InitOrderObj initOrder = new InitOrderObj();
+
+        for (Column column : columnOrder)
+        {
+            initOrder.addColumnOrder(column.getName());
+        }
+
+        return JSON.toJSONString(initOrder);
+    }
+
+    public static String compactLayoutToJsonString (int rowGroupNumber, int columnNumner, List<Column> columnletOrder)
+    {
+        CompactLayoutObj compactLayout = new CompactLayoutObj();
+        compactLayout.setRowGroupNumber(rowGroupNumber);
+        compactLayout.setColumnNumber(columnNumner);
+        for (Column column : columnletOrder)
+        {
+            Columnlet columnlet = (Columnlet) column;
+            String columnletStr = columnlet.getRowGroupId() + ":" + columnlet.getColumnId();
+            compactLayout.addColumnletOrder(columnletStr);
+        }
+
+        return JSON.toJSONString(compactLayout);
     }
 }

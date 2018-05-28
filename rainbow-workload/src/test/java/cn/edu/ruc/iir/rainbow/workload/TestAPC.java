@@ -34,7 +34,7 @@ public class TestAPC
                 pattern.addColumn(column);
             }
 
-            if (APC.cache(pattern))
+            if (APC.cache(pattern, System.currentTimeMillis()))
             {
                 System.out.println(DateUtil.formatDate(new Date()));
                 System.out.println(i + ", trigger layout optimization.");

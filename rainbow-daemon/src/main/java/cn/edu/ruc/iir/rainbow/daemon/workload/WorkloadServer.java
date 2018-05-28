@@ -24,17 +24,20 @@ public class WorkloadServer implements Server
 {
     private boolean shutdown = true;
     private Set<String> processedQueryIds = new HashSet<>();
+    private String schemaName;
     private String tableName;
     private AccessPatternCache apc;
 
     /**
      * The tableName must be full table name like databaseName.tableName
+     * @param schemaName
      * @param tableName
      * @param lifeTime
      * @param threshold
      */
-    public WorkloadServer (String tableName, long lifeTime, double threshold)
+    public WorkloadServer (String schemaName, String tableName, long lifeTime, double threshold)
     {
+        this.schemaName = schemaName;
         this.tableName = tableName;
         this.apc = new AccessPatternCache(lifeTime, threshold);
         APCFactory.Instance().put(tableName, apc);
@@ -66,8 +69,11 @@ public class WorkloadServer implements Server
             try
             {
                 SqlParser parser = new SqlParser();
-                Object obj = HttpUtils.Instance().getPageContent(ConfigFactory.Instance().getProperty("presto.query.url"));
-                JSONArray jsonArray = JSON.parseArray(obj.toString());
+                String jsonStr = HttpUtils.Instance().getPageContent(
+                        ConfigFactory.Instance().getProperty("presto.query.url"),
+                        HttpUtils.AcceptType.JSON
+                        );
+                JSONArray jsonArray = JSON.parseArray(jsonStr);
 
                 for (int i = 0; i < jsonArray.size(); i++)
                 {
@@ -76,10 +82,16 @@ public class WorkloadServer implements Server
                     {
                         // this is a valid user statement.
                         String queryId = jsonObject.getString("queryId");
+                        String schema = jsonObject.getJSONObject("session").getString("schema");
+                        if (schema == null)
+                        {
+                            continue;
+                        }
                         if (this.processedQueryIds.contains(queryId) == false)
                         {
                             // this is a new statement.
                             String sql = jsonObject.getString("query");
+                            long startTime = jsonObject.getJSONObject("session").getLong("startTime");
                             Statement statement = parser.createStatement(sql,
                                     new ParsingOptions(ParsingOptions.DecimalLiteralTreatment.AS_DOUBLE));
                             if (statement instanceof Query)
@@ -95,9 +107,16 @@ public class WorkloadServer implements Server
                                 // tableName
                                 Table table = (Table) queryBody.getFrom().get();
 
-                                System.out.println("workload server [" + this.tableName + "] is caching query: " + sql);
-                                if (this.tableName.equalsIgnoreCase(table.getName().toString()))
+                                String queryTableName = this.tableName;
+                                if (table.getName().toString().contains("."))
                                 {
+                                    queryTableName = this.schemaName + "." + this.tableName;
+                                }
+
+                                if (queryTableName.equalsIgnoreCase(table.getName().toString()))
+                                {
+                                    System.out.println("workload server [" + this.tableName + "] is caching query: " + sql);
+
                                     // this is the query we care about in this pipeline (specified by tableName);
                                     AccessPattern pattern = new AccessPattern(queryId, 1.0);
                                     for (SelectItem item : selectItemList)
@@ -105,7 +124,12 @@ public class WorkloadServer implements Server
                                         //TODO: currently we do not support functions and start(*) in the select statement.
                                         pattern.addColumn(item.toString());
                                     }
-                                    this.apc.cache(pattern);
+                                    if (this.apc.cache(pattern, startTime))
+                                    {
+                                        //
+                                        System.out.println("trigger layout optimization...");
+                                    }
+
                                 }
                             }
                             this.processedQueryIds.add(queryId);

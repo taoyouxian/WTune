@@ -44,6 +44,7 @@ public class TestPrestoAPI
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 if (queryMap.get("queryId") != null && !queryMap.get("queryId") && jsonObject.size() == 8) {
                     queryId = jsonObject.get("queryId").toString();
+                    long startTime = jsonObject.getJSONObject("session").getLong("startTime");
                     queryMap.put("queryId", true);
                     query = jsonObject.get("query").toString();
 //                    System.out.println(queryId + "\t" + i + "\t" + query);
@@ -85,7 +86,7 @@ public class TestPrestoAPI
 //                        System.out.println(scolumn.toString());
                             pattern.addColumn(column.toString());
                         }
-                        if (APC.cache(pattern)) {
+                        if (APC.cache(pattern, startTime)) {
                             System.out.println(i + ", trigger layout optimization.");
                             j++;
                             APC.saveAsWorkloadFile("/home/tao/software/station/Workplace/workload_" + j + ".txt");
@@ -131,6 +132,7 @@ public class TestPrestoAPI
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 if (jsonObject.size() == 8) {
                     queryId = jsonObject.get("queryId").toString();
+                    long startTime = jsonObject.getJSONObject("session").getLong("startTime");
                     query = jsonObject.get("query").toString();
 //                    System.out.println(queryId + "\t" + i + "\t" + query);
                     // Parser
@@ -168,7 +170,7 @@ public class TestPrestoAPI
 //                        System.out.println(scolumn.toString());
                             pattern.addColumn(column.toString());
                         }
-                        if (APC.cache(pattern)) {
+                        if (APC.cache(pattern, startTime)) {
                             System.out.println(i + ", trigger layout optimization.");
                             j++;
                             APC.saveAsWorkloadFile("/home/tao/software/station/Workplace/workload_" + j + ".txt");

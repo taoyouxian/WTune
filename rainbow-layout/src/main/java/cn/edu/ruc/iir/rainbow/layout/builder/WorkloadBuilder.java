@@ -71,6 +71,47 @@ public class WorkloadBuilder
         return workload;
     }
 
+    public static void saveAsWorkloadFile (File workloadFile, List<Query> workload, List<Column> columnOrder) throws IOException
+    {
+        BufferedWriter queryWriter = new BufferedWriter(new FileWriter(workloadFile));
+
+        final String DUP_MARK = ConfigFactory.Instance().getProperty("dup.mark");
+
+        Map<Integer, Column> idToColumnMap = new HashMap<>();
+
+        for (Column column :columnOrder)
+        {
+            idToColumnMap.put(column.getId(), column);
+        }
+
+        for (Query query : workload)
+        {
+            queryWriter.write(query.getSid() + "\t");
+            queryWriter.write(query.getWeight() + "\t");
+            Set<Integer> columnIds = query.getColumnIds();
+            boolean first = true;
+            for (int cid : columnIds)
+            {
+                Column column = idToColumnMap.get(cid);
+                if (first)
+                {
+                    queryWriter.write(column.isDuplicated() ?
+                            column.getName() + DUP_MARK + column.getDupId() :column.getName());
+                    first = false;
+                }
+                else
+                {
+                    queryWriter.write("," + (column.isDuplicated() ?
+                            column.getName() + DUP_MARK + column.getDupId() :column.getName()));
+
+                }
+            }
+            queryWriter.write("\n");
+        }
+
+        queryWriter.close();
+    }
+
     public static void saveAsWorkloadFile (File workloadFile, WorkloadPattern workloadPattern) throws IOException
     {
         BufferedWriter queryWriter = new BufferedWriter(new FileWriter(workloadFile));

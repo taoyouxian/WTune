@@ -43,9 +43,8 @@ public class AccessPatternCache
         }
     }
 
-    public boolean cache(AccessPattern pattern)
+    public boolean cache(AccessPattern pattern, long timeStamp)
     {
-        long timeStamp = System.currentTimeMillis();
         SortedSet<AccessPattern> sortedAPC = new TreeSet<>(this.APC);
         if (this.APC.contains(pattern))
         {

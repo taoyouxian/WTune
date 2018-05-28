@@ -161,11 +161,11 @@ public class HttpUtils
         return client;
     }
 
-    public HttpResponse getHttpResponse(String url) throws ClientProtocolException, IOException
+    public HttpResponse getHttpResponse(String url, String acceptType) throws ClientProtocolException, IOException
     {
         HttpResponse response = null;
         HttpGet get = new HttpGet(url);
-        get.addHeader("Accept", "text/html");
+        get.addHeader("Accept", acceptType);
         get.addHeader("Accept-Charset", "utf-8");
         get.addHeader("Accept-Encoding", "gzip");
         get.addHeader("Accept-Language", "en-US,en");
@@ -190,12 +190,22 @@ public class HttpUtils
             }
         }
         return response;
+    }
 
+    public HttpResponse getHttpResponse(String url) throws ClientProtocolException, IOException
+    {
+        return getHttpResponse(url, AcceptType.HTML);
+    }
+
+    public HttpEntity getResponseEntity(String url, String acceptType) throws ClientProtocolException, IOException
+    {
+        HttpResponse response = getHttpResponse(url, acceptType);
+        return response.getEntity();
     }
 
     public HttpEntity getResponseEntity(String url) throws ClientProtocolException, IOException
     {
-        HttpResponse response = getHttpResponse(url);
+        HttpResponse response = getHttpResponse(url, AcceptType.HTML);
         return response.getEntity();
     }
 
@@ -209,11 +219,26 @@ public class HttpUtils
      */
     public String getPageContent(String url) throws ClientProtocolException, IOException
     {
+        return getPageContent(url, AcceptType.HTML);
+    }
+
+
+    /**
+     * get the content of content (html source code) from given url
+     *
+     * @param url
+     * @param acceptType
+     * @return
+     * @throws IOException
+     * @throws ClientProtocolException
+     */
+    public String getPageContent(String url, String acceptType) throws ClientProtocolException, IOException
+    {
         InputStream in = null;
         String page = null;
         try
         {
-            HttpEntity entity = getResponseEntity(url);
+            HttpEntity entity = getResponseEntity(url, acceptType);
             in = entity.getContent();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String newLine = System.getProperty("line.separator");
@@ -300,5 +325,11 @@ public class HttpUtils
             instance = new HttpUtils();
         }
         return instance;
+    }
+
+    public static class AcceptType
+    {
+        public static final String HTML = "text/html";
+        public static final String JSON = "application/json";
     }
 }
