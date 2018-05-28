@@ -1,0 +1,9 @@
+Column_39	0	39988
+Column_39	11	3
+Column_39	22	2
+Column_39	24	1
+Column_39	14	1
+Column_39	15	1
+Column_39	7	2
+Column_39	9	1
+Column_39	20	1

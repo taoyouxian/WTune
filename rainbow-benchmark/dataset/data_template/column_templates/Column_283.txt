@@ -1,0 +1,5 @@
+Column_283		39258
+Column_283	42	20
+Column_283	15	664
+Column_283	4e	1
+Column_283	0d	57

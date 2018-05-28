@@ -1,0 +1,6 @@
+Column_674	0	39657
+Column_674	11	1
+Column_674	1	307
+Column_674	2	23
+Column_674	3	9
+Column_674	4	3

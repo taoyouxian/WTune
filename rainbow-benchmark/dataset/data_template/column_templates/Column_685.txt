@@ -1,0 +1,4 @@
+Column_685	0	39722
+Column_685	1	265
+Column_685	2	10
+Column_685	3	3

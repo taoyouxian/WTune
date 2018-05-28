@@ -1,0 +1,2 @@
+Column_226	True	418
+Column_226	False	39582

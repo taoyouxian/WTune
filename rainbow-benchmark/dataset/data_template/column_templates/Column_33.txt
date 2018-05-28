@@ -1,0 +1,4 @@
+Column_33	0	39947
+Column_33	1	50
+Column_33	2	2
+Column_33	3	1

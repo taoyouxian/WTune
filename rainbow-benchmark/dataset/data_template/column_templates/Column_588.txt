@@ -1,0 +1,9 @@
+Column_588	0	39801
+Column_588	1	9
+Column_588	2	6
+Column_588	3	59
+Column_588	4	47
+Column_588	5	17
+Column_588	6	6
+Column_588	7	5
+Column_588	8	50

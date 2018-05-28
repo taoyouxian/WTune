@@ -1,0 +1,9 @@
+Column_527	0	36315
+Column_527	1	101
+Column_527	2	60
+Column_527	3	75
+Column_527	4	72
+Column_527	5	81
+Column_527	6	527
+Column_527	7	121
+Column_527	8	2648

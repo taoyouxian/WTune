@@ -203,7 +203,7 @@ public class PipelineTest {
                 pattern.addColumn(column);
             }
 
-            if (APC.cache(pattern)) {
+            if (APC.cache(pattern, System.currentTimeMillis())) {
                 System.out.println(DateUtil.formatTime(new Date()));
                 System.out.println(i + ", trigger layout optimization.");
                 j++;

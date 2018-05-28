@@ -1,0 +1,2 @@
+Column_758	True	40
+Column_758	False	39960

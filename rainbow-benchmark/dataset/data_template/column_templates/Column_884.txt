@@ -1,0 +1,6 @@
+Column_884	0	39945
+Column_884	11	1
+Column_884	1	39
+Column_884	2	12
+Column_884	3	2
+Column_884	4	1

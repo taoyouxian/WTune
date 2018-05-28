@@ -1,0 +1,3 @@
+Column_769	0	39961
+Column_769	1	16
+Column_769	2	23

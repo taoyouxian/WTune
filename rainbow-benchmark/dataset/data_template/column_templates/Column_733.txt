@@ -1,0 +1,5 @@
+Column_733	0	39862
+Column_733	1	66
+Column_733	2	28
+Column_733	3	27
+Column_733	4	17

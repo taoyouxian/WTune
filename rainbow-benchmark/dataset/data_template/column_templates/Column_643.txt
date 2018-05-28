@@ -1,0 +1,4 @@
+Column_643	0	39576
+Column_643	1	408
+Column_643	2	13
+Column_643	3	3

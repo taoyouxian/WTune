@@ -1,0 +1,4 @@
+Column_49	0	39962
+Column_49	1	4
+Column_49	2	20
+Column_49	3	14

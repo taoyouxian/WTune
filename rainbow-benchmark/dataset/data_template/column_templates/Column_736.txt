@@ -1,0 +1,14 @@
+Column_736	11	1
+Column_736	22	1
+Column_736	13	2
+Column_736	16	1
+Column_736	18	1
+Column_736	0	39895
+Column_736	1	26
+Column_736	2	6
+Column_736	3	20
+Column_736	4	34
+Column_736	5	4
+Column_736	6	3
+Column_736	9	4
+Column_736	10	2

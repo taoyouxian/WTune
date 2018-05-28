@@ -1,0 +1,4 @@
+Column_779	0	39940
+Column_779	1	55
+Column_779	2	4
+Column_779	3	1

@@ -1,0 +1,4 @@
+Column_713	0	39787
+Column_713	1	207
+Column_713	2	5
+Column_713	3	1

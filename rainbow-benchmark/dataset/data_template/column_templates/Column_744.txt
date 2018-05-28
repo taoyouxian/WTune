@@ -1,0 +1,9 @@
+Column_744	0	39941
+Column_744	1	21
+Column_744	2	9
+Column_744	3	10
+Column_744	4	1
+Column_744	5	11
+Column_744	6	1
+Column_744	7	2
+Column_744	8	4

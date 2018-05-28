@@ -1,0 +1,5 @@
+Column_564	0	38793
+Column_564	1	1190
+Column_564	2	14
+Column_564	3	2
+Column_564	6	1

@@ -1,0 +1,9 @@
+Column_690	0	39714
+Column_690	11	9
+Column_690	12	1
+Column_690	13	237
+Column_690	4	2
+Column_690	5	19
+Column_690	6	1
+Column_690	7	5
+Column_690	9	12

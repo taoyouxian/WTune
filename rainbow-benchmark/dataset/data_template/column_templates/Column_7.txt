@@ -1,0 +1,2 @@
+Column_7	False	39988
+Column_7	True	12

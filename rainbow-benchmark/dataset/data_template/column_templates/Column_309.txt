@@ -1,0 +1,2 @@
+Column_309	True	1
+Column_309	False	39999

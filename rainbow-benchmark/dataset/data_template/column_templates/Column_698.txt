@@ -1,0 +1,3 @@
+Column_698	0	39785
+Column_698	1	210
+Column_698	2	5

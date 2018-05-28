@@ -1,0 +1,15 @@
+Column_478	11	1
+Column_478	56	1
+Column_478	12	2
+Column_478	16	1
+Column_478	0	35302
+Column_478	1	4163
+Column_478	2	308
+Column_478	3	109
+Column_478	4	51
+Column_478	5	32
+Column_478	6	13
+Column_478	7	6
+Column_478	8	6
+Column_478	9	4
+Column_478	10	1

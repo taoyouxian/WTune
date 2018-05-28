@@ -1,0 +1,12 @@
+Column_641		39464
+Column_641	3	231
+Column_641	1	261
+Column_641	7	28
+Column_641	9e	2
+Column_641	2	7
+Column_641	b8	1
+Column_641	a	1
+Column_641	2	1
+Column_641	b	1
+Column_641	6	1
+Column_641	6	2

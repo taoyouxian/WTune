@@ -1,0 +1,2 @@
+Column_370	True	39366
+Column_370	False	634

@@ -1,0 +1,6 @@
+Column_594	0	38916
+Column_594	2	2
+Column_594	4	87
+Column_594	5	233
+Column_594	6	695
+Column_594	7	67

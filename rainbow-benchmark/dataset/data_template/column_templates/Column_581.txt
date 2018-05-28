@@ -1,0 +1,15 @@
+Column_581	12	1
+Column_581	19	1
+Column_581	0	38538
+Column_581	1	1217
+Column_581	2	147
+Column_581	3	55
+Column_581	4	20
+Column_581	5	3
+Column_581	6	5
+Column_581	7	5
+Column_581	348	1
+Column_581	8	1
+Column_581	9	2
+Column_581	54	1
+Column_581	10	3

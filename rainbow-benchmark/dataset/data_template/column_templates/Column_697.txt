@@ -1,0 +1,6 @@
+Column_697	0	39794
+Column_697	1	195
+Column_697	2	7
+Column_697	3	1
+Column_697	4	2
+Column_697	8	1

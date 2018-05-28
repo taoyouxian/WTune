@@ -1,0 +1,3 @@
+Column_703	0	39782
+Column_703	1	208
+Column_703	2	10

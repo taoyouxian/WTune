@@ -1,0 +1,11 @@
+Column_274	22a37f	39899
+Column_274	169f47e4-	2
+Column_274	052bb97a	66
+Column_274	994e5712	2
+Column_274	08ea10dd-	9
+Column_274	454bab63	1
+Column_274	8d59f652	2
+Column_274	e28e8e77	11
+Column_274	29c69321	1
+Column_274	03964fe5	4
+Column_274	60ae3448-	3

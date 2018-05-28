@@ -1,0 +1,3 @@
+Column_38	0	39908
+Column_38	1	90
+Column_38	2	2

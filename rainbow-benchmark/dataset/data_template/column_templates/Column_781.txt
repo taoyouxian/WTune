@@ -1,0 +1,5 @@
+Column_781	0	39994
+Column_781	2	2
+Column_781	3	2
+Column_781	6	1
+Column_781	8	1

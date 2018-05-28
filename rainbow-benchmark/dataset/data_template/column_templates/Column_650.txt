@@ -1,0 +1,8 @@
+Column_650	0	39556
+Column_650	33	3
+Column_650	35	1
+Column_650	27	425
+Column_650	17	8
+Column_650	39	1
+Column_650	29	2
+Column_650	31	4

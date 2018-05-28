@@ -1,0 +1,6 @@
+Column_638	0	39887
+Column_638	1	42
+Column_638	2	16
+Column_638	3	5
+Column_638	4	5
+Column_638	5	45

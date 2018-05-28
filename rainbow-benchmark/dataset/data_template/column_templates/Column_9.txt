@@ -1,0 +1,2 @@
+Column_9	True	588
+Column_9	False	39412

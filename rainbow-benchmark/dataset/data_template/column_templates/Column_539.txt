@@ -1,0 +1,15 @@
+Column_539	11	6
+Column_539	12	3
+Column_539	13	4
+Column_539	14	2
+Column_539	0	37177
+Column_539	1	1
+Column_539	2	117
+Column_539	3	115
+Column_539	4	172
+Column_539	5	115
+Column_539	6	1890
+Column_539	7	82
+Column_539	8	255
+Column_539	9	45
+Column_539	10	16

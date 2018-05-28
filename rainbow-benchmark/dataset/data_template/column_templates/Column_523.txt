@@ -1,0 +1,6 @@
+Column_523	0	37015
+Column_523	1	2930
+Column_523	2	49
+Column_523	3	4
+Column_523	5	1
+Column_523	6	1

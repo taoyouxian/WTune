@@ -1,0 +1,16 @@
+Column_552	11	106
+Column_552	12	28
+Column_552	13	8
+Column_552	14	3
+Column_552	15	1
+Column_552	0	38372
+Column_552	1	17
+Column_552	2	36
+Column_552	3	40
+Column_552	4	12
+Column_552	5	18
+Column_552	6	10
+Column_552	7	139
+Column_552	8	394
+Column_552	9	678
+Column_552	10	138

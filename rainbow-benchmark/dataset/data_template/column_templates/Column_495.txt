@@ -1,0 +1,7 @@
+Column_495	0	36143
+Column_495	1	3618
+Column_495	2	174
+Column_495	3	35
+Column_495	4	18
+Column_495	5	7
+Column_495	6	5

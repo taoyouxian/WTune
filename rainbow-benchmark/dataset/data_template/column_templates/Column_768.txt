@@ -1,0 +1,3 @@
+Column_768	0	39961
+Column_768	1	37
+Column_768	2	2

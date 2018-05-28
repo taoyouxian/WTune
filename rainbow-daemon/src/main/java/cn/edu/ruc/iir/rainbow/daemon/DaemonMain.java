@@ -43,14 +43,17 @@ public class DaemonMain
                 for (String table : tables)
                 {
                     String[] splits = table.split(":");
-                    String tableName = splits[0];
+                    String schemaTableName = splits[0];
+                    String schemaName = schemaTableName.split("\\.")[0];
+                    String tableName = schemaTableName.split("\\.")[1];
                     if (args[0].equalsIgnoreCase("workload-layout"))
                     {
 
                         long lifeTime = Long.parseLong(splits[1]);
                         double threshold = Double.parseDouble(splits[2]);
-                        container.addServer("workload-" + tableName, new WorkloadServer(tableName, lifeTime, threshold));
-                        container.addServer("layout-" + tableName, new LayoutServer(tableName));
+                        container.addServer("workload-" + tableName,
+                                new WorkloadServer(schemaName, tableName, lifeTime, threshold));
+                        container.addServer("layout-" + tableName, new LayoutServer(schemaName, tableName));
                     }
                     else
                     {

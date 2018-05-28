@@ -1,0 +1,11 @@
+Column_642	0	39544
+Column_642	11	164
+Column_642	22	10
+Column_642	24	236
+Column_642	13	2
+Column_642	15	1
+Column_642	16	19
+Column_642	18	6
+Column_642	9	6
+Column_642	20	11
+Column_642	21	1

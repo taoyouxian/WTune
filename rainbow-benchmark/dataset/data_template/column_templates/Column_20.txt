@@ -1,0 +1,3 @@
+Column_20	0	39880
+Column_20	1	118
+Column_20	2	2

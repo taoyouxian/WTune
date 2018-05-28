@@ -1,0 +1,6 @@
+Column_639	0	39309
+Column_639	1	660
+Column_639	2	24
+Column_639	3	5
+Column_639	4	1
+Column_639	8	1

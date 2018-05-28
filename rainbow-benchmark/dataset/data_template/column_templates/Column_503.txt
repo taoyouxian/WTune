@@ -1,0 +1,11 @@
+Column_503	0	33596
+Column_503	1	1889
+Column_503	2	2929
+Column_503	3	577
+Column_503	4	192
+Column_503	5	123
+Column_503	6	157
+Column_503	7	58
+Column_503	8	402
+Column_503	9	10
+Column_503	10	67

@@ -1,0 +1,2 @@
+Column_380	True	11811
+Column_380	False	28189

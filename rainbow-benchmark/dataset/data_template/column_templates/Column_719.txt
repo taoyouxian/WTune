@@ -1,0 +1,6 @@
+Column_719	0	39869
+Column_719	1	124
+Column_719	2	4
+Column_719	3	1
+Column_719	4	1
+Column_719	8	1

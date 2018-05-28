@@ -1,0 +1,14 @@
+Column_610	11	2
+Column_610	12	5
+Column_610	14	2
+Column_610	0	39854
+Column_610	1	7
+Column_610	2	43
+Column_610	3	36
+Column_610	4	6
+Column_610	5	7
+Column_610	6	7
+Column_610	7	5
+Column_610	8	18
+Column_610	9	5
+Column_610	10	3

@@ -1,0 +1,13 @@
+Column_462	16	1
+Column_462	19	1
+Column_462	0	14184
+Column_462	1	13734
+Column_462	2	6390
+Column_462	3	3524
+Column_462	4	1446
+Column_462	5	496
+Column_462	6	160
+Column_462	7	43
+Column_462	8	14
+Column_462	9	5
+Column_462	20	2

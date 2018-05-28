@@ -1,0 +1,4 @@
+Column_579	0	39008
+Column_579	1	985
+Column_579	2	6
+Column_579	6	1

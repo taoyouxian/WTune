@@ -1,0 +1,5 @@
+Column_571	0	38847
+Column_571	1	1146
+Column_571	2	5
+Column_571	3	1
+Column_571	5	1

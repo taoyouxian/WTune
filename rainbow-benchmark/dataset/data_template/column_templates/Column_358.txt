@@ -1,0 +1,13 @@
+Column_358		27
+Column_358	a2a8f400-b	2251
+Column_358	a1e3dd36-03e	146
+Column_358	82b79c48-1e3	68
+Column_358	47e7ea35-b7	1
+Column_358	c1aae8	522
+Column_358	bf442e97-1fbd-4d33-a7	13
+Column_358	f0e413d6-93	10
+Column_358	8c4f02	1261
+Column_358	02	35491
+Column_358	7d25e82c-a	5
+Column_358	0d22fdd	170
+Column_358	aae5b	35

@@ -1,0 +1,4 @@
+Column_724	0	39843
+Column_724	1	154
+Column_724	2	2
+Column_724	3	1

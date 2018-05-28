@@ -1,0 +1,2 @@
+Column_373	True	39319
+Column_373	False	681

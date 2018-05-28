@@ -1,0 +1,3 @@
+Column_236	0	39606
+Column_236	1	14
+Column_236	2	380

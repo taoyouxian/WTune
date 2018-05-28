@@ -1,0 +1,4 @@
+Column_705	0	39832
+Column_705	1	164
+Column_705	2	3
+Column_705	3	1

@@ -1,0 +1,4 @@
+Column_777	0	39880
+Column_777	1	73
+Column_777	1.28	34
+Column_777	0.56	13

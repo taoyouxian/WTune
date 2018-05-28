@@ -1,0 +1,16 @@
+Column_457		33424
+Column_457	cb69e	9
+Column_457	4256e8	367
+Column_457	2f9d5d	24
+Column_457	dea38	1
+Column_457	8cca0f	124
+Column_457	7885fd	9
+Column_457	0d0fe	4
+Column_457	3370c	4
+Column_457	c87d4	2
+Column_457	4e49a4	71
+Column_457	ddeb7	2
+Column_457	387227	28
+Column_457	c7d	5926
+Column_457	c8f59	3
+Column_457	1e828	2

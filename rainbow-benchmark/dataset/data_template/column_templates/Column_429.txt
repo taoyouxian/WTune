@@ -1,0 +1,12 @@
+Column_429	0	32847
+Column_429	11	1
+Column_429	1	19
+Column_429	2	91
+Column_429	3	465
+Column_429	4	20
+Column_429	5	6345
+Column_429	6	16
+Column_429	7	89
+Column_429	8	33
+Column_429	9	19
+Column_429	10	55

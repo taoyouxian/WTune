@@ -1,0 +1,5 @@
+Column_659	0	39679
+Column_659	1	196
+Column_659	2	49
+Column_659	3	36
+Column_659	4	40

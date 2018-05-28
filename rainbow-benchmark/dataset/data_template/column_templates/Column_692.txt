@@ -1,0 +1,4 @@
+Column_692	0	39701
+Column_692	1	296
+Column_692	2	2
+Column_692	3	1

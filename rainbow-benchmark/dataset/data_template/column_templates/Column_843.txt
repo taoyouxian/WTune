@@ -1,0 +1,4 @@
+Column_843	0	39979
+Column_843	1	19
+Column_843	2	1
+Column_843	3	1

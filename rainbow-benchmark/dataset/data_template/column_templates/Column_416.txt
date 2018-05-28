@@ -1,0 +1,11 @@
+Column_416	0	31835
+Column_416	1	2054
+Column_416	2	4379
+Column_416	3	731
+Column_416	4	333
+Column_416	5	243
+Column_416	6	203
+Column_416	7	105
+Column_416	8	70
+Column_416	9	7
+Column_416	10	40

@@ -1,0 +1,6 @@
+Column_711	0	39820
+Column_711	1	170
+Column_711	2	7
+Column_711	3	1
+Column_711	4	1
+Column_711	8	1

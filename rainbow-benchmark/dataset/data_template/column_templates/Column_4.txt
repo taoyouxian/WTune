@@ -1,0 +1,2 @@
+Column_4	True	21494
+Column_4	False	18506

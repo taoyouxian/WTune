@@ -1,0 +1,4 @@
+Column_824	0	39985
+Column_824	1	13
+Column_824	2	1
+Column_824	4	1

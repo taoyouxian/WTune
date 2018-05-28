@@ -1,0 +1,4 @@
+Column_25	0	39988
+Column_25	1	10
+Column_25	2	1
+Column_25	3	1

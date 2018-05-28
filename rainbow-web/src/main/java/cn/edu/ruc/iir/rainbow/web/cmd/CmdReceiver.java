@@ -251,7 +251,7 @@ public class CmdReceiver {
         for (String column : arg.split(",")) {
             pattern.addColumn(column);
         }
-        if (APC.cache(pattern) && !SysConfig.APC_FLAG) {
+        if (APC.cache(pattern, System.currentTimeMillis()) && !SysConfig.APC_FLAG) {
             SysConfig.APC_FLAG = true;
             try {
                 String time = DateUtil.formatTime(new Date());

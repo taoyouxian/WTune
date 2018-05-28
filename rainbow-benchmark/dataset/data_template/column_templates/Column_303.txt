@@ -1,0 +1,4 @@
+Column_303	0	39968
+Column_303	1	28
+Column_303	2	3
+Column_303	3	1

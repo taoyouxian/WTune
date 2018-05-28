@@ -1,0 +1,6 @@
+Column_830	0	39937
+Column_830	11	1
+Column_830	1	44
+Column_830	2	14
+Column_830	3	3
+Column_830	4	1

@@ -1,0 +1,4 @@
+Column_608	0	39307
+Column_608	1	682
+Column_608	2	9
+Column_608	3	2

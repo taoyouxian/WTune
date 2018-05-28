@@ -1,0 +1,3 @@
+Column_771	0	39921
+Column_771	1	78
+Column_771	2	1

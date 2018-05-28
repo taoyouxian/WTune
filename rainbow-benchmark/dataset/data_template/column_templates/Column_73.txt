@@ -1,0 +1,3 @@
+Column_73	0	39003
+Column_73	1	19
+Column_73	2	978

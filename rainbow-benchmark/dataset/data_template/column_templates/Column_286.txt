@@ -1,0 +1,5 @@
+Column_286	0	39950
+Column_286	1	44
+Column_286	2	4
+Column_286	3	1
+Column_286	8	1

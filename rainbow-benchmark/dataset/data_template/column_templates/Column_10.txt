@@ -1,0 +1,2 @@
+Column_10	True	2707
+Column_10	False	37293

@@ -1,0 +1,3 @@
+Column_17	0	39944
+Column_17	1	53
+Column_17	2	3

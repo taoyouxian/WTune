@@ -1,0 +1,2 @@
+Column_1	True	6177
+Column_1	False	33823

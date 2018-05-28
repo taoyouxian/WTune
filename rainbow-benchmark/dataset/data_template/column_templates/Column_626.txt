@@ -1,0 +1,9 @@
+Column_626	0	39467
+Column_626	1	432
+Column_626	2	73
+Column_626	3	19
+Column_626	4	5
+Column_626	5	1
+Column_626	6	1
+Column_626	7	1
+Column_626	9	1

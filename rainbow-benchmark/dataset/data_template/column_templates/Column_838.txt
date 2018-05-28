@@ -1,0 +1,10 @@
+Column_838	0	39981
+Column_838	14	1
+Column_838	16	1
+Column_838	5	1
+Column_838	17	1
+Column_838	18	2
+Column_838	8	4
+Column_838	19	4
+Column_838	20	4
+Column_838	10	1

@@ -1,0 +1,11 @@
+Column_493	0	36328
+Column_493	1	3299
+Column_493	12	1
+Column_493	2	225
+Column_493	3	73
+Column_493	4	37
+Column_493	5	24
+Column_493	6	8
+Column_493	7	2
+Column_493	8	1
+Column_493	9	2

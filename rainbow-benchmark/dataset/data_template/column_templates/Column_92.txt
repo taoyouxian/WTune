@@ -1,0 +1,2 @@
+Column_92	True	343
+Column_92	False	39657

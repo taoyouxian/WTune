@@ -1,0 +1,5 @@
+Column_562	0	38793
+Column_562	1	1190
+Column_562	2	14
+Column_562	3	2
+Column_562	6	1

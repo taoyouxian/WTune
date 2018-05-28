@@ -1,0 +1,11 @@
+Column_433	0	32094
+Column_433	1	1998
+Column_433	2	3837
+Column_433	3	722
+Column_433	4	279
+Column_433	5	256
+Column_433	6	210
+Column_433	7	68
+Column_433	8	453
+Column_433	9	11
+Column_433	10	72

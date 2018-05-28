@@ -1,0 +1,9 @@
+Column_29	0	38837
+Column_29	12	9
+Column_29	3	21
+Column_29	14	2
+Column_29	18	48
+Column_29	7	2
+Column_29	8	2
+Column_29	9	77
+Column_29	10	1002

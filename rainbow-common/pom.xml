@@ -28,6 +28,13 @@
             <version>2.1</version>
         </dependency>
 
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+
         <!-- hdfs -->
         <dependency>
             <groupId>org.apache.hadoop</groupId>
