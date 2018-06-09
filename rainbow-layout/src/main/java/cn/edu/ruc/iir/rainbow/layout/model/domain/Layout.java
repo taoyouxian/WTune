@@ -5,8 +5,8 @@ public class Layout
     private int id;
     private int version;
     private long createAt;
-    private boolean active;
-    private boolean enabled;
+    private boolean writable;
+    private boolean readable;
     private long enabledAt;
     private String initOrder;
     private String initPath;
@@ -45,24 +45,24 @@ public class Layout
         this.createAt = createAt;
     }
 
-    public boolean isActive()
+    public boolean isWritable()
     {
-        return active;
+        return writable;
     }
 
-    public void setActive(boolean active)
+    public void setWritable(boolean writable)
     {
-        this.active = active;
+        this.writable = writable;
     }
 
-    public boolean isEnabled()
+    public boolean isReadable()
     {
-        return enabled;
+        return readable;
     }
 
-    public void setEnabled(boolean enabled)
+    public void setReadable(boolean readable)
     {
-        this.enabled = enabled;
+        this.readable = readable;
     }
 
     public long getEnabledAt()

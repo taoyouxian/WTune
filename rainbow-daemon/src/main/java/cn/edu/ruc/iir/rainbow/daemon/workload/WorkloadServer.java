@@ -2,6 +2,7 @@ package cn.edu.ruc.iir.rainbow.daemon.workload;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.HttpUtils;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 import cn.edu.ruc.iir.rainbow.daemon.Server;
@@ -14,6 +15,7 @@ import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.logging.Log;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,11 +24,13 @@ import java.util.concurrent.TimeUnit;
 
 public class WorkloadServer implements Server
 {
-    private boolean shutdown = true;
+    private Log log = LogFactory.Instance().getLog();
+    private volatile boolean shutdown = true;
     private Set<String> processedQueryIds = new HashSet<>();
     private String schemaName;
     private String tableName;
     private AccessPatternCache apc;
+    private WorkloadQueue workloadQueue;
 
     /**
      * The tableName must be full table name like databaseName.tableName
@@ -35,10 +39,13 @@ public class WorkloadServer implements Server
      * @param lifeTime
      * @param threshold
      */
-    public WorkloadServer (String schemaName, String tableName, long lifeTime, double threshold)
+    public WorkloadServer (String schemaName, String tableName,
+                           long lifeTime, double threshold,
+                           WorkloadQueue workloadQueue)
     {
         this.schemaName = schemaName;
         this.tableName = tableName;
+        this.workloadQueue = workloadQueue;
         this.apc = new AccessPatternCache(lifeTime, threshold);
         APCFactory.Instance().put(tableName, apc);
     }
@@ -65,7 +72,7 @@ public class WorkloadServer implements Server
         this.shutdown = false;
         while (shutdown == false)
         {
-            System.out.println("workload server [" + this.tableName + "] is running...");
+            this.log.info("workload server [" + this.schemaName + "." + this.tableName + "] is running...");
             try
             {
                 SqlParser parser = new SqlParser();
@@ -115,7 +122,7 @@ public class WorkloadServer implements Server
 
                                 if (queryTableName.equalsIgnoreCase(table.getName().toString()))
                                 {
-                                    System.out.println("workload server [" + this.tableName + "] is caching query: " + sql);
+                                    this.log.info("workload server [" + this.tableName + "] is caching query: " + sql);
 
                                     // this is the query we care about in this pipeline (specified by tableName);
                                     AccessPattern pattern = new AccessPattern(queryId, 1.0);
@@ -126,8 +133,9 @@ public class WorkloadServer implements Server
                                     }
                                     if (this.apc.cache(pattern, startTime))
                                     {
-                                        //
-                                        System.out.println("trigger layout optimization...");
+                                        Set<AccessPattern> workload = this.apc.getAccessPatterns();
+                                        this.workloadQueue.push(workload);
+                                        this.log.info("trigger layout optimization...");
                                     }
 
                                 }
@@ -145,4 +153,5 @@ public class WorkloadServer implements Server
         }
         this.shutdown = true;
     }
+
 }

@@ -28,6 +28,7 @@ public class FastScoaPixels extends FastScoa
     private double cacheBudgetRatio = 0.2;
     private double cacheSpaceRatio = 0.3;
     private double blockSize = 0.0;
+    private Map<Integer, Integer> querySplitSizeMap = new HashMap<>();
 
     public FastScoaPixels ()
     {
@@ -78,6 +79,7 @@ public class FastScoaPixels extends FastScoa
                     new ConfigrationException("prometheus port is not a valid number."));
         }
 
+        // TODO: build cost model from prometheus
         // build pixels cost model from prometheus
         //try
         //{
@@ -244,6 +246,7 @@ public class FastScoaPixels extends FastScoa
             //}
 
             System.out.println(maxSplitSize + ", " + splitSize + ", " + (splitSize*size/1024/1024));
+            this.querySplitSizeMap.put(query.getId(), splitSize);
 
             // rebuild the workload
             if (splitSize < numRowGroupPerBlock)
@@ -445,8 +448,11 @@ public class FastScoaPixels extends FastScoa
              (currentSeconds - startSeconds) < cacheComputeBudget;
              currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations)
         {
+            // we get the cached neighbour by randomly swap two atomic column group,
+            // and get the cached cost of real columnlet order. This is not a bug. for that
+            // we want to ensure columnlets are moved in groups.
             List<Column> neighbour = this.getCachedNeighbour();
-            double neighbourEnergy = this.getCachedCost(neighbour);
+            double neighbourEnergy = this.getCachedCost(this.getRealColumnletOrder(neighbour));
 
             this.accept(neighbour, neighbourEnergy);
         }
@@ -476,6 +482,11 @@ public class FastScoaPixels extends FastScoa
         return cacheBorder;
     }
 
+    public int getNumRowGroupPerBlock ()
+    {
+        return this.numRowGroupPerBlock;
+    }
+
     /**
      * this method is not thread safe.
      * It must be called immediately after getting cacheBorder (before cacheBorder may change).
@@ -500,6 +511,11 @@ public class FastScoaPixels extends FastScoa
         rand.setSeed(System.nanoTime());
 
         return neighbour;
+    }
+
+    public int getQuerySplitSize(int queryId)
+    {
+        return this.querySplitSizeMap.get(queryId);
     }
 
     @SuppressWarnings("Duplicates")
@@ -585,7 +601,8 @@ public class FastScoaPixels extends FastScoa
 
     public double getCurrentCachedCost ()
     {
-        return this.getCachedCost(this.getColumnOrder());
+        //return this.getCachedCost(this.getColumnOrder());
+        return this.getCachedCost(this.getRealColumnletOrder());
     }
 
     public double getOrderedSeekCost()
@@ -630,12 +647,13 @@ public class FastScoaPixels extends FastScoa
 
     /**
      * get the real column order, not the rebuilt column order.
+     * @param atomicColumnGroupOrder
      * @return
      */
-    public List<Column> getRealColumnOrder()
+    public List<Column> getRealColumnletOrder(List<Column> atomicColumnGroupOrder)
     {
         List<Column> columnOrder = new ArrayList<>();
-        for (Column column : this.getColumnOrder())
+        for (Column column : atomicColumnGroupOrder)
         {
             AtomicColumnletGroup acg = (AtomicColumnletGroup) column;
             for (Columnlet columnlet : acg.getColumnlets())
@@ -646,7 +664,16 @@ public class FastScoaPixels extends FastScoa
         return columnOrder;
     }
 
-    public double innerGetWorkloadSeekCost(List<Column> columnOrder, List<Query> workload)
+    /**
+     * get the real column order, not the rebuilt column order.
+     * @return
+     */
+    public List<Column> getRealColumnletOrder()
+    {
+        return this.getRealColumnletOrder(this.getColumnOrder());
+    }
+
+    private double innerGetWorkloadSeekCost(List<Column> columnOrder, List<Query> workload)
     {
         double workloadSeekCost = 0;
         Map<Integer, List<Query>> originIdToQueryMap = new HashMap<>();
@@ -799,5 +826,10 @@ public class FastScoaPixels extends FastScoa
             }
         }
         return querySeekCost;
+    }
+
+    public double getColumnOrderCachedCost (List<Column> columnOrder)
+    {
+        return this.getCachedCost(columnOrder);
     }
 }

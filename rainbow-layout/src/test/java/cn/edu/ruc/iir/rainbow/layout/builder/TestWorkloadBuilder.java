@@ -15,8 +15,8 @@ public class TestWorkloadBuilder
     @Test
     public void test () throws IOException, ColumnNotFoundException
     {
-        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/105_schema.txt").getFile()));
-        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/105_workload.txt").getFile()), initColumnOrder);
+        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/schema.txt").getFile()));
+        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/workload.txt").getFile()), initColumnOrder);
         WorkloadBuilder.saveAsWorkloadFile(new File("123.txt"), workload, initColumnOrder);
     }
 }

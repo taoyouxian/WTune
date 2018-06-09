@@ -44,6 +44,19 @@ public class FileUtils
     }
 
     /**
+     * path must in form of hdfs://namenode:port/path/
+     * @param path
+     * @return
+     * @throws IOException
+     */
+    public boolean HDFSPathExists(String path) throws IOException
+    {
+        Configuration conf = new Configuration();
+        FileSystem fs = FileSystem.get(URI.create(path), conf);
+        return fs.exists(new Path(path));
+    }
+
+    /**
      * @param fileName
      * @return String
      * @Title: readFile

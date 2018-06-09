@@ -2,6 +2,7 @@ package cn.edu.ruc.iir.rainbow.layout.model;
 
 import cn.edu.ruc.iir.rainbow.common.DBUtil;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.exception.ColumnOrderException;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Layout;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
 import org.apache.commons.logging.Log;
@@ -30,8 +31,8 @@ public class LayoutModel implements Model<Layout>
                 Layout layout = new Layout();
                 layout.setId(id);
                 layout.setVersion(rs.getInt("LAYOUT_VERSION"));
-                layout.setActive(rs.getShort("LAYOUT_ACTIVE") == 1);
-                layout.setEnabled(rs.getShort("LAYOUT_ENABLED") == 1);
+                layout.setWritable(rs.getShort("LAYOUT_ACTIVE") == 1);
+                layout.setReadable(rs.getShort("LAYOUT_ENABLED") == 1);
                 layout.setEnabledAt(rs.getLong("LAYOUT_ENABLED_AT"));
                 layout.setCreateAt(rs.getLong("LAYOUT_CREATE_AT"));
                 layout.setInitOrder(rs.getString("LAYOUT_INIT_ORDER"));
@@ -43,6 +44,43 @@ public class LayoutModel implements Model<Layout>
                 return layout;
             }
         } catch (SQLException e)
+        {
+            log.error("getById in LayoutModel", e);
+        }
+
+        return null;
+    }
+
+    public Layout getWritableByTable(Table table)
+    {
+        Connection conn = db.getConnection();
+        try (Statement st = conn.createStatement())
+        {
+            ResultSet rs = st.executeQuery("SELECT * FROM LAYOUTS WHERE TBLS_TBL_ID=" + table.getId() +
+            " AND LAYOUT_ACTIVE=1");
+            if (rs.next())
+            {
+                Layout layout = new Layout();
+                layout.setId(rs.getInt("LAYOUT_ID"));
+                layout.setVersion(rs.getInt("LAYOUT_VERSION"));
+                layout.setWritable(rs.getShort("LAYOUT_ACTIVE") == 1);
+                layout.setReadable(rs.getShort("LAYOUT_ENABLED") == 1);
+                layout.setEnabledAt(rs.getLong("LAYOUT_ENABLED_AT"));
+                layout.setCreateAt(rs.getLong("LAYOUT_CREATE_AT"));
+                layout.setInitOrder(rs.getString("LAYOUT_INIT_ORDER"));
+                layout.setInitPath(rs.getString("LAYOUT_INIT_PATH"));
+                layout.setCompact(rs.getString("LAYOUT_COMPACT"));
+                layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
+                layout.setSplit(rs.getString("LAYOUT_SPLIT"));
+                layout.setTable(tableModel.getById(rs.getInt("TBLS_TBL_ID")));
+                if (rs.next())
+                {
+                    throw new ColumnOrderException("multiple writable layouts founded for table: " +
+                            table.getSchema().getName() + "." + table.getName());
+                }
+                return layout;
+            }
+        } catch (Exception e)
         {
             log.error("getById in LayoutModel", e);
         }
@@ -62,8 +100,8 @@ public class LayoutModel implements Model<Layout>
                 Layout layout = new Layout();
                 layout.setId(rs.getInt("LAYOUT_ID"));
                 layout.setVersion(rs.getInt("LAYOUT_VERSION"));
-                layout.setActive(rs.getShort("LAYOUT_ACTIVE") == 1);
-                layout.setEnabled(rs.getShort("LAYOUT_ENABLED") == 1);
+                layout.setWritable(rs.getShort("LAYOUT_ACTIVE") == 1);
+                layout.setReadable(rs.getShort("LAYOUT_ENABLED") == 1);
                 layout.setEnabledAt(rs.getLong("LAYOUT_ENABLED_AT"));
                 layout.setCreateAt(rs.getLong("LAYOUT_CREATE_AT"));
                 layout.setInitOrder(rs.getString("LAYOUT_INIT_ORDER"));
@@ -133,8 +171,8 @@ public class LayoutModel implements Model<Layout>
         {
             pst.setInt(1, layout.getVersion());
             pst.setLong(2, layout.getCreateAt());
-            pst.setShort(3, (short) (layout.isActive() ? 1 : 0));
-            pst.setShort(4, (short) (layout.isEnabled() ? 1 : 0));
+            pst.setShort(3, (short) (layout.isWritable() ? 1 : 0));
+            pst.setShort(4, (short) (layout.isReadable() ? 1 : 0));
             pst.setLong(5, layout.getEnabledAt());
             pst.setString(6, layout.getInitOrder());
             pst.setString(7, layout.getInitPath());
@@ -171,8 +209,8 @@ public class LayoutModel implements Model<Layout>
         {
             pst.setInt(1, layout.getVersion());
             pst.setLong(2, layout.getCreateAt());
-            pst.setShort(3, (short) (layout.isActive() ? 1 : 0));
-            pst.setShort(4, (short) (layout.isEnabled() ? 1 : 0));
+            pst.setShort(3, (short) (layout.isWritable() ? 1 : 0));
+            pst.setShort(4, (short) (layout.isReadable() ? 1 : 0));
             pst.setLong(5, layout.getEnabledAt());
             pst.setString(6, layout.getInitOrder());
             pst.setString(7, layout.getInitPath());

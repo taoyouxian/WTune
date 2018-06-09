@@ -46,7 +46,9 @@ public class TestFastScoaPixels
         System.out.println("start cached cost: " + scoaPixels.getStartCachedCost());
         System.out.println("ordered cached cost: " + scoaPixels.getOrderedCachedCost());
         System.out.println(scoaPixels.getCurrentWorkloadSeekCost());
-        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_1000s.txt"), scoaPixels.getRealColumnOrder());
+        List<Column> realColumnletOrder = scoaPixels.getRealColumnletOrder();
+        System.out.println("column order cached cost: " + scoaPixels.getColumnOrderCachedCost(realColumnletOrder));
+        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_1000s.txt"), realColumnletOrder);
         System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "scoa_pixels_ordered_schema_1000s.txt");
 
     }

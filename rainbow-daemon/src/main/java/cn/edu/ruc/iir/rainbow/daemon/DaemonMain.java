@@ -4,6 +4,7 @@ import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.daemon.etl.ETLServer;
 import cn.edu.ruc.iir.rainbow.daemon.layout.LayoutServer;
+import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadQueue;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadServer;
 
 import java.io.BufferedReader;
@@ -23,6 +24,11 @@ public class DaemonMain
             String guardFile = ConfigFactory.Instance().getProperty("file.lock.guard");
             String jarName = ConfigFactory.Instance().getProperty("daemon.jar");
             String daemonJarPath = ConfigFactory.Instance().getProperty("rainbow.home") + jarName;
+
+            if (args.length >= 1)
+            {
+                mainFile += "_"+args[0];
+            }
 
             if (role.equalsIgnoreCase("main") && args.length == 1 &&
                     (args[0].equalsIgnoreCase("workload-layout") || args[0].equalsIgnoreCase("etl")))
@@ -48,12 +54,13 @@ public class DaemonMain
                     String tableName = schemaTableName.split("\\.")[1];
                     if (args[0].equalsIgnoreCase("workload-layout"))
                     {
-
                         long lifeTime = Long.parseLong(splits[1]);
                         double threshold = Double.parseDouble(splits[2]);
-                        container.addServer("workload-" + tableName,
-                                new WorkloadServer(schemaName, tableName, lifeTime, threshold));
-                        container.addServer("layout-" + tableName, new LayoutServer(schemaName, tableName));
+                        WorkloadQueue workloadQueue = new WorkloadQueue();
+                        container.addServer("workload-" + schemaName + "." + tableName,
+                                new WorkloadServer(schemaName, tableName, lifeTime, threshold, workloadQueue));
+                        container.addServer("layout-" + schemaName + "." + tableName,
+                                new LayoutServer(schemaName, tableName, workloadQueue));
                     }
                     else
                     {
@@ -121,12 +128,12 @@ public class DaemonMain
             }
             else
             {
-                System.err.println("Run with -Drole=[main,guard,kill], when role=main, there should be an args [workload-layout/etl]");
+                System.err.println("Run with -Drole=[main,guard,kill], when role=main/guard, there should be an args [workload-layout/etl]");
             }
         }
         else
         {
-            System.err.println("Run with -Drole=[main,guard,kill], when role=main, there should be an args [workload-layout/etl]");
+            System.err.println("Run with -Drole=[main,guard,kill], when role=main/guard, there should be an args [workload-layout/etl]");
         }
     }
 }
