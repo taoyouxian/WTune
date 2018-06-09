@@ -7,6 +7,7 @@ public class CompactLayoutObj
 {
     private int rowGroupNumber;
     private int columnNumber;
+    private int cacheBorder;
     private List<String> columnletOrder = new ArrayList<>();
 
     public int getRowGroupNumber()
@@ -27,6 +28,16 @@ public class CompactLayoutObj
     public void setColumnNumber(int columnNumber)
     {
         this.columnNumber = columnNumber;
+    }
+
+    public int getCacheBorder()
+    {
+        return cacheBorder;
+    }
+
+    public void setCacheBorder(int cacheBorder)
+    {
+        this.cacheBorder = cacheBorder;
     }
 
     public List<String> getColumnletOrder()

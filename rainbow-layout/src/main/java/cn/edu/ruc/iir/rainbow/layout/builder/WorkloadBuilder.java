@@ -145,7 +145,7 @@ public class WorkloadBuilder
         queryWriter.close();
     }
 
-    private static boolean equalsColumnAccessSet (Set<Integer> cids1, Set<Integer> cids2)
+    public static boolean equalsColumnAccessSet (Set<Integer> cids1, Set<Integer> cids2)
     {
         if (cids1 == null || cids2 == null)
         {

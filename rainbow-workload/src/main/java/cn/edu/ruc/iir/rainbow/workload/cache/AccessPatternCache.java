@@ -6,10 +6,7 @@ import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 public class AccessPatternCache
 {
@@ -25,6 +22,12 @@ public class AccessPatternCache
         this.LifeTime = lifeTime;
         this.Threshold = threshold;
         this.APC = new HashSet<>();
+    }
+
+    public Set<AccessPattern> getAccessPatterns ()
+    {
+        return new HashSet<>(this.APC);
+
     }
 
     public void saveAsWorkloadFile (String path)

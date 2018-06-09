@@ -5,6 +5,7 @@ public class Column
     private int id;
     private String name;
     private String type;
+    private double size;
     private Table table;
 
     public int getId()
@@ -35,6 +36,16 @@ public class Column
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public double getSize()
+    {
+        return size;
+    }
+
+    public void setSize(double size)
+    {
+        this.size = size;
     }
 
     public Table getTable()

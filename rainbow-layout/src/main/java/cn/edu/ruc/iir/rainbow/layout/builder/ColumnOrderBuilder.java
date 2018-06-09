@@ -38,6 +38,18 @@ public class ColumnOrderBuilder
         return columnOrder;
     }
 
+    public static List<Column> wrappedColumns (List<cn.edu.ruc.iir.rainbow.layout.model.domain.Column> columns)
+    {
+        List<Column> columnOrder = new ArrayList<>();
+        int id = 0;
+        for (cn.edu.ruc.iir.rainbow.layout.model.domain.Column column : columns)
+        {
+            Column column1 = new Column(id++, column.getName(), column.getType(), column.getSize());
+            columnOrder.add(column1);
+        }
+        return columnOrder;
+    }
+
     public static void saveAsSchemaFile (File columnOrderFile, List<Column> columnOrder) throws IOException
     {
         BufferedWriter writer = new BufferedWriter(new FileWriter(columnOrderFile));
