@@ -5,29 +5,29 @@ import java.util.List;
 
 public class CompactLayoutObj
 {
-    private int rowGroupNumber;
-    private int columnNumber;
+    private int numRowGroupInBlock;
+    private int numColumn;
     private int cacheBorder;
     private List<String> columnletOrder = new ArrayList<>();
 
-    public int getRowGroupNumber()
+    public int getNumRowGroupInBlock()
     {
-        return rowGroupNumber;
+        return numRowGroupInBlock;
     }
 
-    public void setRowGroupNumber(int rowGroupNumber)
+    public void setNumRowGroupInBlock(int numRowGroupInBlock)
     {
-        this.rowGroupNumber = rowGroupNumber;
+        this.numRowGroupInBlock = numRowGroupInBlock;
     }
 
-    public int getColumnNumber()
+    public int getNumColumn()
     {
-        return columnNumber;
+        return numColumn;
     }
 
-    public void setColumnNumber(int columnNumber)
+    public void setNumColumn(int numColumn)
     {
-        this.columnNumber = columnNumber;
+        this.numColumn = numColumn;
     }
 
     public int getCacheBorder()

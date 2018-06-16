@@ -31,15 +31,13 @@ public class LayoutModel implements Model<Layout>
                 Layout layout = new Layout();
                 layout.setId(id);
                 layout.setVersion(rs.getInt("LAYOUT_VERSION"));
-                layout.setWritable(rs.getShort("LAYOUT_ACTIVE") == 1);
-                layout.setReadable(rs.getShort("LAYOUT_ENABLED") == 1);
-                layout.setEnabledAt(rs.getLong("LAYOUT_ENABLED_AT"));
+                layout.setPermission(rs.getShort("LAYOUT_PERMISSION"));
                 layout.setCreateAt(rs.getLong("LAYOUT_CREATE_AT"));
-                layout.setInitOrder(rs.getString("LAYOUT_INIT_ORDER"));
-                layout.setInitPath(rs.getString("LAYOUT_INIT_PATH"));
+                layout.setOrder(rs.getString("LAYOUT_ORDER"));
+                layout.setOrderPath(rs.getString("LAYOUT_ORDER_PATH"));
                 layout.setCompact(rs.getString("LAYOUT_COMPACT"));
                 layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
-                layout.setSplit(rs.getString("LAYOUT_SPLIT"));
+                layout.setSplits(rs.getString("LAYOUT_SPLITS"));
                 layout.setTable(tableModel.getById(rs.getInt("TBLS_TBL_ID")));
                 return layout;
             }
@@ -57,21 +55,19 @@ public class LayoutModel implements Model<Layout>
         try (Statement st = conn.createStatement())
         {
             ResultSet rs = st.executeQuery("SELECT * FROM LAYOUTS WHERE TBLS_TBL_ID=" + table.getId() +
-            " AND LAYOUT_ACTIVE=1");
+            " AND LAYOUT_PERMISSION>0");
             if (rs.next())
             {
                 Layout layout = new Layout();
                 layout.setId(rs.getInt("LAYOUT_ID"));
                 layout.setVersion(rs.getInt("LAYOUT_VERSION"));
-                layout.setWritable(rs.getShort("LAYOUT_ACTIVE") == 1);
-                layout.setReadable(rs.getShort("LAYOUT_ENABLED") == 1);
-                layout.setEnabledAt(rs.getLong("LAYOUT_ENABLED_AT"));
+                layout.setPermission(rs.getShort("LAYOUT_PERMISSION"));
                 layout.setCreateAt(rs.getLong("LAYOUT_CREATE_AT"));
-                layout.setInitOrder(rs.getString("LAYOUT_INIT_ORDER"));
-                layout.setInitPath(rs.getString("LAYOUT_INIT_PATH"));
+                layout.setOrder(rs.getString("LAYOUT_ORDER"));
+                layout.setOrderPath(rs.getString("LAYOUT_ORDER_PATH"));
                 layout.setCompact(rs.getString("LAYOUT_COMPACT"));
                 layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
-                layout.setSplit(rs.getString("LAYOUT_SPLIT"));
+                layout.setSplits(rs.getString("LAYOUT_SPLITS"));
                 layout.setTable(tableModel.getById(rs.getInt("TBLS_TBL_ID")));
                 if (rs.next())
                 {
@@ -88,6 +84,27 @@ public class LayoutModel implements Model<Layout>
         return null;
     }
 
+    public Layout getLatestByTable(Table table)
+    {
+        List<Layout> layouts = this.getByTable(table);
+
+        Layout res = null;
+        if (layouts != null)
+        {
+            int maxId = -1;
+            for (Layout layout : layouts)
+            {
+                if (layout.getId() > maxId)
+                {
+                    maxId = layout.getId();
+                    res = layout;
+                }
+            }
+        }
+
+        return res;
+    }
+
     public List<Layout> getByTable (Table table)
     {
         Connection conn = db.getConnection();
@@ -100,15 +117,13 @@ public class LayoutModel implements Model<Layout>
                 Layout layout = new Layout();
                 layout.setId(rs.getInt("LAYOUT_ID"));
                 layout.setVersion(rs.getInt("LAYOUT_VERSION"));
-                layout.setWritable(rs.getShort("LAYOUT_ACTIVE") == 1);
-                layout.setReadable(rs.getShort("LAYOUT_ENABLED") == 1);
-                layout.setEnabledAt(rs.getLong("LAYOUT_ENABLED_AT"));
+                layout.setPermission(rs.getShort("LAYOUT_PERMISSION"));
                 layout.setCreateAt(rs.getLong("LAYOUT_CREATE_AT"));
-                layout.setInitOrder(rs.getString("LAYOUT_INIT_ORDER"));
-                layout.setInitPath(rs.getString("LAYOUT_INIT_PATH"));
+                layout.setOrder(rs.getString("LAYOUT_ORDER"));
+                layout.setOrderPath(rs.getString("LAYOUT_ORDER_PATH"));
                 layout.setCompact(rs.getString("LAYOUT_COMPACT"));
                 layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
-                layout.setSplit(rs.getString("LAYOUT_SPLIT"));
+                layout.setSplits(rs.getString("LAYOUT_SPLITS"));
                 layout.setTable(table);
                 table.addLayout(layout);
                 layouts.add(layout);
@@ -158,28 +173,24 @@ public class LayoutModel implements Model<Layout>
         String sql = "INSERT INTO LAYOUTS(" +
                 "`LAYOUT_VERSION`," +
                 "`LAYOUT_CREATE_AT`," +
-                "`LAYOUT_ACTIVE`," +
-                "`LAYOUT_ENABLED`," +
-                "`LAYOUT_ENABLED_AT`," +
-                "`LAYOUT_INIT_ORDER`," +
-                "`LAYOUT_INIT_PATH`," +
+                "`LAYOUT_PERMISSION`," +
+                "`LAYOUT_ORDER`," +
+                "`LAYOUT_ORDER_PATH`," +
                 "`LAYOUT_COMPACT`," +
                 "`LAYOUT_COMPACT_PATH`," +
-                "`LAYOUT_SPLIT`," +
-                "`TBLS_TBL_ID`) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                "`LAYOUT_SPLITS`," +
+                "`TBLS_TBL_ID`) VALUES (?,?,?,?,?,?,?,?,?)";
         try (PreparedStatement pst = conn.prepareStatement(sql))
         {
             pst.setInt(1, layout.getVersion());
             pst.setLong(2, layout.getCreateAt());
-            pst.setShort(3, (short) (layout.isWritable() ? 1 : 0));
-            pst.setShort(4, (short) (layout.isReadable() ? 1 : 0));
-            pst.setLong(5, layout.getEnabledAt());
-            pst.setString(6, layout.getInitOrder());
-            pst.setString(7, layout.getInitPath());
-            pst.setString(8, layout.getCompact());
-            pst.setString(9, layout.getCompactPath());
-            pst.setString(10, layout.getSplit());
-            pst.setInt(11, layout.getTable().getId());
+            pst.setInt(3, layout.getPermission());
+            pst.setString(4, layout.getOrder());
+            pst.setString(5, layout.getOrderPath());
+            pst.setString(6, layout.getCompact());
+            pst.setString(7, layout.getCompactPath());
+            pst.setString(8, layout.getSplits());
+            pst.setInt(9, layout.getTable().getId());
             return pst.execute();
         } catch (SQLException e)
         {
@@ -195,30 +206,24 @@ public class LayoutModel implements Model<Layout>
                 "SET\n" +
                 "`LAYOUT_VERSION` = ?," +
                 "`LAYOUT_CREATE_AT` = ?," +
-                "`LAYOUT_ACTIVE` = ?," +
-                "`LAYOUT_ENABLED` = ?," +
-                "`LAYOUT_ENABLED_AT` = ?," +
-                "`LAYOUT_INIT_ORDER` = ?," +
-                "`LAYOUT_INIT_PATH` = ?," +
+                "`LAYOUT_PERMISSION` = ?," +
+                "`LAYOUT_ORDER` = ?," +
+                "`LAYOUT_ORDER_PATH` = ?," +
                 "`LAYOUT_COMPACT` = ?," +
                 "`LAYOUT_COMPACT_PATH` = ?," +
-                "`LAYOUT_SPLIT` = ?," +
-                "`TBLS_TBL_ID` = ?\n" +
-                "WHERE `LAYOUT_ID` = ?;";
+                "`LAYOUT_SPLITS` = ?\n" +
+                "WHERE `LAYOUT_ID` = ?";
         try (PreparedStatement pst = conn.prepareStatement(sql))
         {
             pst.setInt(1, layout.getVersion());
             pst.setLong(2, layout.getCreateAt());
-            pst.setShort(3, (short) (layout.isWritable() ? 1 : 0));
-            pst.setShort(4, (short) (layout.isReadable() ? 1 : 0));
-            pst.setLong(5, layout.getEnabledAt());
-            pst.setString(6, layout.getInitOrder());
-            pst.setString(7, layout.getInitPath());
-            pst.setString(8, layout.getCompact());
-            pst.setString(9, layout.getCompactPath());
-            pst.setString(10, layout.getSplit());
-            pst.setInt(11, layout.getTable().getId());
-            pst.setInt(12, layout.getId());
+            pst.setInt(3, layout.getPermission());
+            pst.setString(4, layout.getOrder());
+            pst.setString(5, layout.getOrderPath());
+            pst.setString(6, layout.getCompact());
+            pst.setString(7, layout.getCompactPath());
+            pst.setString(8, layout.getSplits());
+            pst.setInt(9, layout.getId());
             return pst.execute();
         } catch (SQLException e)
         {

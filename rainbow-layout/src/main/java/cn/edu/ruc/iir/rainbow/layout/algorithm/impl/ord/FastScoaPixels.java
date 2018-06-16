@@ -464,7 +464,7 @@ public class FastScoaPixels extends FastScoa
      * this method is not thread safe.
      * @return
      */
-    private int getCacheBorder (List<Column> columnOrder)
+    public int getCacheBorder (List<Column> columnOrder)
     {
         double cacheSpace = this.cacheSpaceRatio * this.blockSize;
         int cacheBorder = 0;

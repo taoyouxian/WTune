@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.daemon;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadQueue;
 import org.junit.Test;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 public class TestWorkloadQueue
 {
@@ -51,8 +51,8 @@ public class TestWorkloadQueue
             {
                 try
                 {
-                    this.buffer.push(new HashSet<>());
-                    this.buffer.push(new HashSet<>());
+                    this.buffer.push(new ArrayList<>());
+                    this.buffer.push(new ArrayList<>());
                     System.out.println("produce 2 workloads");
                     Thread.sleep(1000);
                 } catch (InterruptedException e)
