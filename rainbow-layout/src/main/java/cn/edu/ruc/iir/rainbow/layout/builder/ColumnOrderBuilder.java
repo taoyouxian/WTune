@@ -69,7 +69,7 @@ public class ColumnOrderBuilder
         writer.close();
     }
 
-    public static String initOrderToJsonString (List<Column> columnOrder)
+    public static String orderToJsonString (List<Column> columnOrder)
     {
         InitOrderObj initOrder = new InitOrderObj();
 
@@ -81,11 +81,12 @@ public class ColumnOrderBuilder
         return JSON.toJSONString(initOrder);
     }
 
-    public static String compactLayoutToJsonString (int rowGroupNumber, int columnNumner, List<Column> columnletOrder)
+    public static String compactLayoutToJsonString (int numRowGroupInBlock, int numColumn, int cacheBorder, List<Column> columnletOrder)
     {
         CompactLayoutObj compactLayout = new CompactLayoutObj();
-        compactLayout.setRowGroupNumber(rowGroupNumber);
-        compactLayout.setColumnNumber(columnNumner);
+        compactLayout.setNumRowGroupInBlock(numRowGroupInBlock);
+        compactLayout.setNumColumn(numColumn);
+        compactLayout.setCacheBorder(cacheBorder);
         for (Column column : columnletOrder)
         {
             Columnlet columnlet = (Columnlet) column;

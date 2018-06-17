@@ -1,6 +1,6 @@
 {
-  "rowGroupNumber" : 3,
-  "columnNumber": 5,
+  "numRowGroupInBlock" : 3,
+  "numColumn": 5,
   "cacheBorder": 8,
   "columnletOrder":
   [

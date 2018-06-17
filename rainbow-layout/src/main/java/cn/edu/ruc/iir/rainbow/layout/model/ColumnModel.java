@@ -6,10 +6,7 @@ import cn.edu.ruc.iir.rainbow.layout.model.domain.Column;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
 import org.apache.commons.logging.Log;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,5 +71,30 @@ public class ColumnModel implements Model<Column>
         }
 
         return null;
+    }
+
+    public boolean update(Column column)
+    {
+        Connection conn = db.getConnection();
+        String sql = "UPDATE COLS\n" +
+                "SET\n" +
+                "`COL_NAME` = ?," +
+                "`COL_TYPE` = ?," +
+                "`COL_SIZE` = ?\n" +
+                "WHERE `COL_ID` = ?";
+        try (PreparedStatement pst = conn.prepareStatement(sql))
+        {
+            pst.setString(1, column.getName());
+            pst.setString(2, column.getType());
+            pst.setDouble(3, column.getSize());
+            pst.setInt(4, column.getId());
+
+            return pst.execute();
+        } catch (SQLException e)
+        {
+            log.error("getByTable in ColumnModel", e);
+        }
+
+        return false;
     }
 }

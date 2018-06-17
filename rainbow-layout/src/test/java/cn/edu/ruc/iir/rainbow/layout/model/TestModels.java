@@ -52,7 +52,7 @@ public class TestModels
 
         for (Layout layout : table.getLayouts())
         {
-            System.out.println(layout.getInitPath());
+            System.out.println(layout.getOrderPath());
         }
     }
 }

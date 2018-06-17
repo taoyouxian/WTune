@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.logging.Log;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -134,7 +135,7 @@ public class WorkloadServer implements Server
                                     if (this.apc.cache(pattern, startTime))
                                     {
                                         Set<AccessPattern> workload = this.apc.getAccessPatterns();
-                                        this.workloadQueue.push(workload);
+                                        this.workloadQueue.push(new ArrayList<>(workload));
                                         this.log.info("trigger layout optimization...");
                                     }
 

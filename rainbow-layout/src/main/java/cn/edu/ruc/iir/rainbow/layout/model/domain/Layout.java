@@ -5,14 +5,12 @@ public class Layout
     private int id;
     private int version;
     private long createAt;
-    private boolean writable;
-    private boolean readable;
-    private long enabledAt;
-    private String initOrder;
-    private String initPath;
+    private int permission;
+    private String order;
+    private String orderPath;
     private String compact;
     private String compactPath;
-    private String split;
+    private String splits;
     private Table table;
 
     public int getId()
@@ -47,52 +45,42 @@ public class Layout
 
     public boolean isWritable()
     {
-        return writable;
-    }
-
-    public void setWritable(boolean writable)
-    {
-        this.writable = writable;
+        return this.permission > 0;
     }
 
     public boolean isReadable()
     {
-        return readable;
+        return this.permission >= 0;
     }
 
-    public void setReadable(boolean readable)
+    public int getPermission()
     {
-        this.readable = readable;
+        return permission;
     }
 
-    public long getEnabledAt()
+    public void setPermission(int permission)
     {
-        return enabledAt;
+        this.permission = permission;
     }
 
-    public void setEnabledAt(long enabledAt)
+    public String getOrder()
     {
-        this.enabledAt = enabledAt;
+        return order;
     }
 
-    public String getInitOrder()
+    public void setOrder(String order)
     {
-        return initOrder;
+        this.order = order;
     }
 
-    public void setInitOrder(String initOrder)
+    public String getOrderPath()
     {
-        this.initOrder = initOrder;
+        return orderPath;
     }
 
-    public String getInitPath()
+    public void setOrderPath(String orderPath)
     {
-        return initPath;
-    }
-
-    public void setInitPath(String initPath)
-    {
-        this.initPath = initPath;
+        this.orderPath = orderPath;
     }
 
     public String getCompact()
@@ -115,14 +103,14 @@ public class Layout
         this.compactPath = compactPath;
     }
 
-    public String getSplit()
+    public String getSplits()
     {
-        return split;
+        return splits;
     }
 
-    public void setSplit(String split)
+    public void setSplits(String split)
     {
-        this.split = split;
+        this.splits = split;
     }
 
     public Table getTable()
