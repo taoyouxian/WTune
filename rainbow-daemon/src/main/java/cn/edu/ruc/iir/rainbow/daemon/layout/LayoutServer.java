@@ -17,10 +17,9 @@ import cn.edu.ruc.iir.rainbow.layout.builder.domain.SplitStrategyObj;
 import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.model.ColumnModel;
-import cn.edu.ruc.iir.rainbow.layout.model.LayoutModel;
-import cn.edu.ruc.iir.rainbow.layout.model.SchemaModel;
-import cn.edu.ruc.iir.rainbow.layout.model.TableModel;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.*;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Layout;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
@@ -69,10 +68,10 @@ public class LayoutServer implements Server
             {
                 List<AccessPattern> accessPatterns = workloadQueue.pop();
 
-                SchemaModel schemaModel = new SchemaModel();
-                TableModel tableModel = new TableModel();
-                LayoutModel layoutModel = new LayoutModel();
-                ColumnModel columnModel = new ColumnModel();
+                SchemaDao schemaModel = new SchemaDao();
+                TableDao tableModel = new TableDao();
+                LayoutDao layoutModel = new LayoutDao();
+                ColumnDao columnModel = new ColumnDao();
                 Schema schema = schemaModel.getByName(this.schemaName);
                 Table table = tableModel.getByNameAndSchema(this.tableName, schema);
                 // there are only one writable layout in a table.

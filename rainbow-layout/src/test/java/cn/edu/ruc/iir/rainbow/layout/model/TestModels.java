@@ -1,5 +1,8 @@
 package cn.edu.ruc.iir.rainbow.layout.model;
 
+import cn.edu.ruc.iir.rainbow.layout.model.dao.*;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Column;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Layout;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
@@ -13,7 +16,7 @@ public class TestModels
     @Test
     public void testSchema ()
     {
-        SchemaModel schemaModel = new SchemaModel();
+        SchemaDao schemaModel = new SchemaDao();
         Schema schema = schemaModel.getByName("pixels");
         System.out.println(schema.getId() + ", " + schema.getName() + ", " + schema.getDesc());
     }
@@ -21,7 +24,7 @@ public class TestModels
     @Test
     public void testTable ()
     {
-        TableModel tableModel = new TableModel();
+        TableDao tableModel = new TableDao();
         List<Table> tables = tableModel.getByName("test");
         for (Table table : tables)
         {
@@ -35,10 +38,10 @@ public class TestModels
         String schemaName = "pixels";
         String tableName = "test30g_pixels";
 
-        SchemaModel schemaModel = new SchemaModel();
-        TableModel tableModel = new TableModel();
-        ColumnModel columnModel = new ColumnModel();
-        LayoutModel layoutModel = new LayoutModel();
+        SchemaDao schemaModel = new SchemaDao();
+        TableDao tableModel = new TableDao();
+        ColumnDao columnModel = new ColumnDao();
+        LayoutDao layoutModel = new LayoutDao();
 
         Schema schema = schemaModel.getByName(schemaName);
         Table table = tableModel.getByNameAndSchema(tableName, schema);

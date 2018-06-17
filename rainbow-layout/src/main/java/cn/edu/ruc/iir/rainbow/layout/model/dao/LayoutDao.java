@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.layout.model;
+package cn.edu.ruc.iir.rainbow.layout.model.dao;
 
 import cn.edu.ruc.iir.rainbow.common.DBUtil;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
@@ -11,13 +11,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LayoutModel implements Model<Layout>
+public class LayoutDao implements Dao<Layout>
 {
-    public LayoutModel () {}
+    public LayoutDao() {}
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final TableModel tableModel = new TableModel();
+    private static final TableDao tableModel = new TableDao();
 
     @Override
     public Layout getById(int id)
@@ -43,7 +43,7 @@ public class LayoutModel implements Model<Layout>
             }
         } catch (SQLException e)
         {
-            log.error("getById in LayoutModel", e);
+            log.error("getById in LayoutDao", e);
         }
 
         return null;
@@ -78,7 +78,7 @@ public class LayoutModel implements Model<Layout>
             }
         } catch (Exception e)
         {
-            log.error("getById in LayoutModel", e);
+            log.error("getById in LayoutDao", e);
         }
 
         return null;
@@ -131,7 +131,7 @@ public class LayoutModel implements Model<Layout>
             return layouts;
         } catch (SQLException e)
         {
-            log.error("getById in LayoutModel", e);
+            log.error("getById in LayoutDao", e);
         }
 
         return null;
@@ -161,7 +161,7 @@ public class LayoutModel implements Model<Layout>
             }
         } catch (SQLException e)
         {
-            log.error("exists in LayoutModel", e);
+            log.error("exists in LayoutDao", e);
         }
 
         return false;
@@ -194,7 +194,7 @@ public class LayoutModel implements Model<Layout>
             return pst.execute();
         } catch (SQLException e)
         {
-            log.error("insert in LayoutModel", e);
+            log.error("insert in LayoutDao", e);
         }
         return false;
     }
@@ -227,7 +227,7 @@ public class LayoutModel implements Model<Layout>
             return pst.execute();
         } catch (SQLException e)
         {
-            log.error("insert in LayoutModel", e);
+            log.error("insert in LayoutDao", e);
         }
         return false;
     }

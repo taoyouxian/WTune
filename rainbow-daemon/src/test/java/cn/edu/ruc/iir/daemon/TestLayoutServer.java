@@ -2,10 +2,9 @@ package cn.edu.ruc.iir.daemon;
 
 import cn.edu.ruc.iir.rainbow.daemon.layout.LayoutServer;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadQueue;
-import cn.edu.ruc.iir.rainbow.layout.model.ColumnModel;
-import cn.edu.ruc.iir.rainbow.layout.model.LayoutModel;
-import cn.edu.ruc.iir.rainbow.layout.model.SchemaModel;
-import cn.edu.ruc.iir.rainbow.layout.model.TableModel;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.*;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Column;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
@@ -23,10 +22,10 @@ public class TestLayoutServer
     @Test
     public void testUpdateColumns ()
     {
-        SchemaModel schemaModel = new SchemaModel();
-        TableModel tableModel = new TableModel();
-        LayoutModel layoutModel = new LayoutModel();
-        ColumnModel columnModel = new ColumnModel();
+        SchemaDao schemaModel = new SchemaDao();
+        TableDao tableModel = new TableDao();
+        LayoutDao layoutModel = new LayoutDao();
+        ColumnDao columnModel = new ColumnDao();
         Schema schema = schemaModel.getByName("pixels");
         Table table = tableModel.getByNameAndSchema("test30g_pixels", schema);
         List<Column> columns = columnModel.getByTable(table);
