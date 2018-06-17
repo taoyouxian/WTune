@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.layout.model;
+package cn.edu.ruc.iir.rainbow.layout.model.dao;
 
 import cn.edu.ruc.iir.rainbow.common.DBUtil;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class SchemaModel implements Model<Schema>
+public class SchemaDao implements Dao<Schema>
 {
-    public SchemaModel () {}
+    public SchemaDao() {}
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
@@ -35,7 +35,7 @@ public class SchemaModel implements Model<Schema>
 
         } catch (SQLException e)
         {
-            log.error("getById in SchemaModel", e);
+            log.error("getById in SchemaDao", e);
         }
 
         return null;
@@ -58,7 +58,7 @@ public class SchemaModel implements Model<Schema>
 
         } catch (SQLException e)
         {
-            log.error("getByName in SchemaModel", e);
+            log.error("getByName in SchemaDao", e);
         }
 
         return null;

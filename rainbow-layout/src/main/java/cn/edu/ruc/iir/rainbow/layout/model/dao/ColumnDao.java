@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.layout.model;
+package cn.edu.ruc.iir.rainbow.layout.model.dao;
 
 import cn.edu.ruc.iir.rainbow.common.DBUtil;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
@@ -10,13 +10,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColumnModel implements Model<Column>
+public class ColumnDao implements Dao<Column>
 {
-    public ColumnModel () {}
+    public ColumnDao() {}
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final TableModel tableModel = new TableModel();
+    private static final TableDao tableModel = new TableDao();
 
     @Override
     public Column getById(int id)
@@ -38,7 +38,7 @@ public class ColumnModel implements Model<Column>
 
         } catch (SQLException e)
         {
-            log.error("getById in ColumnModel", e);
+            log.error("getById in ColumnDao", e);
         }
 
         return null;
@@ -67,7 +67,7 @@ public class ColumnModel implements Model<Column>
 
         } catch (SQLException e)
         {
-            log.error("getByTable in ColumnModel", e);
+            log.error("getByTable in ColumnDao", e);
         }
 
         return null;
@@ -92,7 +92,7 @@ public class ColumnModel implements Model<Column>
             return pst.execute();
         } catch (SQLException e)
         {
-            log.error("getByTable in ColumnModel", e);
+            log.error("getByTable in ColumnDao", e);
         }
 
         return false;
