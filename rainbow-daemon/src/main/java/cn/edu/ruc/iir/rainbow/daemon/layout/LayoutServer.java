@@ -11,7 +11,7 @@ import cn.edu.ruc.iir.rainbow.layout.algorithm.ExecutorContainer;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord.FastScoaPixels;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.InitOrderObj;
+import cn.edu.ruc.iir.rainbow.layout.builder.domain.OrderObj;
 import cn.edu.ruc.iir.rainbow.layout.builder.domain.SplitPatternObj;
 import cn.edu.ruc.iir.rainbow.layout.builder.domain.SplitStrategyObj;
 import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
@@ -82,7 +82,7 @@ public class LayoutServer implements Server
                 {
                     List<Column> prevColumnOrder = new ArrayList<>();
                     String initOrderJson = prevLayout.getOrder();
-                    List<String> prevColumnNameOrder = JSON.parseObject(initOrderJson, InitOrderObj.class).getColumnOrder();
+                    List<String> prevColumnNameOrder = JSON.parseObject(initOrderJson, OrderObj.class).getColumnOrder();
                     Map<String, Column> nameToColumnMap = new HashMap<>();
                     for (Column column : initColumnOrder)
                     {

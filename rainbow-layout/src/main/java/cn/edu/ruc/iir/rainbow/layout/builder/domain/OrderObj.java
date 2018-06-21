@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.rainbow.layout.builder.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InitOrderObj
+public class OrderObj
 {
     private List<String> columnOrder = new ArrayList<>();
 
