@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.layout.builder;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.builder.domain.CompactLayoutObj;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.InitOrderObj;
+import cn.edu.ruc.iir.rainbow.layout.builder.domain.OrderObj;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
 import com.alibaba.fastjson.JSON;
@@ -71,7 +71,7 @@ public class ColumnOrderBuilder
 
     public static String orderToJsonString (List<Column> columnOrder)
     {
-        InitOrderObj initOrder = new InitOrderObj();
+        OrderObj initOrder = new OrderObj();
 
         for (Column column : columnOrder)
         {

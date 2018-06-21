@@ -1,9 +1,11 @@
 package cn.edu.ruc.iir.daemon;
 
+import cn.edu.ruc.iir.rainbow.common.exception.MetadataException;
+import cn.edu.ruc.iir.rainbow.common.metadata.PixelsMetadataStat;
 import cn.edu.ruc.iir.rainbow.daemon.layout.LayoutServer;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadQueue;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.*;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.ColumnDao;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.SchemaDao;
 import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Column;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
@@ -15,19 +17,21 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TestLayoutServer
 {
     @Test
-    public void testUpdateColumns ()
+    public void testUpdateColumnsFromSchemaFile ()
     {
         SchemaDao schemaModel = new SchemaDao();
         TableDao tableModel = new TableDao();
-        LayoutDao layoutModel = new LayoutDao();
         ColumnDao columnModel = new ColumnDao();
         Schema schema = schemaModel.getByName("pixels");
-        Table table = tableModel.getByNameAndSchema("test30g_pixels", schema);
+        Table table = tableModel.getByNameAndSchema("testnull_pixels", schema);
         List<Column> columns = columnModel.getByTable(table);
         Map<String, Column> nameToColumnMap = new HashMap<>();
 
@@ -37,7 +41,7 @@ public class TestLayoutServer
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(
-                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/schema.txt")))
+                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/105_schema.txt")))
         {
             String line;
             while ((line = reader.readLine()) != null)
@@ -61,17 +65,48 @@ public class TestLayoutServer
     }
 
     @Test
+    public void testUpdateColumnsFromPixels () throws IOException, MetadataException
+    {
+        SchemaDao schemaModel = new SchemaDao();
+        TableDao tableModel = new TableDao();
+        ColumnDao columnModel = new ColumnDao();
+        Schema schema = schemaModel.getByName("pixels");
+        Table table = tableModel.getByNameAndSchema("testnull_pixels", schema);
+        List<Column> columns = columnModel.getByTable(table);
+        Map<String, Column> nameToColumnMap = new HashMap<>();
+
+        for (Column column : columns)
+        {
+            nameToColumnMap.put(column.getName(), column);
+        }
+
+        PixelsMetadataStat stat = new PixelsMetadataStat("presto00", 9000,"/pixels/testNull_pixels");
+        double[] columnSizes = stat.getAvgColumnChunkSize();
+        List<String> columnNames = stat.getFieldNames();
+        for (int i = 0;i < columnNames.size(); ++i)
+        {
+            String name = columnNames.get(i);
+            nameToColumnMap.get(name).setSize(columnSizes[i]);
+        }
+
+        for (Column column : columns)
+        {
+            columnModel.update(column);
+        }
+    }
+
+    @Test
     public void testServer ()
     {
         WorkloadQueue workloadQueue = new WorkloadQueue();
-        LayoutServer layoutServer = new LayoutServer("pixels", "test30g_pixels",
+        LayoutServer layoutServer = new LayoutServer("pixels", "testnull_pixels",
                 workloadQueue);
         Thread thread = new Thread(layoutServer);
         thread.start();
 
         List<AccessPattern> workload = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(
-                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/workload.txt")))
+                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/105_workload.txt")))
         {
             String line;
             while ((line = reader.readLine()) != null)

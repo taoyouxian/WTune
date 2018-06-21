@@ -204,13 +204,16 @@ public class FastScoaPixels extends FastScoa
              */
 
             /**
-             * max split size if calculated by the limitation of memory and degree of parallelism (mapSlots).
+             * max split size is calculated by the limitation of memory and degree of parallelism (mapSlots).
              */
             int maxSplitSize = floor2n((int)(memSizeBytes / memAmp / mapSlots / size));
             if (maxSplitSize > numBlockPerNode*numRowGroupPerBlock/mapSlots/mapWaves)
             {
                 maxSplitSize = numBlockPerNode*numRowGroupPerBlock/mapSlots/mapWaves;
             }
+            // TODO: tmp code, should be deleted later
+            maxSplitSize = numRowGroupPerBlock;
+
             int splitSize = 1;
             /**
              * by this loop, we ensure the proportion of lambda cost is lower than the given threshold.
