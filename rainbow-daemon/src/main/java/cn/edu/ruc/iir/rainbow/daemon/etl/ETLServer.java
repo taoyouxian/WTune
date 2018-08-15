@@ -7,10 +7,13 @@ import java.util.concurrent.TimeUnit;
 public class ETLServer implements Server
 {
     private boolean shutdown = true;
+    private String schemaName;
     private String tableName;
 
-    public ETLServer(String tableName)
+    // continue with this class...
+    public ETLServer(String schemaName, String tableName)
     {
+        this.schemaName = schemaName;
         this.tableName = tableName;
     }
 

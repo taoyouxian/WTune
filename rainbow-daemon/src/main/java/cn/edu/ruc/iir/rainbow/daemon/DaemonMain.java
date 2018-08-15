@@ -64,7 +64,7 @@ public class DaemonMain
                     }
                     else
                     {
-                        container.addServer("etl", new ETLServer(tableName));
+                        container.addServer("etl", new ETLServer(schemaName, tableName));
                     }
                 }
 

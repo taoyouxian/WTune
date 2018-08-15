@@ -26,7 +26,7 @@ public class TestFastScoaPixels
         //SeekCost seekCostFunction = new PowerSeekCost();
         //RealSeekCostBuilder.build(new File("layout/resources/seek_cost.txt"));
 
-        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 200, new ArrayList<>(initColumnOrder), workload);
+        FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 2, new ArrayList<>(initColumnOrder), workload);
 
         try
         {
