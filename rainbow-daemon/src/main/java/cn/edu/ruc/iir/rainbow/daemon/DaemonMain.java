@@ -1,5 +1,6 @@
 package cn.edu.ruc.iir.rainbow.daemon;
 
+import cn.edu.ruc.iir.pixels.common.exception.MetadataException;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.daemon.etl.ETLServer;
@@ -64,7 +65,14 @@ public class DaemonMain
                     }
                     else
                     {
-                        container.addServer("etl", new ETLServer(schemaName, tableName));
+                        try
+                        {
+                            container.addServer("etl", new ETLServer(schemaName, tableName));
+                        } catch (MetadataException e)
+                        {
+                            LogFactory.Instance().getLog().error(
+                                    "Can not read pixels metadata when creating ETLServer.", e);
+                        }
                     }
                 }
 
