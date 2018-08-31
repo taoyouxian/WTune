@@ -124,6 +124,7 @@ public class DaemonMain
                         {
                             int pid = Integer.parseInt(splits[0]);
                             System.out.println("killing " + splits[2].split("=")[1] + ", pid (" + pid + ")");
+                            // TODO: this is not a gentle manner to terminate the daemon.
                             Runtime.getRuntime().exec("kill -9 " + pid);
                         }
                     }

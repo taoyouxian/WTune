@@ -77,6 +77,17 @@ public class ETLServer implements Server
             try
             {
                 // read data from source and write pixels to order path.
+                String sourcePath = ConfigFactory.Instance().getProperty("pixels.warehouse.path");
+                if (! sourcePath.endsWith("/"))
+                {
+                    sourcePath += "/";
+                }
+                sourcePath += this.schemaName + "/" + this.tableName + "/source";
+
+                String orderPath = this.writableLayout.getOrderPath();
+
+// call pixelsloader, it is not implemented.
+
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e)
             {

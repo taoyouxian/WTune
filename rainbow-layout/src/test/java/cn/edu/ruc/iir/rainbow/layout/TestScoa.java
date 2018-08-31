@@ -25,8 +25,8 @@ public class TestScoa
     @Test
     public void testScoa() throws IOException, ColumnNotFoundException, AlgoException, ClassNotFoundException, InterruptedException
     {
-        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/105_schema.txt").getFile()));
-        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/105_workload.txt").getFile()), initColumnOrder);
+        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/105_schema.text").getFile()));
+        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/105_workload.text").getFile()), initColumnOrder);
         System.out.println(workload.size());
         SeekCost seekCostFunction = new PowerSeekCost();
         //RealSeekCostBuilder.build(new File("layout/resources/seek_cost.txt"));

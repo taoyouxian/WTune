@@ -5,10 +5,7 @@ import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
 import org.apache.commons.logging.Log;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class SchemaDao implements Dao<Schema>
 {
@@ -62,5 +59,23 @@ public class SchemaDao implements Dao<Schema>
         }
 
         return null;
+    }
+
+    public boolean insert (Schema schema)
+    {
+        Connection conn = db.getConnection();
+        String sql = "INSERT INTO DBS(" +
+                "`DB_NAME`," +
+                "`DB_DESC`) VALUES (?,?)";
+        try (PreparedStatement pst = conn.prepareStatement(sql))
+        {
+            pst.setString(1, schema.getName());
+            pst.setString(2, schema.getDesc());
+            return pst.execute();
+        } catch (SQLException e)
+        {
+            log.error("insert in SchemaDao", e);
+        }
+        return false;
     }
 }
