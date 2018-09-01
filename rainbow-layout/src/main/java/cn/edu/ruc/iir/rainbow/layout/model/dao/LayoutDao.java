@@ -1,5 +1,6 @@
 package cn.edu.ruc.iir.rainbow.layout.model.dao;
 
+
 import cn.edu.ruc.iir.rainbow.common.DBUtil;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnOrderException;
@@ -47,6 +48,12 @@ public class LayoutDao implements Dao<Layout>
         }
 
         return null;
+    }
+
+    @Override
+    public List<Layout> getAll()
+    {
+        throw new UnsupportedOperationException("getAll is not supported.");
     }
 
     public Layout getWritableByTable(Table table)
@@ -105,12 +112,47 @@ public class LayoutDao implements Dao<Layout>
         return res;
     }
 
+    @SuppressWarnings("Duplicates")
     public List<Layout> getByTable (Table table)
     {
         Connection conn = db.getConnection();
         try (Statement st = conn.createStatement())
         {
             ResultSet rs = st.executeQuery("SELECT * FROM LAYOUTS WHERE TBLS_TBL_ID=" + table.getId());
+            List<Layout> layouts = new ArrayList<>();
+            while (rs.next())
+            {
+                Layout layout = new Layout();
+                layout.setId(rs.getInt("LAYOUT_ID"));
+                layout.setVersion(rs.getInt("LAYOUT_VERSION"));
+                layout.setPermission(rs.getShort("LAYOUT_PERMISSION"));
+                layout.setCreateAt(rs.getLong("LAYOUT_CREATE_AT"));
+                layout.setOrder(rs.getString("LAYOUT_ORDER"));
+                layout.setOrderPath(rs.getString("LAYOUT_ORDER_PATH"));
+                layout.setCompact(rs.getString("LAYOUT_COMPACT"));
+                layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
+                layout.setSplits(rs.getString("LAYOUT_SPLITS"));
+                layout.setTable(table);
+                table.addLayout(layout);
+                layouts.add(layout);
+            }
+            return layouts;
+        } catch (SQLException e)
+        {
+            log.error("getById in LayoutDao", e);
+        }
+
+        return null;
+    }
+
+    @SuppressWarnings("Duplicates")
+    public List<Layout> getReadableByTable (Table table)
+    {
+        Connection conn = db.getConnection();
+        try (Statement st = conn.createStatement())
+        {
+            ResultSet rs = st.executeQuery("SELECT * FROM LAYOUTS WHERE TBLS_TBL_ID=" + table.getId() +
+                    " AND LAYOUT_PERMISSION>=0");
             List<Layout> layouts = new ArrayList<>();
             while (rs.next())
             {
@@ -167,7 +209,7 @@ public class LayoutDao implements Dao<Layout>
         return false;
     }
 
-    private boolean insert (Layout layout)
+    public boolean insert (Layout layout)
     {
         Connection conn = db.getConnection();
         String sql = "INSERT INTO LAYOUTS(" +
@@ -199,7 +241,7 @@ public class LayoutDao implements Dao<Layout>
         return false;
     }
 
-    private boolean update (Layout layout)
+    public boolean update (Layout layout)
     {
         Connection conn = db.getConnection();
         String sql = "UPDATE LAYOUTS\n" +
