@@ -171,7 +171,7 @@ public class LayoutServer implements Server
                     currentLayout.setCreateAt(System.currentTimeMillis());
                     currentLayout.setId(-1);
 
-                    //layoutModel.save(currentLayout);
+                    layoutModel.save(currentLayout);
 
 
                 } catch (NotMultiThreadedException e)
