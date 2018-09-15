@@ -408,7 +408,7 @@ public class FastScoaPixels extends FastScoa
     @Override
     public void runAlgorithm()
     {
-        /*
+
         long orderingBudget = (long) (this.getComputationBudget() * (1-this.cacheBudgetRatio));
 
         long startSeconds = System.currentTimeMillis() / 1000;
@@ -462,7 +462,7 @@ public class FastScoaPixels extends FastScoa
         }
 
         this.orderedCachedCost = this.getCurrentCachedCost();
-        */
+
     }
 
     /**

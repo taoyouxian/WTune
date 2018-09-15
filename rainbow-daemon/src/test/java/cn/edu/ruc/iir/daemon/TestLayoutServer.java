@@ -71,7 +71,7 @@ public class TestLayoutServer
         TableDao tableModel = new TableDao();
         ColumnDao columnModel = new ColumnDao();
         Schema schema = schemaModel.getByName("pixels");
-        Table table = tableModel.getByNameAndSchema("testnull_pixels", schema);
+        Table table = tableModel.getByNameAndSchema("test_105", schema);
         List<Column> columns = columnModel.getByTable(table);
         Map<String, Column> nameToColumnMap = new HashMap<>();
 
@@ -80,7 +80,9 @@ public class TestLayoutServer
             nameToColumnMap.put(column.getName(), column);
         }
 
-        PixelsMetadataStat stat = new PixelsMetadataStat("presto00", 9000,"/pixels/testNull_pixels");
+        System.out.println(columns.size());
+
+        PixelsMetadataStat stat = new PixelsMetadataStat("dbiir01", 9000,"/pixels/pixels/test_105/v_0_order/");
         double[] columnSizes = stat.getAvgColumnChunkSize();
         List<String> columnNames = stat.getFieldNames();
         for (int i = 0;i < columnNames.size(); ++i)
@@ -99,14 +101,14 @@ public class TestLayoutServer
     public void testServer ()
     {
         WorkloadQueue workloadQueue = new WorkloadQueue();
-        LayoutServer layoutServer = new LayoutServer("pixels", "testnull_pixels",
+        LayoutServer layoutServer = new LayoutServer("pixels", "test_105",
                 workloadQueue);
         Thread thread = new Thread(layoutServer);
         thread.start();
 
         List<AccessPattern> workload = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(
-                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/105_workload.txt")))
+                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/105_workload.text")))
         {
             String line;
             while ((line = reader.readLine()) != null)

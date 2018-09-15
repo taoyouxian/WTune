@@ -109,7 +109,7 @@ public class LayoutServer implements Server
 
                     System.out.println("running scoa...");
 
-                    Algorithm scoa = AlgorithmFactory.Instance().getAlgorithm("scoa", 200, new ArrayList<>(initColumnOrder), workload, new PowerSeekCost());
+                    Algorithm scoa = AlgorithmFactory.Instance().getAlgorithm("scoa", 400, new ArrayList<>(initColumnOrder), workload, new PowerSeekCost());
                     ExecutorContainer container = new ExecutorContainer(scoa, 1);
                     container.waitForCompletion(1, percentage -> {
                         System.out.println(percentage);
@@ -122,11 +122,12 @@ public class LayoutServer implements Server
 
                     System.out.println("running scoa pixels...");
 
-                    FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 300, new ArrayList<>(currentColumnOrder), workload);
+                    FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 600, new ArrayList<>(currentColumnOrder), workload);
                     container = new ExecutorContainer(scoaPixels, 1);
                     container.waitForCompletion(1, percentage -> {
                         System.out.println(percentage);
                     });
+                    System.out.println("start cached cost: " + scoaPixels.getStartCachedCost());
                     double currentCachedCost = scoaPixels.getOrderedCachedCost();
                     System.out.println("current cached cost: " + currentCachedCost);
                     currentCompactLayout = scoaPixels.getRealColumnletOrder();
@@ -170,7 +171,7 @@ public class LayoutServer implements Server
                     currentLayout.setCreateAt(System.currentTimeMillis());
                     currentLayout.setId(-1);
 
-                    layoutModel.save(currentLayout);
+                    //layoutModel.save(currentLayout);
 
 
                 } catch (NotMultiThreadedException e)
