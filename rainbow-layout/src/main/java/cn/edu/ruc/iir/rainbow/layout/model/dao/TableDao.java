@@ -16,7 +16,7 @@ public class TableDao implements Dao<Table>
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final SchemaDao schemaModel = new SchemaDao();
+    private static final SchemaDao schemaDao = new SchemaDao();
 
     @Override
     public Table getById(int id)
@@ -31,7 +31,7 @@ public class TableDao implements Dao<Table>
                 table.setId(id);
                 table.setName(rs.getString("TBL_NAME"));
                 table.setType(rs.getString("TBL_TYPE"));
-                table.setSchema(schemaModel.getById(rs.getInt("DBS_DB_ID")));
+                table.setSchema(schemaDao.getById(rs.getInt("DBS_DB_ID")));
                 return table;
             }
         } catch (SQLException e)
@@ -87,7 +87,7 @@ public class TableDao implements Dao<Table>
                 table.setId(rs.getInt("TBL_ID"));
                 table.setName(name);
                 table.setType(rs.getString("TBL_TYPE"));
-                table.setSchema(schemaModel.getById(rs.getInt("DBS_DB_ID")));
+                table.setSchema(schemaDao.getById(rs.getInt("DBS_DB_ID")));
                 tables.add(table);
             }
             return tables;

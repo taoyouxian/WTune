@@ -16,9 +16,11 @@ import cn.edu.ruc.iir.rainbow.layout.builder.domain.SplitPatternObj;
 import cn.edu.ruc.iir.rainbow.layout.builder.domain.SplitStrategyObj;
 import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
+import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.*;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.ColumnDao;
 import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
+import cn.edu.ruc.iir.rainbow.layout.model.dao.SchemaDao;
 import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Layout;
 import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
@@ -77,7 +79,7 @@ public class LayoutServer implements Server
                 // there are only one writable layout in a table.
                 Layout prevLayout = layoutModel.getLatestByTable(table);
 
-                List<Column> initColumnOrder = ColumnOrderBuilder.wrappedColumns(columnModel.getByTable(table));;
+                List<Column> initColumnOrder = ColumnOrderBuilder.wrappedColumns(columnModel.getByTable(table));
                 if (prevLayout != null)
                 {
                     List<Column> prevColumnOrder = new ArrayList<>();
@@ -132,6 +134,30 @@ public class LayoutServer implements Server
                     System.out.println("current cached cost: " + currentCachedCost);
                     currentCompactLayout = scoaPixels.getRealColumnletOrder();
 
+                    /**
+                     * begin
+                     * build to relative compact layout, in which the column id is the index of column in currentColumnOrder.
+                     * TODO: to be tested.
+                     */
+                    int[] columnIdToCurrenIndex = new int[currentColumnOrder.size()];
+
+                    for (int i = 0; i < columnIdToCurrenIndex.length; ++i)
+                    {
+                        columnIdToCurrenIndex[currentColumnOrder.get(i).getId()] = i;
+                    }
+
+                    List<Column> relativeCompactLayout = new ArrayList<>();
+                    for (Column column : currentCompactLayout)
+                    {
+                        Columnlet columnlet = (Columnlet) column;
+                        Columnlet relativeColumnlet = new Columnlet(columnlet.getRowGroupId(), columnIdToCurrenIndex[columnlet.getColumnId()],
+                                columnlet.getNumColumns(), columnlet.getName(), columnlet.getType(), columnlet.getSize());
+                        relativeCompactLayout.add(relativeColumnlet);
+                    }
+                    /**
+                     * end
+                     */
+
                     String warehousePath = ConfigFactory.Instance().getProperty("pixels.warehouse.path");
                     if (! (warehousePath.endsWith("/") || warehousePath.endsWith("\\")))
                     {
@@ -167,7 +193,7 @@ public class LayoutServer implements Server
                     currentLayout.setOrderPath(currentBasePath + "_order");
                     currentLayout.setOrder(ColumnOrderBuilder.orderToJsonString(currentColumnOrder));
                     currentLayout.setCompact(ColumnOrderBuilder.compactLayoutToJsonString(scoaPixels.getNumRowGroupPerBlock(),
-                            initColumnOrder.size(), scoaPixels.getCacheBorder(currentCompactLayout), currentCompactLayout));
+                            initColumnOrder.size(), scoaPixels.getCacheBorder(currentCompactLayout), relativeCompactLayout));
                     currentLayout.setCreateAt(System.currentTimeMillis());
                     currentLayout.setId(-1);
 

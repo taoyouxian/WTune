@@ -17,7 +17,7 @@ public class ColumnDao implements Dao<Column>
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final TableDao tableModel = new TableDao();
+    private static final TableDao tableDao = new TableDao();
 
     @Override
     public Column getById(int id)
@@ -33,7 +33,7 @@ public class ColumnDao implements Dao<Column>
                 column.setName(rs.getString("COL_NAME"));
                 column.setType(rs.getString("COL_TYPE"));
                 column.setSize(rs.getDouble("COL_SIZE"));
-                column.setTable(tableModel.getById(rs.getInt("TBLS_TBL_ID")));
+                column.setTable(tableDao.getById(rs.getInt("TBLS_TBL_ID")));
                 return column;
             }
 

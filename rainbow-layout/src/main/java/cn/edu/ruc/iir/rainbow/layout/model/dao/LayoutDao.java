@@ -18,7 +18,7 @@ public class LayoutDao implements Dao<Layout>
 
     private static final DBUtil db = DBUtil.Instance();
     private static final Log log = LogFactory.Instance().getLog();
-    private static final TableDao tableModel = new TableDao();
+    private static final TableDao tableDao = new TableDao();
 
     @Override
     public Layout getById(int id)
@@ -39,7 +39,7 @@ public class LayoutDao implements Dao<Layout>
                 layout.setCompact(rs.getString("LAYOUT_COMPACT"));
                 layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
                 layout.setSplits(rs.getString("LAYOUT_SPLITS"));
-                layout.setTable(tableModel.getById(rs.getInt("TBLS_TBL_ID")));
+                layout.setTable(tableDao.getById(rs.getInt("TBLS_TBL_ID")));
                 return layout;
             }
         } catch (SQLException e)
@@ -75,7 +75,7 @@ public class LayoutDao implements Dao<Layout>
                 layout.setCompact(rs.getString("LAYOUT_COMPACT"));
                 layout.setCompactPath(rs.getString("LAYOUT_COMPACT_PATH"));
                 layout.setSplits(rs.getString("LAYOUT_SPLITS"));
-                layout.setTable(tableModel.getById(rs.getInt("TBLS_TBL_ID")));
+                layout.setTable(tableDao.getById(rs.getInt("TBLS_TBL_ID")));
                 if (rs.next())
                 {
                     throw new ColumnOrderException("multiple writable layouts founded for table: " +
