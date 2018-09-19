@@ -15,6 +15,7 @@ import java.util.*;
  */
 public class FastScoaPixels extends FastScoa
 {
+    // this is the sequential read cost function
     private SeqReadCost seqReadCostFunction = null;
     private double lambdaCost = 0.0;
     private int numRowGroupPerBlock = 0;
@@ -23,16 +24,21 @@ public class FastScoaPixels extends FastScoa
     private double originSeekCost = 0.0;
     // this is the seek cost after SA based ordering (but before cache optimization).
     private double orderedSeekCost = 0.0;
+    // this is the total cost (seek+seqRead) when cache is applied on the origin compact columnlets
+    // (columnlets of the same column are stored sequentially).
     private double startCachedCost = 0.0;
+    // this is the total cached cost of the reordered columnlets.
     private double orderedCachedCost = 0.0;
     private double cacheBudgetRatio = 0.2;
     private double cacheSpaceRatio = 0.3;
+    // HDFS block size
     private double blockSize = 0.0;
+    // map from query id to the query's split size (number of row groups in a split).
     private Map<Integer, Integer> querySplitSizeMap = new HashMap<>();
 
     public FastScoaPixels ()
     {
-        // read #row group inside a block from configuration
+        // read the number of row groups inside a block from configuration
         String strNumRowGroup = ConfigFactory.Instance().getProperty("pixels.num.row.group.perblock");
         if (strNumRowGroup != null)
         {
@@ -44,6 +50,7 @@ public class FastScoaPixels extends FastScoa
                     new ConfigrationException("pixels.row.group.num is not a valid number."));
         }
 
+        // read the cache budget ratio from configuration
         String strCacheBudgetRatio = ConfigFactory.Instance().getProperty("pixels.cache.compute.budget.ratio");
         try
         {
@@ -55,6 +62,7 @@ public class FastScoaPixels extends FastScoa
                     new ConfigrationException("pixels.cache.compute.budget.ratio is not a valid number."));
         }
 
+        // read the cache space ratio from configuration
         String strCacheSpaceRatio = ConfigFactory.Instance().getProperty("pixels.cache.space.ratio");
         try
         {
@@ -66,6 +74,7 @@ public class FastScoaPixels extends FastScoa
                     new ConfigrationException("pixels.cache.space.ratio is not a valid number."));
         }
 
+        // read the hostname and port of prometheus
         String promHost = ConfigFactory.Instance().getProperty("prometheus.host");
         int promPort = 0;
         String strPromPort = ConfigFactory.Instance().getProperty("prometheus.port");
@@ -97,9 +106,14 @@ public class FastScoaPixels extends FastScoa
     @Override
     public void setup ()
     {
-        // the initial column order and workload are given;
+        /**
+         * before running setup, the initial column order and workload are given.
+         */
 
-        // choose the best split size for each query;
+        /**
+         * we have to choose the best split size for each query, and rebuild the work
+         * first, we have to read some necessary configurations.
+         */
         long memSizeBytes = 0;
         String strMemSizeBytes = ConfigFactory.Instance().getProperty("node.memory");
         if (strMemSizeBytes != null)
@@ -176,21 +190,26 @@ public class FastScoaPixels extends FastScoa
         {
             rowGroupSize += column.getSize();
         }
+
+        // get the HDFS block size.
         this.blockSize = rowGroupSize * this.numRowGroupPerBlock;
 
+        /**
+         * second, we try to calculate split size and rebuild the workload in this big loop.
+         * */
         List<Query> rebuiltWorklod = new ArrayList<>();
         for (Query query : this.getWorkload())
         {
-            double size = 0;
+            double readSize = 0;
             for (Column column : this.getSchema())
             {
                 if (query.hasColumnId(column.getId()))
                 {
-                    size += column.getSize();
+                    readSize += column.getSize();
                 }
             }
             //double seekCost = this.getQuerySeekCost(this.getSchema(), query);
-            double seqReadCost = this.seqReadCostFunction.calculate(size);
+            double seqReadCost = this.seqReadCostFunction.calculate(readSize);
             //System.out.println(seekCost + ", " + seqReadCost);
 
             /**
@@ -204,23 +223,25 @@ public class FastScoaPixels extends FastScoa
              */
 
             /**
-             * max split size is calculated by the limitation of memory and degree of parallelism (mapSlots).
+             * max split size is the max suitable split size for this query,
+             * it is calculated by the limitation of memory and degree of parallelism (mapSlots).
              */
-            int maxSplitSize = floor2n((int)(memSizeBytes / memAmp / mapSlots / size));
+            int maxSplitSize = floor2n((int)(memSizeBytes / memAmp / mapSlots / readSize));
             if (maxSplitSize > numBlockPerNode*numRowGroupPerBlock/mapSlots/mapWaves)
             {
                 maxSplitSize = numBlockPerNode*numRowGroupPerBlock/mapSlots/mapWaves;
             }
             // TODO: tmp code, should be deleted later
-            maxSplitSize = numRowGroupPerBlock;
+            // maxSplitSize = numRowGroupPerBlock;
 
             int splitSize = 1;
+
             /**
              * by this loop, we ensure the proportion of lambda cost is lower than the given threshold.
              */
             while (lambdaCost/splitSize/(seqReadCost) > lambdaThreshold)
             {
-                if (splitSize << 1 <= maxSplitSize)
+                if ((splitSize << 1) <= maxSplitSize)
                 {
                     splitSize <<= 1;
                 }
@@ -248,15 +269,24 @@ public class FastScoaPixels extends FastScoa
             //    }
             //}
 
-            System.out.println(maxSplitSize + ", " + splitSize + ", " + (splitSize*size/1024/1024));
+            System.out.println(maxSplitSize + ", " + splitSize + ", " + (splitSize*readSize/1024/1024));
+            // now, we set the split size for this query.
             this.querySplitSizeMap.put(query.getId(), splitSize);
 
+
+            /**
+             *
+             */
             // rebuild the workload
             if (splitSize < numRowGroupPerBlock)
             {
+                // if there are multiple splits inside a block.
+
                 int numSplits = numRowGroupPerBlock/splitSize;
                 for (int splitId = 0; splitId < numSplits; ++splitId)
                 {
+                    // for each split, we fork (rebuild) a querylet (pseudo query) from the original query,
+                    // the querylet accesses the columnlet in this split.
                     int rowgroupIdBase = splitId*splitSize;
                     Query rebuiltQuery = new Querylet(query.getId(), query.getSid(), query.getWeight());
                     for (int i = 0; i < splitSize; ++i)
@@ -272,6 +302,10 @@ public class FastScoaPixels extends FastScoa
             }
             else
             {
+                // if the split size >= block size, e.i. the whole block is accessed by a task.
+
+                // we fork (rebuild) a querylet from the original query,
+                // the querylet accesses all columnlets in the block.
                 Query rebuiltQuery = new Querylet(query.getId(), query.getSid(), query.getWeight());
                 for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
                 {
@@ -283,26 +317,39 @@ public class FastScoaPixels extends FastScoa
                 rebuiltWorklod.add(rebuiltQuery);
             }
         }
-        // assign the new query id.
+
+
+        // we assign the new query id for rebuilt (forked) querylets.
+        // but the originId field in Querylet keeps the original query id.
         for (int i = 0; i < rebuiltWorklod.size(); ++i)
         {
             rebuiltWorklod.get(i).setId(i);
         }
 
-        // rebuild schema
+        /**
+         * third, rebuild schema.
+         */
+        // columnlets is the array list of rebuilt (forked) columnlets.
         List<Columnlet> columnlets = new ArrayList<>();
+        // this is the columnlet ID to columnlet map.
         Map<Integer, Columnlet> idToColumnletMap = new HashMap<>();
         // by sequentially duplicate the columnlet, we can generally start from a very good point.
         for (Column column : this.getSchema())
         {
             for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
             {
+                // fork a columnlet from the original column, but query ids of the columnlet is currently empty.
                 Columnlet columnlet = new Columnlet(rowGroupId, numColumns, column);
                 columnlets.add(columnlet);
                 idToColumnletMap.put(columnlet.getId(), columnlet);
             }
         }
 
+
+        /**
+         * we want to know something interesting,
+         * such the origin seek cost (without sequentially columnlet duplication).
+         */
         // init the originSeekCost
         List<Column> tmpColumnOrder = new ArrayList<>();
         for (int rowGroupId = 0; rowGroupId < numRowGroupPerBlock; ++rowGroupId)
@@ -314,6 +361,7 @@ public class FastScoaPixels extends FastScoa
         }
         this.originSeekCost = this.innerGetWorkloadSeekCost(tmpColumnOrder, rebuiltWorklod);
 
+
         // set the query ids for each columnlet.
         for (Query query : rebuiltWorklod)
         {
@@ -323,15 +371,19 @@ public class FastScoaPixels extends FastScoa
             }
         }
 
-        // rebuild the atomic grouped schema
+        /**
+         * now, the forked columnlets have been built.
+         * but we do not want this, we want an atomic grouped schema.
+         */
+        // build the atomic grouped schema.
         List<Column> rebuiltSchema = new ArrayList<>();
         AtomicColumnletGroup first = null;
-        int cid = 0;
+        int acgId = 0;
         for (Columnlet columnlet : columnlets)
         {
             if (first == null || first.has(columnlet) == false)
             {
-                first = new AtomicColumnletGroup(cid++, columnlet);
+                first = new AtomicColumnletGroup(acgId++, columnlet);
                 rebuiltSchema.add(first);
             }
             else
@@ -363,9 +415,14 @@ public class FastScoaPixels extends FastScoa
                 // for each query accesses this acg, add the column id of this acg to the columnIds of the query.
                 // note that we assigned the sequential qid to the queries in rebuiltWorkload.
                 Query query = rebuiltWorklod.get(qid);
+                // id of acg is re-assigned
                 query.addColumnId(acg.getId());
             }
         }
+
+        /**
+         * now we have rebuilt the workload and schema.
+         */
 
         // update schema and workload
         this.setSchema(rebuiltSchema);
@@ -752,7 +809,7 @@ public class FastScoaPixels extends FastScoa
     {
         if (this.isSetup)
         {
-            return innerGetWorkloadSeekCost(this.getColumnOrder(), this.getWorkload());
+            return innerGetWorkloadSeekCost(this.getRealColumnletOrder(), this.getWorkload());
         }
         else
         {
@@ -773,6 +830,11 @@ public class FastScoaPixels extends FastScoa
         }
     }
 
+    /**
+     * in this function, if there are 16 row groups in a block, there will be 16x queries and 16x columns,
+     * and the seek cost and sequential read cost of these queries on these columns are calculated.
+     * @return
+     */
     public double getCurrentWorkloadCost()
     {
         return this.getCurrentWorkloadSeekCost() +

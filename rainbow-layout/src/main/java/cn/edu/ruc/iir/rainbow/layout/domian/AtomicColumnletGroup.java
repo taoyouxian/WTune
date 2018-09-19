@@ -35,6 +35,12 @@ public class AtomicColumnletGroup extends Column
         this.originColumnId = originColumnId;
     }
 
+    /**
+     * return true if the columnlet has the same origin column id with this ACG and
+     * they are accessed by the same set of queries.
+     * @param columnlet
+     * @return
+     */
     public boolean has (Columnlet columnlet)
     {
         if (columnlet.getColumnId() != this.getOriginColumnId())
@@ -51,6 +57,7 @@ public class AtomicColumnletGroup extends Column
             if (columnlet.getQueryIds().contains(qid) == false)
             {
                 belongs = false;
+                break;
             }
         }
         return belongs;
