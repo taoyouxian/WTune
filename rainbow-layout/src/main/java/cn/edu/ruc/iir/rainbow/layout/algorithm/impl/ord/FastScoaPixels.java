@@ -102,6 +102,18 @@ public class FastScoaPixels extends FastScoa
         //}
     }
 
+    /**
+     * <p>This function will rebuild the schema and workload for columnlet reordering inside large HDFS block.
+     * In pure column ordering, we only consider the column order inside a row group. But in a block with a number
+     * of row groups, we want to reorder the columnlets among all the row group within the same block. </p>
+     *
+     * <p>To do that by reusing SCOA algorithm, we have to rebuild a pseudo workload and a pseudo schema.
+     * We consider the columnlet access pattern in a block. In the pseudo workload, we firstly determine the split
+     * size for each query in the original workload, then if there are multiple splites in a block, we build a
+     * querylet (pseudo query) on each split for the original query. In pseudo schema, columnlets accessed by the
+     * same set of querylet are grouped into an atomic columnlet group (ACG). Columnlets in an ACG will be moved
+     * together during the columnlet reordering procedure.</p>
+     */
     @SuppressWarnings("Duplicates")
     @Override
     public void setup ()
@@ -427,7 +439,7 @@ public class FastScoaPixels extends FastScoa
         // update schema and workload
         this.setSchema(rebuiltSchema);
         this.setWorkload(rebuiltWorklod);
-        // setup supper
+        // setup supper, this will prepare the structures
         super.setup();
 
         // update parameters
@@ -454,7 +466,7 @@ public class FastScoaPixels extends FastScoa
     private static int floor2n (int i)
     {
         int res = 0;
-        for (int n = 0; n < 31 && 1<<n <= i; ++n)
+        for (int n = 0; n < 31 && (1<<n) <= i; ++n)
         {
             res = 1<<n;
         }
@@ -466,6 +478,11 @@ public class FastScoaPixels extends FastScoa
     public void runAlgorithm()
     {
 
+        /**
+         * we first do acg ordering.
+         */
+
+        //computation budget (seconds) for acg ordering.
         long orderingBudget = (long) (this.getComputationBudget() * (1-this.cacheBudgetRatio));
 
         long startSeconds = System.currentTimeMillis() / 1000;
@@ -483,7 +500,7 @@ public class FastScoaPixels extends FastScoa
             rand.setSeed(System.nanoTime());
 
             //calculate new cost
-            double neighbourEnergy = getNeighbourSeekCost(i, j);
+            double neighbourEnergy = this.getNeighbourSeekCost(i, j);
 
             //try to accept it
             double temperature = this.getTemperature();
@@ -494,35 +511,45 @@ public class FastScoaPixels extends FastScoa
             }
         }
 
+        // records the ordered seek cost.
         this.orderedSeekCost = this.getCurrentWorkloadSeekCost();
-        // System.out.println(orderedSeekCost);
 
+
+        /**
+         * then, we do cache optimization
+         */
+
+        // the computation budget (seconds) for cache optimization
         long cacheComputeBudget = this.getComputationBudget() - orderingBudget;
 
         startSeconds = System.currentTimeMillis() / 1000;
         this.currentEnergy = this.getCurrentCachedCost();
+        // records the start cached cost.
         this.startCachedCost = this.currentEnergy;
         // we do not need the annealing.
         this.temperature = 0;
 
         for (long currentSeconds = System.currentTimeMillis() / 1000;
              (currentSeconds - startSeconds) < cacheComputeBudget;
-             currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations)
+             currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations/*this.iterations is cumulative*/)
         {
             // we get the cached neighbour by randomly swap two atomic column group,
             // and get the cached cost of real columnlet order. This is not a bug. for that
-            // we want to ensure columnlets are moved in groups.
+            // we want to ensure columnlets in the same group are moved together.
             List<Column> neighbour = this.getCachedNeighbour();
             double neighbourEnergy = this.getCachedCost(this.getRealColumnletOrder(neighbour));
 
             this.accept(neighbour, neighbourEnergy);
         }
 
+        // records the ordered cached cost.
         this.orderedCachedCost = this.getCurrentCachedCost();
 
     }
 
     /**
+     * given the cache space ratio and the column order, calculate the cache border.
+     * column in the column order with index <= cache border will be cached.
      * this method is not thread safe.
      * @return
      */
@@ -667,6 +694,11 @@ public class FastScoaPixels extends FastScoa
         return this.getCachedCost(this.getRealColumnletOrder());
     }
 
+    public double getOriginSeekCost()
+    {
+        return originSeekCost;
+    }
+
     public double getOrderedSeekCost()
     {
         return orderedSeekCost;
@@ -697,18 +729,13 @@ public class FastScoaPixels extends FastScoa
         return lambdaCost;
     }
 
-    public double getOriginSeekCost()
-    {
-        return originSeekCost;
-    }
-
     protected void setLambdaCost(double lambdaCost)
     {
         this.lambdaCost = lambdaCost;
     }
 
     /**
-     * get the real column order, not the rebuilt column order.
+     * get the real column order from the given acg order, not the rebuilt column order.
      * @param atomicColumnGroupOrder
      * @return
      */
@@ -727,7 +754,7 @@ public class FastScoaPixels extends FastScoa
     }
 
     /**
-     * get the real column order, not the rebuilt column order.
+     * get the real column order of the current column order (acg order), not the rebuilt column order.
      * @return
      */
     public List<Column> getRealColumnletOrder()

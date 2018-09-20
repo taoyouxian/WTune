@@ -26,7 +26,7 @@ public class FastScoa extends Scoa
     @Override
     public void setup()
     {
-        super.setColumnOrder(new ArrayList<>(super.getSchema()));
+        this.setColumnOrder(new ArrayList<>(this.getSchema()));
         String strCoolingRate = ConfigFactory.Instance().getProperty("scoa.cooling_rate");
         String strInitTemp = ConfigFactory.Instance().getProperty("scoa.init.temperature");
         if (strCoolingRate != null)
@@ -65,7 +65,7 @@ public class FastScoa extends Scoa
         this.currentEnergy = this.getCurrentWorkloadSeekCost();
 
         for (long currentSeconds = System.currentTimeMillis() / 1000;
-             (currentSeconds - startSeconds) < super.getComputationBudget();
+             (currentSeconds - startSeconds) < this.getComputationBudget();
              currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations)
         {
             //generate two random indices
