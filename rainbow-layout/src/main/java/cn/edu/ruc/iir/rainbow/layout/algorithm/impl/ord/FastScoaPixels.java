@@ -727,11 +727,19 @@ public class FastScoaPixels extends FastScoa
         return orderedSeekCost;
     }
 
+    /**
+     * get the cached cost of the columnlet order and workload before columnlet ordering.
+     * @return
+     */
     public double getStartCachedCost()
     {
         return startCachedCost;
     }
 
+    /**
+     * get the cached cost of the columnlet order and workload after columnlet ordering.
+     * @return
+     */
     public double getOrderedCachedCost()
     {
         return orderedCachedCost;
