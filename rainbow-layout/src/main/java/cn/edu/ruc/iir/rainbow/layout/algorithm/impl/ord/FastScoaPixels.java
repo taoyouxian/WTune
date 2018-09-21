@@ -287,7 +287,7 @@ public class FastScoaPixels extends FastScoa
 
 
             /**
-             *
+             * In the rebuilt querylet, columnIds are the ids of columnlets, not the atomic columnlet group id.
              */
             // rebuild the workload
             if (splitSize < numRowGroupPerBlock)
@@ -529,17 +529,20 @@ public class FastScoaPixels extends FastScoa
         // we do not need the annealing.
         this.temperature = 0;
 
-        for (long currentSeconds = System.currentTimeMillis() / 1000;
-             (currentSeconds - startSeconds) < cacheComputeBudget;
-             currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations/*this.iterations is cumulative*/)
+        if (this.cacheSpaceRatio > 0)
         {
-            // we get the cached neighbour by randomly swap two atomic column group,
-            // and get the cached cost of real columnlet order. This is not a bug. for that
-            // we want to ensure columnlets in the same group are moved together.
-            List<Column> neighbour = this.getCachedNeighbour();
-            double neighbourEnergy = this.getCachedCost(this.getRealColumnletOrder(neighbour));
+            for (long currentSeconds = System.currentTimeMillis() / 1000;
+                 (currentSeconds - startSeconds) < cacheComputeBudget;
+                 currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations/*this.iterations is cumulative*/)
+            {
+                // we get the cached neighbour by randomly swap two atomic column group,
+                // and get the cached cost of real columnlet order. This is not a bug. for that
+                // we want to ensure columnlets in the same group are moved together.
+                List<Column> neighbour = this.getCachedNeighbour();
+                double neighbourEnergy = this.getCachedCost(this.getRealColumnletOrder(neighbour));
 
-            this.accept(neighbour, neighbourEnergy);
+                this.accept(neighbour, neighbourEnergy);
+            }
         }
 
         // records the ordered cached cost.
@@ -549,7 +552,8 @@ public class FastScoaPixels extends FastScoa
 
     /**
      * given the cache space ratio and the column order, calculate the cache border.
-     * column in the column order with index <= cache border will be cached.
+     * column in the column order with index < cache border will be cached.
+     * if cache border is 0, it means there is no column can be cached.
      * this method is not thread safe.
      * @return
      */
@@ -588,7 +592,7 @@ public class FastScoaPixels extends FastScoa
 
         if (cacheBorder == 0)
         {
-            cacheBorder = 1;
+            return neighbour;
         }
 
         int i = rand.nextInt(cacheBorder);
@@ -607,6 +611,25 @@ public class FastScoaPixels extends FastScoa
         return this.querySplitSizeMap.get(queryId);
     }
 
+
+    /**
+     * get the cached cost (sequential read cost + seek cost) of the given columnlet order on the
+     * current workload.
+     * @param columnOrder the real columnlet order, not the atomic column group order
+     * @return
+     */
+    public double getColumnOrderCachedCost (List<Column> columnOrder)
+    {
+        return this.getCachedCost(columnOrder);
+    }
+
+
+    /**
+     * get the cached cost (sequential read cost + seek cost) of the given columnlet order on the
+     * current workload.
+     * @param columnOrder the real columnlet order, not the atomic column group order
+     * @return
+     */
     @SuppressWarnings("Duplicates")
     private double getCachedCost (List<Column> columnOrder)
     {
@@ -762,26 +785,34 @@ public class FastScoaPixels extends FastScoa
         return this.getRealColumnletOrder(this.getColumnOrder());
     }
 
+
+    /**
+     * given the columnorder, get the total seek cost of all querylets in the workload.
+     * @param columnOrder the real columnlet order, not the atomic column group order.
+     * @param workload the querylets.
+     * @return
+     */
     private double innerGetWorkloadSeekCost(List<Column> columnOrder, List<Query> workload)
     {
         double workloadSeekCost = 0;
-        Map<Integer, List<Query>> originIdToQueryMap = new HashMap<>();
+        // originIdToQueryletsMap is redundant.
+        Map<Integer, List<Query>> originIdToQueryletsMap = new HashMap<>();
         for (Query query : workload)
         {
             Querylet querylet = (Querylet) query;
-            if (originIdToQueryMap.containsKey(querylet.getOriginId()))
+            if (originIdToQueryletsMap.containsKey(querylet.getOriginId()))
             {
-                originIdToQueryMap.get(querylet.getOriginId()).add(query);
+                originIdToQueryletsMap.get(querylet.getOriginId()).add(query);
             }
             else
             {
                 List<Query> queries = new ArrayList<>();
                 queries.add(query);
-                originIdToQueryMap.put(querylet.getOriginId(), queries);
+                originIdToQueryletsMap.put(querylet.getOriginId(), queries);
             }
         }
 
-        for (Map.Entry<Integer, List<Query>> entry : originIdToQueryMap.entrySet())
+        for (Map.Entry<Integer, List<Query>> entry : originIdToQueryletsMap.entrySet())
         {
             double seekCost = 0;
             for (Query query : entry.getValue())
@@ -795,6 +826,12 @@ public class FastScoaPixels extends FastScoa
         return workloadSeekCost;
     }
 
+    /**
+     * given the column order, get the total sequential read cost of all querylets in the workload.
+     * @param columnOrder the real columnlet order, not the atomic column group order.
+     * @param workload the querylets.
+     * @return
+     */
     private double innerGetWorkloadSeqReadCost(List<Column> columnOrder, List<Query> workload)
     {
         double readCost = 0;
@@ -805,17 +842,24 @@ public class FastScoaPixels extends FastScoa
         return readCost;
     }
 
+    /**
+     * get the sequential read cost of a query.
+     * @param columnOrder the real columnlet order, not the atomic column group order
+     * @param query the querylet.
+     * @return
+     */
     private double getQuerySeqReadCost (List<Column> columnOrder, Query query)
     {
         double seqReadCost = 0;
         int accessedColumnNum = 0;
         for (Column column : columnOrder)
         {
+            // it is right to use column.getId(), e.i. the columnlet id.
             if (query.getColumnIds().contains(column.getId()))
             {
                 // column i has been accessed by the query
                 seqReadCost += this.seqReadCostFunction.calculate(column.getSize());
-                ++accessedColumnNum;
+                accessedColumnNum++;
                 if (accessedColumnNum >= query.getColumnIds().size())
                 {
                     // the query has accessed all the necessary columns
@@ -828,7 +872,6 @@ public class FastScoaPixels extends FastScoa
 
     /**
      * get the seek cost of the whole workload (on the current column order).
-     *
      * @return
      */
     @Override
@@ -849,7 +892,7 @@ public class FastScoaPixels extends FastScoa
     {
         if (this.isSetup)
         {
-            return innerGetWorkloadSeekCost(this.getSchema(), this.getWorkload());
+            return innerGetWorkloadSeekCost(this.getRealColumnletOrder(this.getSchema()), this.getWorkload());
         }
         else
         {
@@ -865,21 +908,20 @@ public class FastScoaPixels extends FastScoa
     public double getCurrentWorkloadCost()
     {
         return this.getCurrentWorkloadSeekCost() +
-                this.innerGetWorkloadSeqReadCost(this.getColumnOrder(), this.getWorkload());
+                this.innerGetWorkloadSeqReadCost(this.getRealColumnletOrder(), this.getWorkload());
     }
 
     public double getSchemaCost()
     {
-        return this.getCurrentWorkloadSeekCost() +
-                this.innerGetWorkloadSeqReadCost(this.getSchema(), this.getWorkload());
+        return this.getSchemaSeekCost() +
+                this.innerGetWorkloadSeqReadCost(this.getRealColumnletOrder(this.getSchema()), this.getWorkload());
     }
 
     /**
      * get the seek cost of a query (on the given column order).
      * this is a general function, sub classes can override it.
-     *
-     * @param columnOrder
-     * @param query
+     * @param columnOrder the real columnlet order, not the atomic column group order
+     * @param query the querylet
      * @return
      */
     @SuppressWarnings("Duplicates")
@@ -888,6 +930,8 @@ public class FastScoaPixels extends FastScoa
     {
         double querySeekCost = 0, seekDistance = 0;
         int accessedColumnNum = 0;
+        // we do not consider the initial seek cost,
+        // so that we ignore seek cost from beginning to the first accessed column.
         boolean finishFirstRead = false;
         for (int i = 0; i < columnOrder.size(); ++i)
         {
@@ -903,7 +947,7 @@ public class FastScoaPixels extends FastScoa
                     querySeekCost += this.getSeekCostFunction().calculate(seekDistance);
                 }
                 seekDistance = 0;
-                ++accessedColumnNum;
+                accessedColumnNum++;
 
                 if (accessedColumnNum >= query.getColumnIds().size())
                 {
@@ -920,10 +964,5 @@ public class FastScoaPixels extends FastScoa
             }
         }
         return querySeekCost;
-    }
-
-    public double getColumnOrderCachedCost (List<Column> columnOrder)
-    {
-        return this.getCachedCost(columnOrder);
     }
 }
