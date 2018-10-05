@@ -6,5 +6,5 @@ import java.io.IOException;
 public interface Loader
 {
     public boolean executeLoad(String sourcePath, String orderPath, String schemaStr,
-                               int[] orderMapping, int maxRowNum) throws IOException;
+                               int[] orderMapping, int maxRowNum, String regex) throws IOException;
 }

@@ -79,6 +79,9 @@ public class LayoutServer implements Server
                 // there are only one writable layout in a table.
                 Layout prevLayout = layoutModel.getLatestByTable(table);
 
+                /**
+                 *
+                 */
                 List<Column> initColumnOrder = ColumnOrderBuilder.wrappedColumns(columnModel.getByTable(table));
                 if (prevLayout != null)
                 {
@@ -136,7 +139,7 @@ public class LayoutServer implements Server
 
                     /**
                      * begin
-                     * build to relative compact layout, in which the column id is the index of column in currentColumnOrder.
+                     * build the relative compact layout, in which the column id is the index of column in currentColumnOrder.
                      * TODO: to be tested.
                      */
                     int[] columnIdToCurrenIndex = new int[currentColumnOrder.size()];
@@ -166,11 +169,6 @@ public class LayoutServer implements Server
 
                     String currentBasePath = warehousePath + schemaName + "/" + tableName + "/v_" + currentVersion;
 
-                    Map<Integer, Integer> columnIdToIndexMap = new HashMap<>();
-                    for (int i = 0; i < currentColumnOrder.size(); ++i)
-                    {
-                        columnIdToIndexMap.put(currentColumnOrder.get(i).getId(), i);
-                    }
                     SplitStrategyObj currSplitStrategy = new SplitStrategyObj();
                     currSplitStrategy.setNumRowGroupInBlock(scoaPixels.getNumRowGroupPerBlock());
                     for (Query query : workload)
@@ -179,7 +177,7 @@ public class LayoutServer implements Server
                         splitPattern.setNumRowGroupInSplit(scoaPixels.getQuerySplitSize(query.getId()));
                         for (int cid : query.getColumnIds())
                         {
-                            splitPattern.addAccessedColumns(columnIdToIndexMap.get(cid));
+                            splitPattern.addAccessedColumns(columnIdToCurrenIndex[cid]);
                         }
                         currSplitStrategy.addSplitPatterns(splitPattern);
                     }

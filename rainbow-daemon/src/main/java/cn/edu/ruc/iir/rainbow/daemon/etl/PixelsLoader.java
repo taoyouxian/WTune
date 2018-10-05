@@ -33,7 +33,7 @@ public class PixelsLoader
 
     @Override
     public boolean executeLoad(String originalDataPath, String loadingDataPath, String schemaStr,
-                                  int[] orderMapping, int maxRowNum)
+                                  int[] orderMapping, int maxRowNum, String regex)
             throws IOException
     {
         Configuration conf = new Configuration();
@@ -85,7 +85,11 @@ public class PixelsLoader
                 line = StringUtil.replaceAll(line, "True", "1");
                 int rowId = rowBatch.size++;
                 rowCounter++;
-                String[] colsInLine = line.split("\t");
+                if(regex.equals("\\s"))
+                {
+                    regex = " ";
+                }
+                String[] colsInLine = line.split(regex);
                 for (int i = 0; i < columnVectors.length; i++)
                 {
                     int valueIdx = orderMapping[i];
