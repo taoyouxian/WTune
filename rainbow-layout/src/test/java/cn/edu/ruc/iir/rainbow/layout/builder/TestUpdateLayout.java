@@ -1,14 +1,14 @@
 package cn.edu.ruc.iir.rainbow.layout.builder;
 
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.CompactLayoutObj;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.OrderObj;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.ColumnDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.SchemaDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Layout;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Compact;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Order;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Layout;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.LayoutDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
 import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
@@ -33,7 +33,7 @@ public class TestUpdateLayout
             if (layout.getId()==1)
             {
                 System.out.println("start...");
-                CompactLayoutObj compactObj = new CompactLayoutObj();
+                Compact compactObj = new Compact();
                 compactObj.setNumColumn(105);
                 compactObj.setNumRowGroupInBlock(16);
                 compactObj.setCacheBorder(0);
@@ -81,9 +81,9 @@ public class TestUpdateLayout
                 }
             }
 
-            OrderObj currOrder = JSON.parseObject(currLayout.getOrder(), OrderObj.class);
-            OrderObj nextOrder = JSON.parseObject(nextLayout.getOrder(), OrderObj.class);
-            CompactLayoutObj nextCompact = JSON.parseObject(nextLayout.getCompact(), CompactLayoutObj.class);
+            Order currOrder = JSON.parseObject(currLayout.getOrder(), Order.class);
+            Order nextOrder = JSON.parseObject(nextLayout.getOrder(), Order.class);
+            Compact nextCompact = JSON.parseObject(nextLayout.getCompact(), Compact.class);
 
             int[] index = new int[currOrder.getColumnOrder().size()];
 

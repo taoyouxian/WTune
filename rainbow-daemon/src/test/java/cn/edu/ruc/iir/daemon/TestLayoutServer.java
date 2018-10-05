@@ -4,12 +4,12 @@ import cn.edu.ruc.iir.rainbow.common.exception.MetadataException;
 import cn.edu.ruc.iir.rainbow.common.metadata.PixelsMetadataStat;
 import cn.edu.ruc.iir.rainbow.daemon.layout.LayoutServer;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadQueue;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.ColumnDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.SchemaDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Column;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Column;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
 import org.junit.Test;
 

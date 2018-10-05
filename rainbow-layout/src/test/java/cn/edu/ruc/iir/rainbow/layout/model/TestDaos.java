@@ -1,12 +1,14 @@
 package cn.edu.ruc.iir.rainbow.layout.model;
 
-import cn.edu.ruc.iir.rainbow.layout.model.dao.*;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Column;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Layout;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
+
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.LayoutDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Column;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Layout;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
 import org.junit.Test;
 
 import java.util.List;

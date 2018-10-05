@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.layout.builder;
 
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Compact;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Order;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.CompactLayoutObj;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.OrderObj;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
 import com.alibaba.fastjson.JSON;
@@ -38,11 +38,11 @@ public class ColumnOrderBuilder
         return columnOrder;
     }
 
-    public static List<Column> wrappedColumns (List<cn.edu.ruc.iir.rainbow.layout.model.domain.Column> columns)
+    public static List<Column> wrappedColumns (List<cn.edu.ruc.iir.pixels.common.metadata.domain.Column> columns)
     {
         List<Column> columnOrder = new ArrayList<>();
         int id = 0;
-        for (cn.edu.ruc.iir.rainbow.layout.model.domain.Column column : columns)
+        for (cn.edu.ruc.iir.pixels.common.metadata.domain.Column column : columns)
         {
             Column column1 = new Column(id++, column.getName(), column.getType(), column.getSize());
             columnOrder.add(column1);
@@ -71,7 +71,7 @@ public class ColumnOrderBuilder
 
     public static String orderToJsonString (List<Column> columnOrder)
     {
-        OrderObj initOrder = new OrderObj();
+        Order initOrder = new Order();
 
         for (Column column : columnOrder)
         {
@@ -83,7 +83,7 @@ public class ColumnOrderBuilder
 
     public static String compactLayoutToJsonString (int numRowGroupInBlock, int numColumn, int cacheBorder, List<Column> columnletOrder)
     {
-        CompactLayoutObj compactLayout = new CompactLayoutObj();
+        Compact compactLayout = new Compact();
         compactLayout.setNumRowGroupInBlock(numRowGroupInBlock);
         compactLayout.setNumColumn(numColumn);
         compactLayout.setCacheBorder(cacheBorder);

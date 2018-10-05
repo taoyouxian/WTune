@@ -1,5 +1,8 @@
 package cn.edu.ruc.iir.rainbow.daemon.layout;
 
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Order;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.SplitPattern;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Splits;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.common.exception.*;
@@ -11,20 +14,17 @@ import cn.edu.ruc.iir.rainbow.layout.algorithm.ExecutorContainer;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord.FastScoaPixels;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.OrderObj;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.SplitPatternObj;
-import cn.edu.ruc.iir.rainbow.layout.builder.domain.SplitStrategyObj;
 import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.ColumnDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.LayoutDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.SchemaDao;
-import cn.edu.ruc.iir.rainbow.layout.model.dao.TableDao;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Layout;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Table;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.LayoutDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Layout;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.logging.Log;
@@ -87,7 +87,7 @@ public class LayoutServer implements Server
                 {
                     List<Column> prevColumnOrder = new ArrayList<>();
                     String initOrderJson = prevLayout.getOrder();
-                    List<String> prevColumnNameOrder = JSON.parseObject(initOrderJson, OrderObj.class).getColumnOrder();
+                    List<String> prevColumnNameOrder = JSON.parseObject(initOrderJson, Order.class).getColumnOrder();
                     Map<String, Column> nameToColumnMap = new HashMap<>();
                     for (Column column : initColumnOrder)
                     {
@@ -169,11 +169,11 @@ public class LayoutServer implements Server
 
                     String currentBasePath = warehousePath + schemaName + "/" + tableName + "/v_" + currentVersion;
 
-                    SplitStrategyObj currSplitStrategy = new SplitStrategyObj();
+                    Splits currSplitStrategy = new Splits();
                     currSplitStrategy.setNumRowGroupInBlock(scoaPixels.getNumRowGroupPerBlock());
                     for (Query query : workload)
                     {
-                        SplitPatternObj splitPattern = new SplitPatternObj();
+                        SplitPattern splitPattern = new SplitPattern();
                         splitPattern.setNumRowGroupInSplit(scoaPixels.getQuerySplitSize(query.getId()));
                         for (int cid : query.getColumnIds())
                         {

@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.sql;
 
-import cn.edu.ruc.iir.rainbow.layout.model.dao.SchemaDao;
-import cn.edu.ruc.iir.rainbow.layout.model.domain.Schema;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
 
 public class CreatePixelsTable
 {
