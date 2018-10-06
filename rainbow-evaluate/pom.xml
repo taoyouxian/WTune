@@ -54,12 +54,19 @@
             <artifactId>spark-core_2.11</artifactId>
             <version>2.1.0</version>
             <optional>true</optional>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.scala-lang</groupId>
+                    <artifactId>scala-library</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_2.11</artifactId>
             <version>2.1.0</version>
             <optional>true</optional>
+
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -94,7 +101,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>2.4.3</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -130,6 +137,7 @@
             <plugin>
                 <groupId>org.scala-tools</groupId>
                 <artifactId>maven-scala-plugin</artifactId>
+                <version>2.15.2</version>
                 <executions>
 
                     <execution>

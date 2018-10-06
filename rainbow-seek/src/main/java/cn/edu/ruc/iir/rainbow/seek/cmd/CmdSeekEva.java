@@ -21,12 +21,12 @@ import java.util.Properties;
 /**
  * Created by hank on 16-12-25.
  */
-public class CmdSeekEvaluation implements Command
+public class CmdSeekEva implements Command
 {
     private SeekPerformer seekPerformer = null;
     private Receiver receiver = null;
 
-    public CmdSeekEvaluation()
+    public CmdSeekEva()
     {
         this.seekPerformer = SeekPerformer.Instance();
     }

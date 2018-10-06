@@ -6,15 +6,15 @@ import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 import cn.edu.ruc.iir.rainbow.daemon.Server;
-import cn.edu.ruc.iir.rainbow.parser.sql.parser.ParsingOptions;
-import cn.edu.ruc.iir.rainbow.parser.sql.parser.SqlParser;
-import cn.edu.ruc.iir.rainbow.parser.sql.tree.*;
 import cn.edu.ruc.iir.rainbow.workload.cache.APCFactory;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.facebook.presto.sql.parser.ParsingOptions;
+import com.facebook.presto.sql.parser.SqlParser;
+import com.facebook.presto.sql.tree.*;
 import org.apache.commons.logging.Log;
 
 import java.util.ArrayList;

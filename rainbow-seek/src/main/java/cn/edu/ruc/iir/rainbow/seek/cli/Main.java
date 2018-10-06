@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.seek.cli;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
-import cn.edu.ruc.iir.rainbow.seek.invoker.InvokerGenerateFile;
-import cn.edu.ruc.iir.rainbow.seek.invoker.InvokerSeekEvaluation;
+import cn.edu.ruc.iir.rainbow.seek.invoker.InvokerGenFile;
+import cn.edu.ruc.iir.rainbow.seek.invoker.InvokerSeekEva;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -41,11 +41,11 @@ public class Main
             Invoker invoker;
             if (command.equalsIgnoreCase("GENERATE_FILE"))
             {
-                invoker = new InvokerGenerateFile();
+                invoker = new InvokerGenFile();
             }
             else if (command.equalsIgnoreCase("SEEK_EVALUATION"))
             {
-                invoker = new InvokerSeekEvaluation();
+                invoker = new InvokerSeekEva();
             }
             else
             {

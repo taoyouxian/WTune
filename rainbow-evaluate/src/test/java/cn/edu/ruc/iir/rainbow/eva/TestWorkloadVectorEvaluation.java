@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.rainbow.eva;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
-import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEvaluation;
+import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEva;
 import org.junit.Test;
 
 import java.util.Properties;
@@ -25,7 +25,7 @@ public class TestWorkloadVectorEvaluation
         params.setProperty("drop.cache", "false");
         params.setProperty("drop.caches.sh", "/home/hank/dev/idea-projects/rainbow/rainbow-evaluate/src/test/resources/drop_caches.sh");
 
-        Invoker invoker = new InvokerWorkloadVectorEvaluation();
+        Invoker invoker = new InvokerWorkloadVectorEva();
         try
         {
             invoker.executeCommands(params);

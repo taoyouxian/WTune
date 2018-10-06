@@ -27,7 +27,7 @@ import java.util.*;
 /**
  * Created by hank on 17-9-20.
  */
-public class CmdWorkloadVectorEvaluation implements Command
+public class CmdWorkloadVectorEva implements Command
 {
     private Receiver receiver = null;
 
@@ -403,19 +403,7 @@ public class CmdWorkloadVectorEvaluation implements Command
                     timeWriter.write(queryId);
                     for (String tableName : tableNames)
                     {
-                        StageMetrics metrics = null;
-                        Properties properties = new Properties();
-                        String user = ConfigFactory.Instance().getProperty("presto.user");
-                        String password = ConfigFactory.Instance().getProperty("presto.password");
-                        String ssl = ConfigFactory.Instance().getProperty("presto.ssl");
-                        properties.setProperty("user", user);
-                        if (!password.equalsIgnoreCase("null"))
-                        {
-                            properties.setProperty("password", password);
-                        }
-                        properties.setProperty("SSL", ssl);
-                        metrics = PrestoEvaluator.execute(ConfigFactory.Instance().getProperty("presto.jdbc.url"),
-                                properties, tableName, columns, orderByColumn);
+                        StageMetrics metrics = PrestoEvaluator.execute(tableName, columns, orderByColumn);
 
                         // log the results
                         timeWriter.write("," + metrics.getDuration());

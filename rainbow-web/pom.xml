@@ -130,13 +130,6 @@
         </dependency>
         <!-- hibernate end -->
 
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <optional>true</optional>
-        </dependency>
-
         <!--j2ee related servlet、jsp、jstl-->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -254,6 +247,7 @@
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
                 <configuration>
                     <!--<version>2.5</version>-->
                     <webXml>src/main/webapp/WEB-INF/web.xml</webXml>

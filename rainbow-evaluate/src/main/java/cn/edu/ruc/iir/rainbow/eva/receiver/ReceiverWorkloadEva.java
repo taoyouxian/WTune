@@ -1,10 +1,10 @@
-package cn.edu.ruc.iir.rainbow.seek.receiver;
+package cn.edu.ruc.iir.rainbow.eva.receiver;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 
 import java.util.Properties;
 
-public class ReceiverSeekEvaluation implements Receiver
+public class ReceiverWorkloadEva implements Receiver
 {
     /**
      * percentage is in range of (0, 1).
@@ -15,7 +15,7 @@ public class ReceiverSeekEvaluation implements Receiver
     @Override
     public void progress(double percentage)
     {
-        System.out.print("\rSEEK_EVALUATION: " + ((int)(percentage * 10000) / 100.0) + "%    ");
+        System.out.print("\rWORKLOAD_EVALUATION: " + ((int)(percentage * 10000) / 100.0) + "%    ");
     }
 
     @Override

@@ -5,10 +5,10 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.exception.CommandException;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.seek.receiver.ReceiverSeekEvaluation;
-import cn.edu.ruc.iir.rainbow.seek.cmd.CmdSeekEvaluation;
+import cn.edu.ruc.iir.rainbow.seek.receiver.ReceiverSeekEva;
+import cn.edu.ruc.iir.rainbow.seek.cmd.CmdSeekEva;
 
-public class InvokerSeekEvaluation extends Invoker
+public class InvokerSeekEva extends Invoker
 {
     /**
      * create this.command and set receiver for it
@@ -17,8 +17,8 @@ public class InvokerSeekEvaluation extends Invoker
     protected void createCommands()
     {
         // combine command to proper receiver
-        Command command = new CmdSeekEvaluation();
-        command.setReceiver(new ReceiverSeekEvaluation());
+        Command command = new CmdSeekEva();
+        command.setReceiver(new ReceiverSeekEva());
         try
         {
             this.addCommand(command);

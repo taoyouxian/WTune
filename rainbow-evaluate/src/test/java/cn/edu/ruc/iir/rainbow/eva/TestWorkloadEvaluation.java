@@ -3,7 +3,7 @@ package cn.edu.ruc.iir.rainbow.eva;
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadEvaluation;
+import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadEva;
 import org.junit.Test;
 
 import java.util.Properties;
@@ -23,7 +23,7 @@ public class TestWorkloadEvaluation
         params.setProperty("log.dir", "/home/hank/Desktop/rainbow/rainbow-evaluate/workload_eva/");
         params.setProperty("drop.cache", "false");
 
-        Invoker invoker = new InvokerWorkloadEvaluation();
+        Invoker invoker = new InvokerWorkloadEva();
         try
         {
             invoker.executeCommands(params);

@@ -4,7 +4,7 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 
 import java.util.Properties;
 
-public class ReceiverGenerateFile implements Receiver
+public class ReceiverGenFile implements Receiver
 {
     /**
      * percentage is in range of (0, 1).

@@ -39,9 +39,8 @@
         <module>rainbow-layout</module>
         <module>rainbow-redirect</module>
         <module>rainbow-benchmark</module>
-        <module>rainbow-client</module>
         <module>rainbow-web</module>
-        <module>rainbow-parser</module>
+        <!--<module>rainbow-parser</module>-->
         <module>rainbow-workload</module>
         <module>rainbow-daemon</module>
     </modules>

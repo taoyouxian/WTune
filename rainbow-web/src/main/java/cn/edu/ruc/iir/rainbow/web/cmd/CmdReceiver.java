@@ -9,7 +9,7 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
-import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEvaluation;
+import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEva;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdGetColumnSize;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdOrdering;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
@@ -235,7 +235,7 @@ public class CmdReceiver {
         params.setProperty("log.dir", targetPath);
         params.setProperty("drop.cache", "false");
         params.setProperty("drop.caches.sh", "H:\\SelfLearning\\SAI\\DBIIR\\rainbow\\rainbow-evaluate\\src\\test\\resources\\drop_caches.sh");
-        Invoker invoker = new InvokerWorkloadVectorEvaluation();
+        Invoker invoker = new InvokerWorkloadVectorEva();
         try {
             invoker.executeCommands(params);
         } catch (InvokerException e) {

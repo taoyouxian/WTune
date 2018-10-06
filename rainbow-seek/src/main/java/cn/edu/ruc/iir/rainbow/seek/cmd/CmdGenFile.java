@@ -14,12 +14,12 @@ import java.util.Properties;
 /**
  * Created by hank on 16-12-25.
  */
-public class CmdGenerateFile implements Command
+public class CmdGenFile implements Command
 {
     private FileGenerator generator = null;
     private Receiver receiver = null;
 
-    public CmdGenerateFile()
+    public CmdGenFile()
     {
         this.generator = FileGenerator.Instance();
     }

@@ -1,12 +1,11 @@
 package cn.edu.ruc.iir.rainbow.eva.cmd;
 
+import cn.edu.ruc.iir.rainbow.common.HttpUtils;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.ProgressListener;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
-import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
-import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.exception.MetadataException;
-import cn.edu.ruc.iir.rainbow.common.exception.NotSupportedException;
+import cn.edu.ruc.iir.rainbow.common.exception.*;
 import cn.edu.ruc.iir.rainbow.common.metadata.OrcMetadataStat;
 import cn.edu.ruc.iir.rainbow.common.metadata.ParquetMetadataStat;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
@@ -23,15 +22,12 @@ import org.apache.hadoop.fs.FileStatus;
 import parquet.hadoop.metadata.ParquetMetadata;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by hank on 17-5-4.
  */
-public class CmdWorkloadEvaluation implements Command
+public class CmdWorkloadEva implements Command
 {
     private Receiver receiver = null;
 
@@ -47,10 +43,12 @@ public class CmdWorkloadEvaluation implements Command
      *   <li>method, LOCAL, SPARK1 or SPARK2</li>
      *   <li>format, PARQUET or ORC</li>
      *   <li>table.dir, the path of table directory on HDFS</li>
+     *   <li>table.name, the table name for presto, only needed when PRESTO method is used.</li>
      *   <li>workload.file workload file path</li>
      *   <li>log.dir the local directory used to write evaluation results, must end with '/'</li>
      *   <li>drop.cache, true or false, whether or not drop file cache on each node in the cluster</li>
      *   <li>drop.caches.sh, the file path of drop_caches.sh</li>
+     *   <li>pipeline.no, the pipeline number for rainbow-web, only needed when RAINBOW-WEB method is used.</li>
      * </ol>
      *
      * this method will pass the following results to receiver:
@@ -60,6 +58,7 @@ public class CmdWorkloadEvaluation implements Command
      * </ol>
      * @param params
      */
+    @SuppressWarnings("Duplicates")
     @Override
     public void execute(Properties params)
     {
@@ -377,19 +376,7 @@ public class CmdWorkloadEvaluation implements Command
                         Runtime.getRuntime().exec(dropCachesSh);
                     }
 
-                    StageMetrics metrics = null;
-                    Properties properties = new Properties();
-                    String user = ConfigFactory.Instance().getProperty("presto.user");
-                    String password = ConfigFactory.Instance().getProperty("presto.password");
-                    String ssl = ConfigFactory.Instance().getProperty("presto.ssl");
-                    properties.setProperty("user", user);
-                    if (!password.equalsIgnoreCase("null"))
-                    {
-                        properties.setProperty("password", password);
-                    }
-                    properties.setProperty("SSL", ssl);
-                    metrics = PrestoEvaluator.execute(ConfigFactory.Instance().getProperty("presto.jdbc.url"),
-                            properties, params.getProperty("table.name"), columns, orderByColumn);
+                    StageMetrics metrics = PrestoEvaluator.execute(params.getProperty("table.name"), columns, orderByColumn);
 
                     // log the results
                     timeWriter.write(queryId + "," + metrics.getDuration() + "\n");
@@ -404,6 +391,36 @@ public class CmdWorkloadEvaluation implements Command
             {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR, "evaluate Presto metadata error", e);
             }
+        }
+        else if (params.getProperty("method").equalsIgnoreCase("RAINBOW-WEB"))
+        {
+            String pno = params.getProperty("pipeline.no");
+
+            Random random = new Random(System.currentTimeMillis());
+            try (BufferedReader reader = new BufferedReader(new FileReader(workloadFilePath));)
+            {
+                String line = null;
+                while ((line = reader.readLine()) != null)
+                {
+                    String[] tokens = line.split("\t");
+                    double weight = Double.parseDouble(tokens[1]);
+                    String aPostData = "query=" + tokens[2] + "&pno=" + pno + "&id=" + tokens[0] + "&weight=" + weight;
+                    String res = HttpUtils.Instance().acHttpPost(Settings.WORKLOAD_POST_URL, aPostData).toString();
+                    System.out.println("response of qid [" + tokens[0] + "]: " + res);
+                    Thread.sleep(random.nextInt(500));
+                }
+            } catch (IOException e)
+            {
+                ExceptionHandler.Instance().log(ExceptionType.ERROR, "evaluate rainbow-web i/o error", e);
+            } catch (InterruptedException e)
+            {
+                ExceptionHandler.Instance().log(ExceptionType.ERROR, "evaluate rainbow-web interrupted error", e);
+            }
+        }
+        else
+        {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "evaluate rainbow-web params error",
+                    new CommandException("method=" + params.getProperty("method") + "is not expected."));
         }
 
         if (receiver != null)
