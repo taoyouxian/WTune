@@ -409,7 +409,8 @@ public class FastScoaPixels extends FastScoa
             AtomicColumnletGroup acg = (AtomicColumnletGroup) column;
             for (int qid : acg.getQueryIds())
             {
-                // for each query accesses this acg, remove the origin columnlet ids belong to this acg.
+                // for each query accesses this acg, remove the origin columnlet ids belong to this acg from the query's
+                // accessed column ids.
                 // note that we assigned the sequential qid to the queries in rebuiltWorkload.
                 Query query = rebuiltWorklod.get(qid);
                 for (Columnlet columnlet : acg.getColumnlets())
@@ -766,7 +767,9 @@ public class FastScoaPixels extends FastScoa
     }
 
     /**
-     * get the real column order from the given acg order, not the rebuilt column order.
+     * get the real column order from the given acg order.
+     * real column order is not the rebuilt column order.
+     * origin column ids can be got by getColumnId method of the columnlets in read column order.
      * @param atomicColumnGroupOrder
      * @return
      */
@@ -785,7 +788,9 @@ public class FastScoaPixels extends FastScoa
     }
 
     /**
-     * get the real column order of the current column order (acg order), not the rebuilt column order.
+     * get the real column order of the current column order (acg order).
+     * real column order is not the rebuilt column order.
+     * origin column ids can be got by getColumnId method of the columnlets in read column order.
      * @return
      */
     public List<Column> getRealColumnletOrder()

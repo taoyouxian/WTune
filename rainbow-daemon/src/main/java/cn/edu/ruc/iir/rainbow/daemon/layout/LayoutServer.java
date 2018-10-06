@@ -80,11 +80,16 @@ public class LayoutServer implements Server
                 Layout prevLayout = layoutModel.getLatestByTable(table);
 
                 /**
-                 *
+                 * the columns get by columnModel are sorted by cid, and the index in this sorted column array are
+                 * used as the column id in all column orders in this function.
                  */
                 List<Column> initColumnOrder = ColumnOrderBuilder.wrappedColumns(columnModel.getByTable(table));
                 if (prevLayout != null)
                 {
+                    /**
+                     * if there is a existing previous layout, then use the column order in this layout as the initColumnOrder.
+                     * but the column ids are not re-assigned.
+                     */
                     List<Column> prevColumnOrder = new ArrayList<>();
                     String initOrderJson = prevLayout.getOrder();
                     List<String> prevColumnNameOrder = JSON.parseObject(initOrderJson, Order.class).getColumnOrder();
@@ -99,13 +104,18 @@ public class LayoutServer implements Server
                     }
                     initColumnOrder = prevColumnOrder;
                 }
+
+                // generate the workload
                 List<Query> workload = wrappedWorkload(accessPatterns, initColumnOrder);
 
                 try
                 {
+                    // the new column order to be calculated.
                     List<Column> currentColumnOrder;
+                    // the new compact layout to be calculated
                     List<Column> currentCompactLayout;
 
+                    // the version of new layout.
                     int currentVersion = 0;
                     if (prevLayout != null)
                     {
@@ -114,33 +124,43 @@ public class LayoutServer implements Server
 
                     System.out.println("running scoa...");
 
-                    Algorithm scoa = AlgorithmFactory.Instance().getAlgorithm("scoa", 400, new ArrayList<>(initColumnOrder), workload, new PowerSeekCost());
+                    // running scoa from initColumnOrder
+                    Algorithm scoa = AlgorithmFactory.Instance().getAlgorithm("scoa", 400,
+                            new ArrayList<>(initColumnOrder), new ArrayList<>(workload), new PowerSeekCost());
                     ExecutorContainer container = new ExecutorContainer(scoa, 1);
-                    container.waitForCompletion(1, percentage -> {
-                        System.out.println(percentage);
-                    });
+                    container.waitForCompletion(1, percentage -> System.out.println(percentage));
 
                     double currentOrderedSeekCost = scoa.getCurrentWorkloadSeekCost();
                     System.out.println("current ordered seek cost:" + currentOrderedSeekCost);
 
+                    /**
+                     * now we get the new column order.
+                     */
                     currentColumnOrder = scoa.getColumnOrder();
 
                     System.out.println("running scoa pixels...");
 
-                    FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm("scoa.pixels", 600, new ArrayList<>(currentColumnOrder), workload);
+                    // running scoaPixels from new column order.
+                    FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm(
+                            "scoa.pixels", 600, new ArrayList<>(currentColumnOrder),
+                            new ArrayList<>(workload));
                     container = new ExecutorContainer(scoaPixels, 1);
-                    container.waitForCompletion(1, percentage -> {
-                        System.out.println(percentage);
-                    });
+                    container.waitForCompletion(1, percentage -> System.out.println(percentage));
                     System.out.println("start cached cost: " + scoaPixels.getStartCachedCost());
                     double currentCachedCost = scoaPixels.getOrderedCachedCost();
                     System.out.println("current cached cost: " + currentCachedCost);
+
+                    /**
+                     * new we get the new compact layout.
+                     * but the column ids (can be got by getColumnId, not getId())
+                     * in this compact layout is the column ids in initColumnOrder,
+                     * which is not what we want in the metadata.
+                     */
                     currentCompactLayout = scoaPixels.getRealColumnletOrder();
 
                     /**
-                     * begin
+                     * <b><begin</b>
                      * build the relative compact layout, in which the column id is the index of column in currentColumnOrder.
-                     * TODO: to be tested.
                      */
                     int[] columnIdToCurrenIndex = new int[currentColumnOrder.size()];
 
@@ -158,17 +178,21 @@ public class LayoutServer implements Server
                         relativeCompactLayout.add(relativeColumnlet);
                     }
                     /**
-                     * end
+                     * <b>end</b>
                      */
 
+                    // get the store path for new ordered and compact layout.
                     String warehousePath = ConfigFactory.Instance().getProperty("pixels.warehouse.path");
                     if (! (warehousePath.endsWith("/") || warehousePath.endsWith("\\")))
                     {
                         warehousePath += "/";
                     }
-
                     String currentBasePath = warehousePath + schemaName + "/" + tableName + "/v_" + currentVersion;
 
+                    /**
+                     * get the split strategy. column ids in query's getColumnIds are the column ids in initColumnOrder,
+                     * we have to convert such column ids into relative column ids.
+                     */
                     Splits currSplitStrategy = new Splits();
                     currSplitStrategy.setNumRowGroupInBlock(scoaPixels.getNumRowGroupPerBlock());
                     for (Query query : workload)
@@ -182,19 +206,26 @@ public class LayoutServer implements Server
                         currSplitStrategy.addSplitPatterns(splitPattern);
                     }
 
+                    /**
+                     * new we get the new layout to be store into metadata.
+                     */
                     Layout currentLayout = new Layout();
-                    currentLayout.setPermission(-1);
-                    currentLayout.setTable(table);
+
+                    currentLayout.setId(-1);// layout with id < 0 will be saved as a new layout into metadata.
+                    currentLayout.setPermission(-1);// layout with permission < 0 is not readable nor writable.
                     currentLayout.setVersion(currentVersion);
-                    currentLayout.setSplits(JSON.toJSONString(currSplitStrategy));
-                    currentLayout.setCompactPath(currentBasePath + "_compact");
-                    currentLayout.setOrderPath(currentBasePath + "_order");
+                    currentLayout.setCreateAt(System.currentTimeMillis());
                     currentLayout.setOrder(ColumnOrderBuilder.orderToJsonString(currentColumnOrder));
+                    currentLayout.setOrderPath(currentBasePath + "_order");
                     currentLayout.setCompact(ColumnOrderBuilder.compactLayoutToJsonString(scoaPixels.getNumRowGroupPerBlock(),
                             initColumnOrder.size(), scoaPixels.getCacheBorder(currentCompactLayout), relativeCompactLayout));
-                    currentLayout.setCreateAt(System.currentTimeMillis());
-                    currentLayout.setId(-1);
+                    currentLayout.setCompactPath(currentBasePath + "_compact");
+                    currentLayout.setSplits(JSON.toJSONString(currSplitStrategy));
+                    currentLayout.setTable(table);
 
+                    /**
+                     * save the new layout into metadata.
+                     */
                     layoutModel.save(currentLayout);
 
 
@@ -209,7 +240,9 @@ public class LayoutServer implements Server
                     ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", e);
                 }
 
-
+                /**
+                 * have a rest.
+                 */
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e)
             {
@@ -221,6 +254,13 @@ public class LayoutServer implements Server
         }
     }
 
+    /**
+     * generate the workload for layout optimization. query ids are sequentially assigned.
+     * @param accessPatterns
+     * @param columnOrder
+     * @return
+     * @throws ColumnNotFoundException
+     */
     public static List<Query> wrappedWorkload (List<AccessPattern> accessPatterns, List<Column> columnOrder)
             throws ColumnNotFoundException
     {
