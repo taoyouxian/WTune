@@ -14,10 +14,10 @@
     <properties>
         <mainClass>cn.edu.ruc.iir.rainbow.web.server.RainbowWebServer</mainClass>
         <dep.spring.version>4.2.7.RELEASE</dep.spring.version>
+        <dep.spring.data.version>1.10.8.RELEASE</dep.spring.data.version>
+        <dep.hibernate.version>5.2.0.Final</dep.hibernate.version>
         <dep.jetty.version>9.0.5.v20130815</dep.jetty.version>
         <dep.jackson.version>1.9.13</dep.jackson.version>
-        <dep.hive.version>1.2.2</dep.hive.version>
-        <dep.postgresql.version>9.4.1207</dep.postgresql.version>
         <jdk.version>1.8</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -28,37 +28,31 @@
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-evaluate</artifactId>
-            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-common</artifactId>
-            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-layout</artifactId>
-            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-benchmark</artifactId>
-            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-cli</artifactId>
-            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>rainbow-workload</artifactId>
-            <version>${project.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -66,13 +60,11 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
-            <version>2.7.3</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <version>2.7.3</version>
             <optional>true</optional>
         </dependency>
 
@@ -116,7 +108,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>1.10.8.RELEASE</version>
+            <version>${dep.spring.data.version}</version>
             <optional>true</optional>
         </dependency>
         <!--spring end -->
@@ -125,7 +117,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.2.0.Final</version>
+            <version>${dep.hibernate.version}</version>
             <optional>true</optional>
         </dependency>
         <!-- hibernate end -->
@@ -181,14 +173,13 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.31</version>
             <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-jsp</artifactId>
-            <version>9.2.19.v20160908</version>
+            <version>${dep.jetty.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -216,14 +207,12 @@
         <dependency>
             <groupId>org.apache.hive</groupId>
             <artifactId>hive-jdbc</artifactId>
-            <version>${dep.hive.version}</version>
             <optional>true</optional>
         </dependency>
 
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${dep.postgresql.version}</version>
             <optional>true</optional>
         </dependency>
     </dependencies>

@@ -15,7 +15,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.38</version>
             <optional>true</optional>
         </dependency>
 
@@ -23,19 +22,11 @@
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-hdfs</artifactId>
-            <version>2.7.3</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
-            <version>2.7.3</version>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>2.7.3</version>
             <optional>true</optional>
         </dependency>
 
@@ -43,39 +34,33 @@
         <dependency>
             <groupId>org.apache.orc</groupId>
             <artifactId>orc-core</artifactId>
-            <version>1.4.0</version>
             <optional>true</optional>
         </dependency>
 
         <!-- parquet -->
         <dependency>
             <groupId>com.twitter</groupId>
-            <artifactId>parquet-hadoop</artifactId>
-            <version>1.6.0rc4</version>
+            <artifactId>parquet-format</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.twitter</groupId>
-            <artifactId>parquet-format</artifactId>
-            <version>2.2.0</version>
+            <artifactId>parquet-hadoop</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>parquet-encoding</artifactId>
-            <version>1.6.0rc4</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>parquet-common</artifactId>
-            <version>1.6.0rc4</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>parquet-column</artifactId>
-            <version>1.6.0rc4</version>
             <optional>true</optional>
         </dependency>
 
@@ -83,13 +68,11 @@
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>pixels-common</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>cn.edu.ruc.iir</groupId>
             <artifactId>pixels-core</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>
 
@@ -97,7 +80,6 @@
         <dependency>
             <groupId>org.htmlparser</groupId>
             <artifactId>htmlparser</artifactId>
-            <version>1.6</version>
             <optional>true</optional>
         </dependency>
 
@@ -105,7 +87,6 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.2.5</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
