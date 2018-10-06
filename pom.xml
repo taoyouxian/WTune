@@ -46,7 +46,7 @@
         <dep.pixels.version>0.1.0-SNAPSHOT</dep.pixels.version>
         <dep.presto.version>0.192</dep.presto.version>
         <dep.hadoop.version>2.7.3</dep.hadoop.version>
-        <dep.orc.version>1.4.0</dep.orc.version>
+        <dep.orc.version>1.4.3</dep.orc.version>
         <dep.parquet.version>1.6.0rc4</dep.parquet.version>
         <dep.parquet-format.version>2.2.0</dep.parquet-format.version>
         <dep.spark.version>2.1.0</dep.spark.version>
