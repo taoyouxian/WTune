@@ -107,6 +107,7 @@ public class LayoutServer implements Server
 
                 // generate the workload
                 List<Query> workload = wrappedWorkload(accessPatterns, initColumnOrder);
+                System.out.println("workload size: " + workload.size());
 
                 try
                 {
@@ -127,11 +128,13 @@ public class LayoutServer implements Server
                     // running scoa from initColumnOrder
                     Algorithm scoa = AlgorithmFactory.Instance().getAlgorithm("scoa", 400,
                             new ArrayList<>(initColumnOrder), new ArrayList<>(workload), new PowerSeekCost());
+                    System.out.println("schema seek cost:" + scoa.getSchemaSeekCost());
+
                     ExecutorContainer container = new ExecutorContainer(scoa, 1);
                     container.waitForCompletion(1, percentage -> System.out.println(percentage));
 
                     double currentOrderedSeekCost = scoa.getCurrentWorkloadSeekCost();
-                    System.out.println("current ordered seek cost:" + currentOrderedSeekCost);
+                    System.out.println("ordered seek cost:" + currentOrderedSeekCost);
 
                     /**
                      * now we get the new column order.
@@ -144,11 +147,21 @@ public class LayoutServer implements Server
                     FastScoaPixels scoaPixels = (FastScoaPixels) AlgorithmFactory.Instance().getAlgorithm(
                             "scoa.pixels", 600, new ArrayList<>(currentColumnOrder),
                             new ArrayList<>(workload));
+
+
+
                     container = new ExecutorContainer(scoaPixels, 1);
+                    System.out.println("init seek cost:" + scoaPixels.getCurrentWorkloadSeekCost());
                     container.waitForCompletion(1, percentage -> System.out.println(percentage));
-                    System.out.println("start cached cost: " + scoaPixels.getStartCachedCost());
+
+
+                    System.out.println("origin seek cost:" + scoaPixels.getOriginSeekCost());
+
+                    System.out.println("ordered seek cost:" + scoaPixels.getOrderedSeekCost());
+
+                    System.out.println("start cached cost:" + scoaPixels.getStartCachedCost());
                     double currentCachedCost = scoaPixels.getOrderedCachedCost();
-                    System.out.println("current cached cost: " + currentCachedCost);
+                    System.out.println("current cached cost:" + currentCachedCost);
 
                     /**
                      * new we get the new compact layout.
@@ -207,7 +220,7 @@ public class LayoutServer implements Server
                     }
 
                     /**
-                     * new we get the new layout to be store into metadata.
+                     * now we get the new layout to be store into metadata.
                      */
                     Layout currentLayout = new Layout();
 

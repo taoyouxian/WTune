@@ -1,15 +1,17 @@
 package cn.edu.ruc.iir.daemon;
 
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Column;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Layout;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.LayoutDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
 import cn.edu.ruc.iir.rainbow.common.exception.MetadataException;
 import cn.edu.ruc.iir.rainbow.common.metadata.PixelsMetadataStat;
 import cn.edu.ruc.iir.rainbow.daemon.layout.LayoutServer;
 import cn.edu.ruc.iir.rainbow.daemon.workload.WorkloadQueue;
-import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
-import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
-import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Column;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
 import org.junit.Test;
 
@@ -71,7 +73,7 @@ public class TestLayoutServer
         TableDao tableModel = new TableDao();
         ColumnDao columnModel = new ColumnDao();
         Schema schema = schemaModel.getByName("pixels");
-        Table table = tableModel.getByNameAndSchema("test_105", schema);
+        Table table = tableModel.getByNameAndSchema("test_105_perf", schema);
         List<Column> columns = columnModel.getByTable(table);
         Map<String, Column> nameToColumnMap = new HashMap<>();
 
@@ -98,17 +100,30 @@ public class TestLayoutServer
     }
 
     @Test
+    public void testGetLayout ()
+    {
+        SchemaDao schemaModel = new SchemaDao();
+        TableDao tableModel = new TableDao();
+        ColumnDao columnModel = new ColumnDao();
+        LayoutDao layoutModel = new LayoutDao();
+        Schema schema = schemaModel.getByName("pixels");
+        Table table = tableModel.getByNameAndSchema("test_1187", schema);
+        Layout layout = layoutModel.getByTable(table).get(0);
+        System.out.println(layout.getCompact());
+    }
+
+    @Test
     public void testServer ()
     {
         WorkloadQueue workloadQueue = new WorkloadQueue();
-        LayoutServer layoutServer = new LayoutServer("pixels", "test_105",
+        LayoutServer layoutServer = new LayoutServer("pixels", "test_1187",
                 workloadQueue);
         Thread thread = new Thread(layoutServer);
         thread.start();
 
         List<AccessPattern> workload = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(
-                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/105_workload.text")))
+                "/home/hank/dev/idea-projects/rainbow/rainbow-layout/src/test/resources/1187_workload.txt")))
         {
             String line;
             while ((line = reader.readLine()) != null)
