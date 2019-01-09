@@ -239,7 +239,7 @@ public class LayoutServer implements Server
                     /**
                      * save the new layout into metadata.
                      */
-                    layoutModel.save(currentLayout);
+                    //layoutModel.save(currentLayout);
 
 
                 } catch (NotMultiThreadedException e)

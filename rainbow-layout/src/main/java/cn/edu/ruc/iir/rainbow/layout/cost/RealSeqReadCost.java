@@ -51,4 +51,17 @@ public class RealSeqReadCost implements SeqReadCost
     {
         return this.K * length;
     }
+
+    /**
+     * Calculate the cost of a read operation.
+     *
+     * @param fromByte the offset in bytes from which the read will be performed.
+     * @param length    the bytes to be read.
+     * @return
+     */
+    @Override
+    public double calculate(long fromByte, double length)
+    {
+        return calculate(length);
+    }
 }

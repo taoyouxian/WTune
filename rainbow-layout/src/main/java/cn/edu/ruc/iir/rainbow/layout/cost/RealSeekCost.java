@@ -54,4 +54,17 @@ public class RealSeekCost implements SeekCost
             return this.K * Math.sqrt(distance);
         }
     }
+
+    /**
+     * Calculate the cost of a seek operation.
+     *
+     * @param fromByte the offset in bytes from which the seek will be performed.
+     * @param distance    the bytes to be seek.
+     * @return
+     */
+    @Override
+    public double calculate(long fromByte, double distance)
+    {
+        return calculate(distance);
+    }
 }

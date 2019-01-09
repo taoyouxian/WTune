@@ -4,6 +4,7 @@ import cn.edu.ruc.iir.pixels.common.metadata.domain.Column;
 import cn.edu.ruc.iir.pixels.common.metadata.domain.Layout;
 import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
 import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
+import cn.edu.ruc.iir.pixels.common.utils.ConfigFactory;
 import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
 import cn.edu.ruc.iir.pixels.daemon.metadata.dao.LayoutDao;
 import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
@@ -115,6 +116,9 @@ public class TestLayoutServer
     @Test
     public void testServer ()
     {
+        ConfigFactory configFactory = ConfigFactory.Instance();
+        configFactory.addProperty("metadata.db.password", "pixels27");
+        configFactory.addProperty("metadata.db.url", "jdbc:mysql://dbiir27:3306/pixels_metadata?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
         WorkloadQueue workloadQueue = new WorkloadQueue();
         LayoutServer layoutServer = new LayoutServer("pixels", "test_1187",
                 workloadQueue);

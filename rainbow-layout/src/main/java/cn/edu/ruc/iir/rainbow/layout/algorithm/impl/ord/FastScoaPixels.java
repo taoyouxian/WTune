@@ -105,13 +105,13 @@ public class FastScoaPixels extends FastScoa
     /**
      * <p>This function will rebuild the schema and workload for columnlet reordering inside large HDFS block.
      * In pure column ordering, we only consider the column order inside a row group. But in a block with a number
-     * of row groups, we want to reorder the columnlets among all the row group within the same block. </p>
+     * of row groups, we want to reorder the columnlets among all the row groups within the same block. </p>
      *
      * <p>To do that by reusing SCOA algorithm, we have to rebuild a pseudo workload and a pseudo schema.
      * We consider the columnlet access pattern in a block. In the pseudo workload, we firstly determine the split
      * size for each query in the original workload, then if there are multiple splites in a block, we build a
      * querylet (pseudo query) on each split for the original query. In pseudo schema, columnlets accessed by the
-     * same set of querylet are grouped into an atomic columnlet group (ACG). Columnlets in an ACG will be moved
+     * same set of querylets are grouped into an atomic columnlet group (ACG). Columnlets in an ACG will be moved
      * together during the columnlet reordering procedure.</p>
      */
     @SuppressWarnings("Duplicates")
@@ -703,7 +703,7 @@ public class FastScoaPixels extends FastScoa
                 int id = curColumns.get(i);
                 if (lastOffset != 0)
                 {
-                    querySeekCost += this.getSeekCostFunction().calculate(sumSize.get(id) - lastOffset);
+                    querySeekCost += this.getSeekCostFunction().calculate((long)lastOffset, sumSize.get(id) - lastOffset);
                 }
                 lastOffset = sumSize.get(id) + uncachedColumnOrder.get(id).getSize();
             }
@@ -945,20 +945,25 @@ public class FastScoaPixels extends FastScoa
         int accessedColumnNum = 0;
         // we do not consider the initial seek cost,
         // so that we ignore seek cost from beginning to the first accessed column.
-        boolean finishFirstRead = false;
+        // NOTICE: long ago, we did not consider the initial seek cost.
+        // But we changed our mind, we want to consider the initial seek cost
+        //boolean finishFirstRead = false;
+        double lastOffset = 0;
         for (int i = 0; i < columnOrder.size(); ++i)
         {
             if (query.getColumnIds().contains(columnOrder.get(i).getId()))
             {
                 // column i has been accessed by the query
-                if (finishFirstRead == false)
+                //if (finishFirstRead == false)
                 {
-                    finishFirstRead = true;
+                //    finishFirstRead = true;
                 }
-                else
+                //else
                 {
-                    querySeekCost += this.getSeekCostFunction().calculate(seekDistance);
+                    querySeekCost += this.getSeekCostFunction().calculate((long)lastOffset, seekDistance);
                 }
+                // TODO: check if lastOffset is set correctly.
+                lastOffset += seekDistance;
                 seekDistance = 0;
                 accessedColumnNum++;
 
@@ -969,7 +974,7 @@ public class FastScoaPixels extends FastScoa
                 }
             } else
             {
-                if (finishFirstRead == true)
+                //if (finishFirstRead == true)
                 {
                     // column i has been skipped (seek over) by the query
                     seekDistance += columnOrder.get(i).getSize();

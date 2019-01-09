@@ -25,8 +25,8 @@ public class TestOrcMetadata
     {
         Configuration conf = new Configuration();
         System.setProperty("hadoop.home.dir", "/");
-        FileSystem fileSystem = FileSystem.get(URI.create("hdfs://presto00:9000"), conf);
-        Path hdfsDirPath = new Path("/rainbow2/orc_new_compress");
+        FileSystem fileSystem = FileSystem.get(URI.create("hdfs://dbiir10:9000"), conf);
+        Path hdfsDirPath = new Path("/pixels/pixels/test_105/orc/test_orc");
         System.out.println(fileSystem.isFile(hdfsDirPath));
         FileStatus[] fileStatuses = fileSystem.listStatus(hdfsDirPath);
         System.out.println(fileStatuses.length);
@@ -38,6 +38,7 @@ public class TestOrcMetadata
 
         Reader reader = OrcFile.createReader(fileStatuses[0].getPath(),
                 OrcFile.readerOptions(conf));
+        System.out.println(reader.getFileTail().getFooter().getStripesCount());
         System.out.println("file length:" + reader.getFileTail().getFileLength());
         List<String> columnNames = new ArrayList<>();
         columnNames.add("samplepercent");
