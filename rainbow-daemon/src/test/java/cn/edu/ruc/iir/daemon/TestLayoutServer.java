@@ -117,8 +117,8 @@ public class TestLayoutServer
     public void testServer ()
     {
         ConfigFactory configFactory = ConfigFactory.Instance();
-        configFactory.addProperty("metadata.db.password", "pixels27");
-        configFactory.addProperty("metadata.db.url", "jdbc:mysql://dbiir27:3306/pixels_metadata?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
+        configFactory.addProperty("metadata.db.password", "pixels16");
+        configFactory.addProperty("metadata.db.url", "jdbc:mysql://dbiir10:3306/pixels_metadata?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
         WorkloadQueue workloadQueue = new WorkloadQueue();
         LayoutServer layoutServer = new LayoutServer("pixels", "test_1187",
                 workloadQueue);

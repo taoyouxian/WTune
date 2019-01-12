@@ -360,7 +360,7 @@ public class FastScoaPixels extends FastScoa
 
         /**
          * we want to know something interesting,
-         * such the origin seek cost (without sequentially columnlet duplication).
+         * such as the origin seek cost (without sequentially columnlet duplication).
          */
         // init the originSeekCost
         List<Column> tmpColumnOrder = new ArrayList<>();
