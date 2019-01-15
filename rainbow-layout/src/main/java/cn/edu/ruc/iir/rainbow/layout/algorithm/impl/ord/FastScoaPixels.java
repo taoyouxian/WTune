@@ -703,7 +703,8 @@ public class FastScoaPixels extends FastScoa
                 int id = curColumns.get(i);
                 if (lastOffset != 0)
                 {
-                    querySeekCost += this.getSeekCostFunction().calculate((long)lastOffset, sumSize.get(id) - lastOffset);
+                    // querySeekCost += this.getSeekCostFunction().calculate((long)lastOffset, sumSize.get(id) - lastOffset);
+                    querySeekCost += this.getSeekCostFunction().calculate(sumSize.get(id) - lastOffset);
                 }
                 lastOffset = sumSize.get(id) + uncachedColumnOrder.get(id).getSize();
             }
@@ -960,7 +961,8 @@ public class FastScoaPixels extends FastScoa
                 }
                 //else
                 {
-                    querySeekCost += this.getSeekCostFunction().calculate((long)lastOffset, seekDistance);
+                    //querySeekCost += this.getSeekCostFunction().calculate((long)lastOffset, seekDistance);
+                    querySeekCost += this.getSeekCostFunction().calculate(seekDistance);
                 }
                 // TODO: check if lastOffset is set correctly.
                 lastOffset += seekDistance;
