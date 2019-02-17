@@ -114,6 +114,47 @@ public class TestLayoutServer
     }
 
     @Test
+    public void testUpdateRGSize ()
+    {
+        ConfigFactory configFactory = ConfigFactory.Instance();
+        configFactory.addProperty("metadata.db.password", "pixels16");
+        configFactory.addProperty("metadata.db.url", "jdbc:mysql://dbiir10:3306/pixels_metadata?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
+        SchemaDao schemaModel = new SchemaDao();
+        TableDao tableModel = new TableDao();
+        ColumnDao columnModel = new ColumnDao();
+        LayoutDao layoutModel = new LayoutDao();
+        Schema schema = schemaModel.getByName("pixels");
+        Table table = tableModel.getByNameAndSchema("test_1187", schema);
+        List<Column> columns = columnModel.getByTable(table);
+        for (Column column : columns)
+        {
+            column.setSize(column.getSize()*36/25);
+            columnModel.update(column);
+        }
+    }
+
+    @Test
+    public void testGetRGSize ()
+    {
+        ConfigFactory configFactory = ConfigFactory.Instance();
+        configFactory.addProperty("metadata.db.password", "pixels16");
+        configFactory.addProperty("metadata.db.url", "jdbc:mysql://dbiir10:3306/pixels_metadata?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull");
+        SchemaDao schemaModel = new SchemaDao();
+        TableDao tableModel = new TableDao();
+        ColumnDao columnModel = new ColumnDao();
+        LayoutDao layoutModel = new LayoutDao();
+        Schema schema = schemaModel.getByName("pixels");
+        Table table = tableModel.getByNameAndSchema("test_105", schema);
+        List<Column> columns = columnModel.getByTable(table);
+        double size = 0;
+        for (Column column : columns)
+        {
+            size += column.getSize();
+        }
+        System.out.println(size);
+    }
+
+    @Test
     public void testServer ()
     {
         ConfigFactory configFactory = ConfigFactory.Instance();

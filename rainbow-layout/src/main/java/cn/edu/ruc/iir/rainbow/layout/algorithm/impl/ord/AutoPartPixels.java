@@ -13,7 +13,7 @@ import java.util.*;
 /**
  * column ordering and query-wise split size optimization for Pixels
  */
-public class FastScoaPixels extends FastScoa
+public class AutoPartPixels extends FastScoa
 {
     // this is the sequential read cost function
     private SeqReadCost seqReadCostFunction = null;
@@ -36,7 +36,7 @@ public class FastScoaPixels extends FastScoa
     // map from query id to the query's split size (number of row groups in a split).
     private Map<Integer, Integer> querySplitSizeMap = new HashMap<>();
 
-    public FastScoaPixels ()
+    public AutoPartPixels()
     {
         // read the number of row groups inside a block from configuration
         String strNumRowGroup = ConfigFactory.Instance().getProperty("pixels.num.row.group.perblock");
@@ -809,9 +809,30 @@ public class FastScoaPixels extends FastScoa
     private double innerGetWorkloadSeekCost(List<Column> columnOrder, List<Query> workload)
     {
         double workloadSeekCost = 0;
+        // originIdToQueryletsMap is redundant.
+        Map<Integer, List<Query>> originIdToQueryletsMap = new HashMap<>();
         for (Query query : workload)
         {
-            double seekCost = query.getWeight() * getQuerySeekCost(columnOrder, query);
+            Querylet querylet = (Querylet) query;
+            if (originIdToQueryletsMap.containsKey(querylet.getOriginId()))
+            {
+                originIdToQueryletsMap.get(querylet.getOriginId()).add(query);
+            }
+            else
+            {
+                List<Query> queries = new ArrayList<>();
+                queries.add(query);
+                originIdToQueryletsMap.put(querylet.getOriginId(), queries);
+            }
+        }
+
+        for (Map.Entry<Integer, List<Query>> entry : originIdToQueryletsMap.entrySet())
+        {
+            double seekCost = 0;
+            for (Query query : entry.getValue())
+            {
+                seekCost += query.getWeight() * getQuerySeekCost(columnOrder, query);
+            }
             // note: it is currently not reasonable to use average seek cost.
             workloadSeekCost += seekCost;// / entry.getValue().size();
         }
@@ -872,7 +893,7 @@ public class FastScoaPixels extends FastScoa
     {
         if (this.isSetup)
         {
-            return innerGetWorkloadSeekCost(this.getColumnOrder(), this.getWorkload());
+            return innerGetWorkloadSeekCost(this.getRealColumnletOrder(), this.getWorkload());
         }
         else
         {
@@ -885,7 +906,7 @@ public class FastScoaPixels extends FastScoa
     {
         if (this.isSetup)
         {
-            return innerGetWorkloadSeekCost(this.getSchema(), this.getWorkload());
+            return innerGetWorkloadSeekCost(this.getRealColumnletOrder(this.getSchema()), this.getWorkload());
         }
         else
         {
@@ -901,13 +922,13 @@ public class FastScoaPixels extends FastScoa
     public double getCurrentWorkloadCost()
     {
         return this.getCurrentWorkloadSeekCost() +
-                this.innerGetWorkloadSeqReadCost(this.getColumnOrder(), this.getWorkload());
+                this.innerGetWorkloadSeqReadCost(this.getRealColumnletOrder(), this.getWorkload());
     }
 
     public double getSchemaCost()
     {
         return this.getSchemaSeekCost() +
-                this.innerGetWorkloadSeqReadCost(this.getSchema(), this.getWorkload());
+                this.innerGetWorkloadSeqReadCost(this.getRealColumnletOrder(this.getSchema()), this.getWorkload());
     }
 
     /**
@@ -928,7 +949,7 @@ public class FastScoaPixels extends FastScoa
         // NOTICE: long ago, we did not consider the initial seek cost.
         // But we changed our mind, we want to consider the initial seek cost
         //boolean finishFirstRead = false;
-        // double lastOffset = 0;
+        double lastOffset = 0;
         for (int i = 0; i < columnOrder.size(); ++i)
         {
             if (query.getColumnIds().contains(columnOrder.get(i).getId()))
@@ -944,7 +965,7 @@ public class FastScoaPixels extends FastScoa
                     querySeekCost += this.getSeekCostFunction().calculate(seekDistance);
                 }
                 // TODO: check if lastOffset is set correctly.
-                //lastOffset += seekDistance;
+                lastOffset += seekDistance;
                 seekDistance = 0;
                 accessedColumnNum++;
 

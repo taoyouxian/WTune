@@ -167,6 +167,10 @@ public class Scoa extends Algorithm
             return 1;
         } else
         {
+            if (temperature == 0)
+            {
+                return 0;
+            }
             return Math.exp((e - e1) / temperature);
         }
     }

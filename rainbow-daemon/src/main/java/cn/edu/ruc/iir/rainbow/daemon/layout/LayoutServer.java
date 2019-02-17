@@ -1,8 +1,10 @@
 package cn.edu.ruc.iir.rainbow.daemon.layout;
 
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Order;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.SplitPattern;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Splits;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.*;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.LayoutDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
+import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.common.exception.*;
@@ -18,13 +20,6 @@ import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.pixels.daemon.metadata.dao.ColumnDao;
-import cn.edu.ruc.iir.pixels.daemon.metadata.dao.LayoutDao;
-import cn.edu.ruc.iir.pixels.daemon.metadata.dao.SchemaDao;
-import cn.edu.ruc.iir.pixels.daemon.metadata.dao.TableDao;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Layout;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Schema;
-import cn.edu.ruc.iir.pixels.common.metadata.domain.Table;
 import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.logging.Log;
