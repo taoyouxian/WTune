@@ -8,13 +8,13 @@ import cn.edu.ruc.iir.rainbow.layout.algorithm.DupAlgorithm;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.ExecutorContainer;
 import cn.edu.ruc.iir.rainbow.common.cmd.ProgressListener;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
-import cn.edu.ruc.iir.rainbow.layout.builder.SimulatedSeekCostBuilder;
+import cn.edu.ruc.iir.rainbow.layout.builder.RealSeekCostBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.LinearSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.PowerSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.LinearSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.io.File;
 import java.io.IOException;
@@ -74,23 +74,23 @@ public class CmdDuplication implements Command
         String duppedSchemaFilePath = params.getProperty("dupped.schema.file");
         String duppedWorkloadFilePath = params.getProperty("dupped.workload.file");
         long budget = Long.parseLong(params.getProperty("computation.budget", "3000"));
-        SeekCostFunction.Type funcType = SeekCostFunction.Type.valueOf(
-                params.getProperty("seek.cost.function", SeekCostFunction.Type.POWER.name()).toUpperCase());
-        SeekCostFunction seekCostFunction = null;
+        SeekCost.Type funcType = SeekCost.Type.valueOf(
+                params.getProperty("seek.cost.function", SeekCost.Type.POWER.name()).toUpperCase());
+        SeekCost seekCostFunction = null;
 
         switch (funcType)
         {
             case LINEAR:
-                seekCostFunction = new LinearSeekCostFunction();
+                seekCostFunction = new LinearSeekCost();
                 break;
             case POWER:
-                seekCostFunction = new PowerSeekCostFunction();
+                seekCostFunction = new PowerSeekCost();
                 break;
             case SIMULATED:
                 try
                 {
                     String seekCostFilePath = params.getProperty("seek.cost.file");
-                    seekCostFunction = SimulatedSeekCostBuilder.build(new File(seekCostFilePath));
+                    seekCostFunction = RealSeekCostBuilder.build(new File(seekCostFilePath));
                 } catch (IOException e)
                 {
                     ExceptionHandler.Instance().log(ExceptionType.ERROR,

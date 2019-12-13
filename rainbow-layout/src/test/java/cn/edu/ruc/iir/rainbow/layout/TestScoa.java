@@ -8,8 +8,8 @@ import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.PowerSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 import org.junit.Test;
 
 import java.io.File;
@@ -25,11 +25,11 @@ public class TestScoa
     @Test
     public void testScoa() throws IOException, ColumnNotFoundException, AlgoException, ClassNotFoundException, InterruptedException
     {
-        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/schema.txt").getFile()));
-        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/workload.txt").getFile()), initColumnOrder);
+        List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestScoa.class.getResource("/105_schema.text").getFile()));
+        List<Query> workload = WorkloadBuilder.build(new File(TestScoa.class.getResource("/105_workload.text").getFile()), initColumnOrder);
         System.out.println(workload.size());
-        SeekCostFunction seekCostFunction = new PowerSeekCostFunction();
-        //SimulatedSeekCostBuilder.build(new File("cord-generator/resources/seek_cost.txt"));
+        SeekCost seekCostFunction = new PowerSeekCost();
+        //RealSeekCostBuilder.build(new File("layout/resources/seek_cost.txt"));
 
         Algorithm fastScoa = AlgorithmFactory.Instance().getAlgorithm("scoa", 200, new ArrayList<>(initColumnOrder), workload, seekCostFunction);
         System.out.println("Init cost: " + fastScoa.getSchemaSeekCost());
@@ -45,7 +45,7 @@ public class TestScoa
         }
 
         System.out.println("Final cost: " + fastScoa.getCurrentWorkloadSeekCost());
-        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "scoa_ordered_schema.txt"), fastScoa.getColumnOrder());
-        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "scoa_ordered_schema.txt");
+        ColumnOrderBuilder.saveAsSchemaFile(new File(TestScoa.class.getResource("/").getFile() + "105_scoa_ordered_schema.txt"), fastScoa.getColumnOrder());
+        System.out.println("ordered schema file: " + TestScoa.class.getResource("/").getFile() + "105_scoa_ordered_schema.txt");
     }
 }

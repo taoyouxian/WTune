@@ -52,7 +52,7 @@ $ java -jar target/rainbow-evaluate-xxx-full.jar -p ./src/main/resources/params/
 
 Parameters in `WORKLOAD_EVALUATION.properties` are:
 ```
-# LOCAL, SPARK1, SPARK2 or PRESTO
+# LOCAL, SPARK1, SPARK2, PRESTO or RAINBOW-WEB
 method=SPARK2
 
 # PARQUET or ORC
@@ -75,16 +75,21 @@ drop.cache=true
 
 # the file path of drop_caches.sh
 drop.caches.sh=/rainbow/drop_caches.sh
+
+# the pipeline number for rainbow-web, only needed when RAINBOW-WEB method is used.
+pipeline.no=dbced032765f68732a5caa949fb4a1df
 ```
 
 Currently, we only support automatic workload evaluation on **Parquet** format tables.
 
-For the three evaluation `method`, LOCAL, SPARK1 and SPARK2:
+For the five evaluation `method`, LOCAL, SPARK1, SPARK2, PRESTO and RAINBOW-WEB:
 - **LOCAL** is to read the accessed columns of a query from HDFS by a Parquet reader.
 - **SPARK1** is to execute the queries in Spark 1 (1.3.x recommended). The duration of the first mapPartitions stage is
 recorded as the read latency of the query. Such a latency includes task initialization, scheduling and garbage
 collection overheads.
 - **SPARK2** same with *SPARK1*, except executing the queries in Spark 2 (2.1.x recommended).
+- **PRESTO** is to execute the queries in Presto (0.192 recommended).
+- **RAINBOW-WEB** is to submit queries to rainbow-web, but these queries are just monitored instead of executed.
 
 `format` is the format of the data to be read in evaluation. Can be `ORC` or `PARQUET`. 
 But `ORC` is currently only supported in `SPARK2` method.
@@ -118,6 +123,8 @@ do
   ssh node$i sync
 done
 ```
+
+`pipeline.no` is the pipeline number (i.e. `pno`) for rainbow-web, only needed when RAINBOW-WEB method is used.
 
 You should ensure that the system user running Rainbow jars have the right permissions
 to execute this script and clear the fs cache on the cluster nodes.

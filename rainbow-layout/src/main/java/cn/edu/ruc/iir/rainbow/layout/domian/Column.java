@@ -11,7 +11,7 @@ public class Column implements Comparable<Column>
     private String type;
     private double size;
     private boolean duplicated = false;
-    private Set<Integer> queryIds = null;
+    private Set<Integer> queryIds = new HashSet<>();
 
     @Override
     public Column clone()
@@ -19,7 +19,14 @@ public class Column implements Comparable<Column>
         Column column = new Column(this.id, this.name, this.type, this.size);
         column.setDupId(this.dupId);
         column.setDuplicated(this.duplicated);
-        column.setQueryIds(new HashSet<>(this.queryIds));
+        if (this.queryIds != null)
+        {
+            column.setQueryIds(new HashSet<>(this.queryIds));
+        }
+        else
+        {
+            column.setQueryIds(null);
+        }
         return column;
     }
 
@@ -31,7 +38,6 @@ public class Column implements Comparable<Column>
         this.size = size;
         this.dupId = 0;
         this.duplicated = false;
-        queryIds = new HashSet<>();
     }
 
     @Override
@@ -101,6 +107,11 @@ public class Column implements Comparable<Column>
         this.size = size;
     }
 
+    public void addSize (double size)
+    {
+        this.size += size;
+    }
+
     public void setDupId(int dupId)
     {
         this.dupId = dupId;
@@ -119,6 +130,11 @@ public class Column implements Comparable<Column>
     public boolean hasQueryId (Integer queryId)
     {
         return this.queryIds.contains(queryId);
+    }
+
+    public Set<Integer> getQueryIds ()
+    {
+        return this.queryIds;
     }
 
     @Override

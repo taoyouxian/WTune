@@ -1,10 +1,10 @@
 package cn.edu.ruc.iir.rainbow.layout.algorithm;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 import cn.edu.ruc.iir.rainbow.common.exception.AlgoException;
 import org.apache.commons.logging.Log;
 
@@ -34,7 +34,7 @@ public class AlgorithmFactory
                                   long computationBudget,
                                   List<Column> initColumnOrder,
                                   List<Query> workload,
-                                  SeekCostFunction seekCostFunction) throws ClassNotFoundException, AlgoException
+                                  SeekCost seekCostFunction) throws ClassNotFoundException, AlgoException
     {
         String className = ConfigFactory.Instance().getProperty(algoName);
         Class<?> algoClass = Class.forName(className);
@@ -45,7 +45,10 @@ public class AlgorithmFactory
             algo.setComputationBudget(computationBudget);
             algo.setSchema(initColumnOrder);
             algo.setWorkload(workload);
-            algo.setSeekCostFunction(seekCostFunction);
+            if (seekCostFunction != null)
+            {
+                algo.setSeekCostFunction(seekCostFunction);
+            }
         } catch (Exception e)
         {
             log.error("algorithm construction error: ", e);
@@ -53,5 +56,24 @@ public class AlgorithmFactory
         }
 
         return algo;
+    }
+
+    /**
+     * Build the algorithm instance without providing seek cost function.
+     * In this case, the algorithm should build cost model by itself.
+     * @param algoName
+     * @param computationBudget
+     * @param initColumnOrder
+     * @param workload
+     * @return
+     * @throws ClassNotFoundException
+     * @throws AlgoException
+     */
+    public Algorithm getAlgorithm(String algoName,
+                                  long computationBudget,
+                                  List<Column> initColumnOrder,
+                                  List<Query> workload) throws ClassNotFoundException, AlgoException
+    {
+        return this.getAlgorithm(algoName, computationBudget, initColumnOrder, workload, null);
     }
 }

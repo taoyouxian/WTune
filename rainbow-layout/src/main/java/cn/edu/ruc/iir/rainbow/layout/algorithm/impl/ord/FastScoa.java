@@ -1,9 +1,9 @@
 package cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.util.*;
 
@@ -26,7 +26,7 @@ public class FastScoa extends Scoa
     @Override
     public void setup()
     {
-        super.setColumnOrder(super.getSchema());
+        this.setColumnOrder(new ArrayList<>(this.getSchema()));
         String strCoolingRate = ConfigFactory.Instance().getProperty("scoa.cooling_rate");
         String strInitTemp = ConfigFactory.Instance().getProperty("scoa.init.temperature");
         if (strCoolingRate != null)
@@ -57,14 +57,15 @@ public class FastScoa extends Scoa
         }
     }
 
+    @SuppressWarnings("Duplicates")
     @Override
     public void runAlgorithm()
     {
         long startSeconds = System.currentTimeMillis() / 1000;
-        this.currentEnergy = super.getCurrentWorkloadSeekCost();
+        this.currentEnergy = this.getCurrentWorkloadSeekCost();
 
         for (long currentSeconds = System.currentTimeMillis() / 1000;
-             (currentSeconds - startSeconds) < super.getComputationBudget();
+             (currentSeconds - startSeconds) < this.getComputationBudget();
              currentSeconds = System.currentTimeMillis() / 1000, ++this.iterations)
         {
             //generate two random indices
@@ -151,7 +152,7 @@ public class FastScoa extends Scoa
     {
         int C = this.getColumnOrder().size();
         int Q = this.getWorkload().size();
-        SeekCostFunction sc = this.getSeekCostFunction();
+        SeekCost sc = this.getSeekCostFunction();
         double []sb = new double[C];
         double []se = new double[C];
         for (int i = 0; i < C; i ++)
@@ -164,7 +165,6 @@ public class FastScoa extends Scoa
         double sizeX = this.getColumnOrder().get(x).getSize();
         double sizeY = this.getColumnOrder().get(y).getSize();
         double originSeekCost = this.currentEnergy;
-
 
         double deltaCost = 0;
         for (int i = 0; i < Q; i ++)

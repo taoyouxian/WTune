@@ -1,11 +1,11 @@
 package cn.edu.ruc.iir.rainbow.layout.algorithm.impl.dup;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.RefineAlgorithm;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.util.*;
 
@@ -91,7 +91,7 @@ public class FastRefine extends RefineAlgorithm
     {
         int lastPos = -1;
         int j = this.getWorkload().indexOf(query);
-        SeekCostFunction sc = this.getSeekCostFunction();
+        SeekCost sc = this.getSeekCostFunction();
         double seekCost = 0;
         for (int pos : this.queryAccessedPos.get(j))
         {
@@ -206,7 +206,7 @@ public class FastRefine extends RefineAlgorithm
     {
         int columnNum = this.getColumnOrder().size();
         int queryNum = this.getWorkload().size();
-        SeekCostFunction sc = this.getSeekCostFunction();
+        SeekCost sc = this.getSeekCostFunction();
         double[] so = new double[columnNum];
         double[] eo = new double[columnNum];
 

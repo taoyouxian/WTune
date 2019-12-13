@@ -1,8 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.sql;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.InputFactory;
-import cn.edu.ruc.iir.rainbow.common.util.OutputFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,8 +15,8 @@ public class GenerateLoad
     {
         final String DUP_MARK = ConfigFactory.Instance().getProperty("dup.mark");
 
-        try (BufferedReader reader = InputFactory.Instance().getReader(schemaFilePath);
-             BufferedWriter writer = OutputFactory.Instance().getWriter(loadStatementPath))
+        try (BufferedReader reader = FileUtils.Instance().getReader(schemaFilePath);
+             BufferedWriter writer = FileUtils.Instance().getWriter(loadStatementPath))
         {
             String line, columnName, replicaName;
             writer.write("INSERT " + (overWrite ? "OVERWRITE" : "INTO") + " TABLE " + tableName + "\nSELECT\n");

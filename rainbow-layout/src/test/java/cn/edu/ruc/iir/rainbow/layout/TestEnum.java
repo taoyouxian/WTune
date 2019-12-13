@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.layout;
 
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 import org.junit.Test;
 
 public class TestEnum
@@ -8,7 +8,7 @@ public class TestEnum
     @Test
     public void testEnumName ()
     {
-        System.out.println(SeekCostFunction.Type.POWER.toString());
-        System.out.println(SeekCostFunction.Type.POWER.name());
+        System.out.println(SeekCost.Type.POWER.toString());
+        System.out.println(SeekCost.Type.POWER.name());
     }
 }

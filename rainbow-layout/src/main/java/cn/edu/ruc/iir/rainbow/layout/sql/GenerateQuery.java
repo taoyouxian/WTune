@@ -1,14 +1,16 @@
 package cn.edu.ruc.iir.rainbow.layout.sql;
 
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnNotFoundException;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.InputFactory;
-import cn.edu.ruc.iir.rainbow.common.util.OutputFactory;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +23,7 @@ public class GenerateQuery
 	private static List<String> genMergedJobs(String schemaFilePath, String workloadFilePath) throws IOException, ColumnNotFoundException
 	{
 		List<String> mergedJobs = new ArrayList<>();
-		try (BufferedReader originWorkloadReader = InputFactory.Instance().getReader(workloadFilePath))
+		try (BufferedReader originWorkloadReader = FileUtils.Instance().getReader(workloadFilePath))
 		{
 			List<Query> workload = new ArrayList<>();
 			Map<String, Column> columnMap = new HashMap<String, Column>();
@@ -97,7 +99,7 @@ public class GenerateQuery
 	private static Map<String, Double> getColumnToSizeMap (String schemaFilePath) throws IOException
 	{
 		Map<String, Double> columnToSizeMap = new HashMap<>();
-		try (BufferedReader reader = InputFactory.Instance().getReader(schemaFilePath))
+		try (BufferedReader reader = FileUtils.Instance().getReader(schemaFilePath))
 		{
 			String line;
 			while ((line = reader.readLine()) != null)
@@ -128,8 +130,8 @@ public class GenerateQuery
 		List<String> mergedJobs = genMergedJobs(schemaFilePath, workloadFilePath);
 		Map<String, Double> columnToSizeMap = getColumnToSizeMap(schemaFilePath);
 
-		try (BufferedWriter sparkWriter = OutputFactory.Instance().getWriter(sparkQueryPath);
-			 BufferedWriter hiveWriter = OutputFactory.Instance().getWriter(hiveQueryPath))
+		try (BufferedWriter sparkWriter = FileUtils.Instance().getWriter(sparkQueryPath);
+			 BufferedWriter hiveWriter = FileUtils.Instance().getWriter(hiveQueryPath))
 		{
 			int i = 0;
 

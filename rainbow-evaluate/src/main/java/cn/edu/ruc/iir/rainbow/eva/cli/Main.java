@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.eva.cli;
 
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadEvaluation;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadEva;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -17,7 +17,8 @@ public class Main
     {
         ArgumentParser parser = ArgumentParsers.newArgumentParser("Rainbow Workload Evaluation")
                 .defaultHelp(true)
-                .description("Evaluate seek cost of HDD-based file system.");
+                .description("Evaluate the workload performance in a analytical system, " +
+                        "or submit the workload to rainbow-web.");
         parser.addArgument("-f", "--config")
                 .help("specify the path of configuration file");
         parser.addArgument("-p", "--param_file").required(true)
@@ -40,7 +41,7 @@ public class Main
 
             if (configFilePath != null)
             {
-                ConfigFactory.Instance().LoadProperties(configFilePath);
+                ConfigFactory.Instance().loadProperties(configFilePath);
                 System.out.println("System settings loaded from " + configFilePath + ".");
             } else
             {
@@ -48,7 +49,7 @@ public class Main
             }
 
             String paramFilePath = namespace.getString("param_file");
-            Invoker invoker = new InvokerWorkloadEvaluation();
+            Invoker invoker = new InvokerWorkloadEva();
             Properties params = new Properties();
             params.load(new FileInputStream(paramFilePath));
             System.out.println("Executing command WORKLOAD_EVALUATION");

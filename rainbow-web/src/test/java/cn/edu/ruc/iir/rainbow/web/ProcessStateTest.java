@@ -1,12 +1,12 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.State;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
 import com.alibaba.fastjson.JSONArray;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class ProcessStateTest {
         SysConfig.ProcessList.add(p);
 
         String aJson = JSONArray.toJSONString(SysConfig.ProcessList);
-        FileUtil.writeFile(aJson, SysConfig.Catalog_Project + "cashe/process.txt");
+        FileUtils.Instance().writeFile(aJson, SysConfig.Catalog_Project + "cache/process.txt");
 
     }
 }

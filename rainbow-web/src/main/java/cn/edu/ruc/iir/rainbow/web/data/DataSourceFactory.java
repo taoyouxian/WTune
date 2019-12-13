@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.web.data;
 
 import cn.edu.ruc.iir.rainbow.common.exception.DataSourceException;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import org.apache.commons.logging.Log;
 
 /**

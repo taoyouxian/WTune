@@ -2,17 +2,17 @@ package cn.edu.ruc.iir.rainbow.web;
 
 import cn.edu.ruc.iir.rainbow.cli.INVOKER;
 import cn.edu.ruc.iir.rainbow.cli.InvokerFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.*;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Process;
-import cn.edu.ruc.iir.rainbow.web.service.RwMain;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
+import cn.edu.ruc.iir.rainbow.web.service.RainbowWebMain;
 import com.alibaba.fastjson.JSON;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Properties;
 
@@ -26,7 +26,7 @@ import java.util.Properties;
  **/
 public class AdaptiveTest {
 
-    private RwMain rwMain = RwMain.Instance();
+    private RainbowWebMain rainbowWebMain = RainbowWebMain.Instance();
 
     private String no = "44ba30d7abdbe13ab2c886f18c0f5555";
     String path = ConfigFactory.Instance().getProperty("pipline.path");
@@ -34,31 +34,31 @@ public class AdaptiveTest {
     @Test
     public void SamplingTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo(no, 0);
-        rwMain.getSampling(p, true);
+        Pipeline p = rainbowWebMain.getPipelineByNo(no, 0);
+        rainbowWebMain.getSampling(p, true);
     }
 
     @Test
     public void deleteTest() {
         getDefaultInfo();
-        rwMain.delete(no);
+        rainbowWebMain.delete(no);
     }
 
     public void getDefaultInfo() {
         SysConfig.Catalog_Project = path;
-        String aJson = FileUtil.readFile(path + "cashe/cashe.txt");
+        String aJson = FileUtils.Instance().readFileToString(path + "cache/cache.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
-        aJson = FileUtil.readFile(path + "cashe/process.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/process.txt");
         SysConfig.ProcessList = JSON.parseArray(aJson,
                 Process.class);
-        aJson = FileUtil.readFile(path + "cashe/curLayout.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/curLayout.txt");
         SysConfig.CurLayout = JSON.parseArray(aJson,
                 Layout.class);
-        aJson = FileUtil.readFile(path + "cashe/orderedLayout.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/orderedLayout.txt");
         SysConfig.CurOrderedLayout = JSON.parseArray(aJson,
                 OrderedLayout.class);
-        aJson = FileUtil.readFile(path + "cashe/curEstimate.txt");
+        aJson = FileUtils.Instance().readFileToString(path + "cache/curEstimate.txt");
         SysConfig.CurEstimate = JSON.parseArray(aJson,
                 Estimate.class);
     }
@@ -66,21 +66,21 @@ public class AdaptiveTest {
     @Test
     public void getEstimationTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo(no, 0);
-        rwMain.getEstimation(p, false);
+        Pipeline p = rainbowWebMain.getPipelineByNo(no, 0);
+        rainbowWebMain.getEstimation(p, false);
     }
 
     @Test
     public void getCurrentLayoutTest() {
         getDefaultInfo();
-        String aJson = rwMain.getCurrentLayout("1");
+        String aJson = rainbowWebMain.getCurrentLayout("1");
         System.out.println(aJson);
     }
 
     @Test
     public void getColumnSizeTest() {
         getDefaultInfo();
-        Pipeline pipeline = rwMain.getPipelineByNo(no, 0);
+        Pipeline pipeline = rainbowWebMain.getPipelineByNo(no, 0);
         CmdReceiver instance = CmdReceiver.getInstance(pipeline);
         instance.generateEstimation(false);
     }

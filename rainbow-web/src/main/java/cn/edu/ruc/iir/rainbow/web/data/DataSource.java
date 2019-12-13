@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.web.data;
 
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
-import cn.edu.ruc.iir.rainbow.web.service.RwMain;
+import cn.edu.ruc.iir.rainbow.web.service.RainbowWebMain;
 
 /**
  * @version V1.0
@@ -13,7 +13,7 @@ import cn.edu.ruc.iir.rainbow.web.service.RwMain;
  **/
 public class DataSource
 {
-    private RwMain rwMain;
+    private RainbowWebMain rainbowWebMain;
     private String sourceUrl;
     private String storePath;
 

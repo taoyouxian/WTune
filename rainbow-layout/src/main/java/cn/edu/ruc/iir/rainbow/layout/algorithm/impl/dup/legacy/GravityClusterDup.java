@@ -1,12 +1,12 @@
 package cn.edu.ruc.iir.rainbow.layout.algorithm.impl.dup.legacy;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.Algorithm;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Gravity;
 import cn.edu.ruc.iir.rainbow.layout.domian.NeighbourSet;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.util.*;
 
@@ -206,7 +206,7 @@ public class GravityClusterDup extends Algorithm
                         {
                             distance = -divisions;
                         }
-                        SeekCostFunction seekCostFunction = this.getSeekCostFunction();
+                        SeekCost seekCostFunction = this.getSeekCostFunction();
                         double weight = 0;
                         for (Query query : queries)
                         {

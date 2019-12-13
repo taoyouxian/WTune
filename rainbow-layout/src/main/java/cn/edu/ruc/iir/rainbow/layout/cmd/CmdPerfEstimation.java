@@ -5,15 +5,15 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnNotFoundException;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
-import cn.edu.ruc.iir.rainbow.layout.builder.SimulatedSeekCostBuilder;
+import cn.edu.ruc.iir.rainbow.layout.builder.RealSeekCostBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.LinearSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.PowerSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.LinearSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -84,22 +84,22 @@ public class CmdPerfEstimation implements Command
             return;
         }
 
-        SeekCostFunction.Type funcType = SeekCostFunction.Type.valueOf(
-                params.getProperty("seek.cost.function", SeekCostFunction.Type.POWER.name()).toUpperCase());
-        SeekCostFunction seekCostFunction = null;
+        SeekCost.Type funcType = SeekCost.Type.valueOf(
+                params.getProperty("seek.cost.function", SeekCost.Type.POWER.name()).toUpperCase());
+        SeekCost seekCostFunction = null;
 
-        if (funcType == SeekCostFunction.Type.LINEAR)
+        if (funcType == SeekCost.Type.LINEAR)
         {
-            seekCostFunction = new LinearSeekCostFunction();
-        } else if (funcType == SeekCostFunction.Type.POWER)
+            seekCostFunction = new LinearSeekCost();
+        } else if (funcType == SeekCost.Type.POWER)
         {
-            seekCostFunction = new PowerSeekCostFunction();
-        } else if (funcType == SeekCostFunction.Type.SIMULATED)
+            seekCostFunction = new PowerSeekCost();
+        } else if (funcType == SeekCost.Type.SIMULATED)
         {
             try
             {
                 String seekCostFilePath = params.getProperty("seek.cost.file");
-                seekCostFunction = SimulatedSeekCostBuilder.build(new File(seekCostFilePath));
+                seekCostFunction = RealSeekCostBuilder.build(new File(seekCostFilePath));
             } catch (IOException e)
             {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR,
@@ -158,7 +158,7 @@ public class CmdPerfEstimation implements Command
      * @param seekCostFunction
      * @return
      */
-    private double getQuerySeekCost(List<Column> columnOrder, Query query, SeekCostFunction seekCostFunction)
+    private double getQuerySeekCost(List<Column> columnOrder, Query query, SeekCost seekCostFunction)
     {
         double querySeekCost = 0, seekDistance = 0;
         int accessedColumnNum = 0;

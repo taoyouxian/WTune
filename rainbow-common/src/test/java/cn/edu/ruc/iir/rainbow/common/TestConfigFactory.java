@@ -1,6 +1,5 @@
 package cn.edu.ruc.iir.rainbow.common;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
 import org.junit.Test;
 
 /**

@@ -4,19 +4,19 @@ import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.ProgressListener;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.*;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.Algorithm;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.AlgorithmFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.ExecutorContainer;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord.FastScoaGS;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
-import cn.edu.ruc.iir.rainbow.layout.builder.SimulatedSeekCostBuilder;
+import cn.edu.ruc.iir.rainbow.layout.builder.RealSeekCostBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.LinearSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.PowerSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.LinearSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -73,25 +73,25 @@ public class CmdOrdering implements Command
         String orderedFilePath = params.getProperty("ordered.schema.file");
         long budget = Long.parseLong(params.getProperty("computation.budget", "200"));
         // TODO deal with possible IllegalArgumentException and NullPointerException thrown by `Enum.valueOf()`
-        SeekCostFunction.Type funcType = SeekCostFunction.Type.valueOf(
-                params.getProperty("seek.cost.function", SeekCostFunction.Type.POWER.name()).toUpperCase());
-        SeekCostFunction seekCostFunction = null;
+        SeekCost.Type funcType = SeekCost.Type.valueOf(
+                params.getProperty("seek.cost.function", SeekCost.Type.POWER.name()).toUpperCase());
+        SeekCost seekCostFunction = null;
 
         Properties results = new Properties(params);
         results.setProperty("success", "false");
 
-        if (funcType == SeekCostFunction.Type.LINEAR)
+        if (funcType == SeekCost.Type.LINEAR)
         {
-            seekCostFunction = new LinearSeekCostFunction();
-        } else if (funcType == SeekCostFunction.Type.POWER)
+            seekCostFunction = new LinearSeekCost();
+        } else if (funcType == SeekCost.Type.POWER)
         {
-            seekCostFunction = new PowerSeekCostFunction();
-        } else if (funcType == SeekCostFunction.Type.SIMULATED)
+            seekCostFunction = new PowerSeekCost();
+        } else if (funcType == SeekCost.Type.SIMULATED)
         {
             try
             {
                 String seekCostFilePath = params.getProperty("seek.cost.file");
-                seekCostFunction = SimulatedSeekCostBuilder.build(new File(seekCostFilePath));
+                seekCostFunction = RealSeekCostBuilder.build(new File(seekCostFilePath));
             } catch (IOException e)
             {
                 ExceptionHandler.Instance().log(ExceptionType.ERROR,

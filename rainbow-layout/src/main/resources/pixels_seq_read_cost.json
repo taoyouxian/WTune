@@ -1,0 +1,98 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "51200"
+        },
+        "value": [
+          1518766256.337,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "0"
+        },
+        "value": [
+          1518766256.337,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "102400"
+        },
+        "value": [
+          1518766256.337,
+          "2"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "153600"
+        },
+        "value": [
+          1518766256.337,
+          "3"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "204800"
+        },
+        "value": [
+          1518766256.337,
+          "4"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "409600"
+        },
+        "value": [
+          1518766256.337,
+          "8"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "256000"
+        },
+        "value": [
+          1518766256.337,
+          "5"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "307200"
+        },
+        "value": [
+          1518766256.337,
+          "6"
+        ]
+      },
+      {
+        "metric": {
+          "job": "cluster-monitor",
+          "length": "358400"
+        },
+        "value": [
+          1518766256.337,
+          "7"
+        ]
+      }
+    ]
+  }
+}

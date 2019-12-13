@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.LogFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.LogFactory;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.Algorithm;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
@@ -80,7 +80,7 @@ public class Scoa extends Algorithm
     @Override
     public void setup()
     {
-        super.setColumnOrder(super.getSchema());
+        super.setColumnOrder(new ArrayList<>(super.getSchema()));
         String strCoolingRate = ConfigFactory.Instance().getProperty("scoa.cooling_rate");
         String strInitTemp = ConfigFactory.Instance().getProperty("scoa.init.temperature");
         if (strCoolingRate != null)
@@ -167,6 +167,10 @@ public class Scoa extends Algorithm
             return 1;
         } else
         {
+            if (temperature == 0)
+            {
+                return 0;
+            }
             return Math.exp((e - e1) / temperature);
         }
     }
@@ -176,6 +180,7 @@ public class Scoa extends Algorithm
      * @param neighbor
      * @return
      */
+    @SuppressWarnings("Duplicates")
     protected double getNeighbourSeekCost(List<Column> neighbor)
     {
         // new a comparator, this is the way in java7. in java8, we can use Comparator.<Integer>naturalOrder() instead.

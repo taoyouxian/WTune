@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.redirect.domain;
 
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnOrderException;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 
 import java.util.*;
 

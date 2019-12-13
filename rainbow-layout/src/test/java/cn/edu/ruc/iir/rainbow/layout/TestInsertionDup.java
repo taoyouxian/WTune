@@ -8,8 +8,8 @@ import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.PowerSeekCostFunction;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.PowerSeekCost;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 import org.junit.Test;
 
 import java.io.File;
@@ -27,7 +27,7 @@ public class TestInsertionDup
     {
         List<Column> initColumnOrder = ColumnOrderBuilder.build(new File(TestInsertionDup.class.getResource("/schema.txt").getFile()));
         List<Query> workload = WorkloadBuilder.build(new File(TestInsertionDup.class.getResource("/workload.txt").getFile()), initColumnOrder);
-        SeekCostFunction seekCostFunction = new PowerSeekCostFunction();//SimulatedSeekCostBuilder.build(new File("cord-generator/resources/seek_cost.txt"));
+        SeekCost seekCostFunction = new PowerSeekCost();//RealSeekCostBuilder.build(new File("cord-generator/resources/seek_cost.txt"));
 
         DupAlgorithm dup = (DupAlgorithm) AlgorithmFactory.Instance().getAlgorithm("insertion", 100, new ArrayList<>(initColumnOrder), workload, seekCostFunction);
         try

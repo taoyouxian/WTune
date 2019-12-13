@@ -1,24 +1,24 @@
 package cn.edu.ruc.iir.rainbow.web.cmd;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
 import cn.edu.ruc.iir.rainbow.cli.INVOKER;
 import cn.edu.ruc.iir.rainbow.cli.InvokerFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Invoker;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.InvokerException;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.workload.APCFactory;
-import cn.edu.ruc.iir.rainbow.workload.AccessPattern;
-import cn.edu.ruc.iir.rainbow.workload.AccessPatternCache;
-import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEvaluation;
+import cn.edu.ruc.iir.rainbow.eva.invoker.InvokerWorkloadVectorEva;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdGetColumnSize;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdOrdering;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Estimate;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.OrderedLayout;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
+import cn.edu.ruc.iir.rainbow.workload.cache.APCFactory;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 
 import java.io.IOException;
 import java.util.Date;
@@ -180,7 +180,7 @@ public class CmdReceiver {
                 String msg = "Layout Calculation : " + ((int) (percentage * 10000) / 100.0) + " %    ";
                 System.out.println(msg);
                 try {
-                    FileUtil.writeFile(msg, filePath);
+                    FileUtils.Instance().writeFile(msg, filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -235,7 +235,7 @@ public class CmdReceiver {
         params.setProperty("log.dir", targetPath);
         params.setProperty("drop.cache", "false");
         params.setProperty("drop.caches.sh", "H:\\SelfLearning\\SAI\\DBIIR\\rainbow\\rainbow-evaluate\\src\\test\\resources\\drop_caches.sh");
-        Invoker invoker = new InvokerWorkloadVectorEvaluation();
+        Invoker invoker = new InvokerWorkloadVectorEva();
         try {
             invoker.executeCommands(params);
         } catch (InvokerException e) {
@@ -251,11 +251,11 @@ public class CmdReceiver {
         for (String column : arg.split(",")) {
             pattern.addColumn(column);
         }
-        if (APC.cache(pattern) && !SysConfig.APC_FLAG) {
+        if (APC.cache(pattern, System.currentTimeMillis()) && !SysConfig.APC_FLAG) {
             SysConfig.APC_FLAG = true;
             try {
                 String time = DateUtil.formatTime(new Date());
-                FileUtil.writeFile(time + "\t" + id + "\r\n", SysConfig.Catalog_Project + "APC.txt", true);
+                FileUtils.Instance().writeFile(time + "\t" + id + "\r\n", SysConfig.Catalog_Project + "APC.txt", true);
             } catch (IOException e) {
                 e.printStackTrace();
             }

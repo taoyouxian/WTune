@@ -2,7 +2,7 @@ package cn.edu.ruc.iir.rainbow.layout.algorithm;
 
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
-import cn.edu.ruc.iir.rainbow.layout.seekcost.SeekCostFunction;
+import cn.edu.ruc.iir.rainbow.layout.cost.SeekCost;
 
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -23,7 +23,7 @@ public abstract class Algorithm
     private List<Column> schema;
     private List<Column> currentColumnOrder;
     private List<Query> workload;
-    private SeekCostFunction seekCostFunction;
+    private SeekCost seekCostFunction;
 
     private Lock columnOrderLock = new ReentrantLock();
 
@@ -51,12 +51,12 @@ public abstract class Algorithm
         this.schema = schema;
     }
 
-    public SeekCostFunction getSeekCostFunction()
+    public SeekCost getSeekCostFunction()
     {
         return seekCostFunction;
     }
 
-    protected void setSeekCostFunction(SeekCostFunction seekCostFunction)
+    protected void setSeekCostFunction(SeekCost seekCostFunction)
     {
         this.seekCostFunction = seekCostFunction;
     }
@@ -77,7 +77,9 @@ public abstract class Algorithm
         this.currentColumnOrder = columnOrder;
     }
 
-    // get the current column order
+    /**
+     * get the current column order
+     */
     public List<Column> getColumnOrder()
     {
         return currentColumnOrder;

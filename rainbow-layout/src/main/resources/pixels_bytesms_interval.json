@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766346.114,
+          "51200"
+        ]
+      }
+    ]
+  }
+}

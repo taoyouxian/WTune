@@ -48,6 +48,11 @@ public class Query
         this.columnIds.add(cid);
     }
 
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
     public int getId()
     {
         return id;

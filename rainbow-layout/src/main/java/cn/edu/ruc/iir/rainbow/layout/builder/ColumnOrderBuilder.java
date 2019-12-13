@@ -1,7 +1,11 @@
 package cn.edu.ruc.iir.rainbow.layout.builder;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Compact;
+import cn.edu.ruc.iir.pixels.common.metadata.domain.Order;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.layout.domian.Column;
+import cn.edu.ruc.iir.rainbow.layout.domian.Columnlet;
+import com.alibaba.fastjson.JSON;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -34,6 +38,18 @@ public class ColumnOrderBuilder
         return columnOrder;
     }
 
+    public static List<Column> wrappedColumns (List<cn.edu.ruc.iir.pixels.common.metadata.domain.Column> columns)
+    {
+        List<Column> columnOrder = new ArrayList<>();
+        int id = 0;
+        for (cn.edu.ruc.iir.pixels.common.metadata.domain.Column column : columns)
+        {
+            Column column1 = new Column(id++, column.getName(), column.getType(), column.getSize());
+            columnOrder.add(column1);
+        }
+        return columnOrder;
+    }
+
     public static void saveAsSchemaFile (File columnOrderFile, List<Column> columnOrder) throws IOException
     {
         BufferedWriter writer = new BufferedWriter(new FileWriter(columnOrderFile));
@@ -51,5 +67,33 @@ public class ColumnOrderBuilder
         }
 
         writer.close();
+    }
+
+    public static String orderToJsonString (List<Column> columnOrder)
+    {
+        Order initOrder = new Order();
+
+        for (Column column : columnOrder)
+        {
+            initOrder.addColumnOrder(column.getName());
+        }
+
+        return JSON.toJSONString(initOrder);
+    }
+
+    public static String compactLayoutToJsonString (int numRowGroupInBlock, int numColumn, int cacheBorder, List<Column> columnletOrder)
+    {
+        Compact compactLayout = new Compact();
+        compactLayout.setNumRowGroupInBlock(numRowGroupInBlock);
+        compactLayout.setNumColumn(numColumn);
+        compactLayout.setCacheBorder(cacheBorder);
+        for (Column column : columnletOrder)
+        {
+            Columnlet columnlet = (Columnlet) column;
+            String columnletStr = columnlet.getRowGroupId() + ":" + columnlet.getColumnId();
+            compactLayout.addColumnletOrder(columnletStr);
+        }
+
+        return JSON.toJSONString(compactLayout);
     }
 }

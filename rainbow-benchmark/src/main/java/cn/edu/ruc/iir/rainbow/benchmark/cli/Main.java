@@ -1,7 +1,7 @@
 package cn.edu.ruc.iir.rainbow.benchmark.cli;
 
 import cn.edu.ruc.iir.rainbow.benchmark.generator.DataGenerator;
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import net.sourceforge.argparse4j.ArgumentParsers;
 import net.sourceforge.argparse4j.inf.ArgumentParser;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
@@ -51,7 +51,7 @@ public class Main
             }
             if (dataSize > 0 && threadNum > 0 && directory != null)
             {
-                SysSettings.TEMPLATE_DIRECTORY = directory;
+                Settings.TEMPLATE_DIRECTORY = directory;
                 DataGenerator instance = DataGenerator.getInstance(threadNum);
                 long startTime = System.currentTimeMillis();
                 instance.genDataBySize(dataSize);

@@ -1,6 +1,6 @@
 package cn.edu.ruc.iir.rainbow.redirect.domain;
 
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 
 import java.util.ArrayList;
 import java.util.HashSet;

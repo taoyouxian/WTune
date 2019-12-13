@@ -13,7 +13,7 @@ _data/
 _sql/
 out/
 log/
-cashe/
+cache/
 pipline/
 
 # lock file, a part of Oracle Credential Store Framework

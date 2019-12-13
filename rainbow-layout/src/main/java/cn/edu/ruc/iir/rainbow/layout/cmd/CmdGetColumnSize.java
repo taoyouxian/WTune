@@ -1,5 +1,7 @@
 package cn.edu.ruc.iir.rainbow.layout.cmd;
 
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.common.exception.AlgoException;
@@ -9,9 +11,6 @@ import cn.edu.ruc.iir.rainbow.common.exception.MetadataException;
 import cn.edu.ruc.iir.rainbow.common.metadata.MetadataStat;
 import cn.edu.ruc.iir.rainbow.common.metadata.OrcMetadataStat;
 import cn.edu.ruc.iir.rainbow.common.metadata.ParquetMetadataStat;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.common.util.InputFactory;
-import cn.edu.ruc.iir.rainbow.common.util.OutputFactory;
 import cn.edu.ruc.iir.rainbow.layout.domian.FileFormat;
 
 import java.io.BufferedReader;
@@ -86,8 +85,8 @@ public class CmdGetColumnSize implements Command
 
         if (stat != null)
         {
-            try (BufferedReader reader = InputFactory.Instance().getReader(schemaFilePath);
-                 BufferedWriter writer = OutputFactory.Instance().getWriter(schemaFilePath + ".new"))
+            try (BufferedReader reader = FileUtils.Instance().getReader(schemaFilePath);
+                 BufferedWriter writer = FileUtils.Instance().getWriter(schemaFilePath + ".new"))
             {
                 String line = null;
                 double[] avgSizes = null;

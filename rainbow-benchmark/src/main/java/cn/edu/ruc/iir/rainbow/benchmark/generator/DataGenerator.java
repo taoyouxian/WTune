@@ -1,8 +1,8 @@
 package cn.edu.ruc.iir.rainbow.benchmark.generator;
 
 import cn.edu.ruc.iir.rainbow.benchmark.domain.Column;
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -58,7 +58,7 @@ public class DataGenerator
         int size = Math.floorDiv(dataSize, threadNum);
         try
         {
-            filePath = SysSettings.TEMPLATE_DIRECTORY + "/rainbow_" + DateUtil.getCurTime() + "_" + dataSize + "MB/";
+            filePath = Settings.TEMPLATE_DIRECTORY + "/rainbow_" + DateUtil.getCurTime() + "_" + dataSize + "MB/";
             for (int i = 0; i < threadNum; i++)
             {
                 DataGeneratorThread t = new DataGeneratorThread(filePath, columnName, columnList, size);
@@ -91,7 +91,7 @@ public class DataGenerator
      */
     private void initColumns()
     {
-        String filePath = SysSettings.TEMPLATE_DIRECTORY + "/" + SCHEMA_FILE;
+        String filePath = Settings.TEMPLATE_DIRECTORY + "/" + SCHEMA_FILE;
         String curLine;
         BufferedReader br = null;
         String splitLine[];
@@ -150,7 +150,7 @@ public class DataGenerator
      */
     private void initColumnList(String cName)
     {
-        String columnPath = SysSettings.TEMPLATE_DIRECTORY + "/column_templates/" + cName + ".txt";
+        String columnPath = Settings.TEMPLATE_DIRECTORY + "/column_templates/" + cName + ".txt";
         String curLine = null;
         BufferedReader br = null;
         String columnsLine[] = null;

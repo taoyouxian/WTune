@@ -1,12 +1,12 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.util.HdfsUtil;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class HdfsTest {
 
     @Test
     public void isTableExistsTest() {
-        String filePath = SysConfig.Catalog_Cashe;
+        String filePath = SysConfig.Catalog_Cache;
         try {
             Assert.assertEquals(false, hUtil.isTableExists(filePath));
         } catch (IOException e) {
@@ -55,7 +55,7 @@ public class HdfsTest {
     public void appendContentTest() {
         try {
             List<String> listFile = hUtil.listAll(filePath);
-            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, SysSettings.MB * 10);
+            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, Settings.MB * 10);
         } catch (IOException e) {
             log.debug("Hdfs error info: {}", e.getMessage());
             e.printStackTrace();
@@ -66,8 +66,8 @@ public class HdfsTest {
     public void createFileTest() {
         try {
             List<String> listFile = hUtil.listAll(filePath);
-//            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/201709261830040.csv", SysSettings.MB * 100);
-            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/" + DateUtil.getCurTime() + ".csv", SysSettings.MB * 100);
+//            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/201709261830040.csv", Settings.MB * 100);
+            boolean flag = hUtil.copyContent(listFile.get(0), "/msra/text/" + DateUtil.getCurTime() + ".csv", Settings.MB * 100);
             log.debug("Hdfs error info: {}", listFile.size());
         } catch (IOException e) {
             log.debug("Hdfs error info: {}", e.getMessage());
@@ -80,7 +80,7 @@ public class HdfsTest {
         try {
             int minBatch = Integer.valueOf(ConfigFactory.Instance().getProperty("sampling.size"));
             List<String> listFile = hUtil.listAll(filePath);
-            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, SysSettings.MB * minBatch);
+            boolean flag = hUtil.copyContent(listFile.get(0), SysConfig.Catalog_Copy, Settings.MB * minBatch);
         } catch (IOException e) {
             log.debug("Hdfs error info: {}", e.getMessage());
             e.printStackTrace();

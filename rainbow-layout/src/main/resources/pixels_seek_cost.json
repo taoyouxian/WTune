@@ -1,0 +1,98 @@
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "distance": "102400",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "2"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "307200",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "6"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "51200",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "1"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "0",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "0"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "153600",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "3"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "204800",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "4"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "256000",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "5"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "358400",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "7"
+        ]
+      },
+      {
+        "metric": {
+          "distance": "409600",
+          "job": "cluster-monitor"
+        },
+        "value": [
+          1518766205.579,
+          "8"
+        ]
+      }
+    ]
+  }
+}

@@ -1,19 +1,19 @@
 package cn.edu.ruc.iir.rainbow.web;
 
-import cn.edu.ruc.iir.rainbow.benchmark.util.DateUtil;
-import cn.edu.ruc.iir.rainbow.benchmark.util.SysSettings;
-import cn.edu.ruc.iir.rainbow.common.util.ConfigFactory;
-import cn.edu.ruc.iir.rainbow.workload.AccessPattern;
-import cn.edu.ruc.iir.rainbow.workload.AccessPatternCache;
+import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
+import cn.edu.ruc.iir.rainbow.common.FileUtils;
+import cn.edu.ruc.iir.rainbow.common.Settings;
 import cn.edu.ruc.iir.rainbow.web.cmd.CmdReceiver;
 import cn.edu.ruc.iir.rainbow.web.hdfs.common.SysConfig;
 import cn.edu.ruc.iir.rainbow.web.hdfs.model.Pipeline;
 import cn.edu.ruc.iir.rainbow.web.hdfs.util.HdfsUtil;
 import cn.edu.ruc.iir.rainbow.web.hive.util.HiveClient;
-import cn.edu.ruc.iir.rainbow.web.service.RwMain;
-import cn.edu.ruc.iir.rainbow.web.util.FileUtil;
+import cn.edu.ruc.iir.rainbow.web.service.RainbowWebMain;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPattern;
+import cn.edu.ruc.iir.rainbow.workload.cache.AccessPatternCache;
 import com.alibaba.fastjson.JSON;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ import java.util.Random;
  **/
 public class PipelineTest {
 
-    private RwMain rwMain = RwMain.Instance();
+    private RainbowWebMain rainbowWebMain = RainbowWebMain.Instance();
 
     private static Logger log = LoggerFactory.getLogger(PipelineTest.class);
     //    HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
@@ -44,7 +44,7 @@ public class PipelineTest {
     @Test
     public void CreateTest() {
         getDefaultInfo();
-        Pipeline pipline = rwMain.getPipelineByNo(pno, 0);
+        Pipeline pipline = rainbowWebMain.getPipelineByNo(pno, 0);
         loadData(pipline);
     }
 
@@ -53,9 +53,9 @@ public class PipelineTest {
         HdfsUtil hUtil = HdfsUtil.getHdfsUtil();
         try {
             List<String> listFile = hUtil.listAll(pipline.getUrl());
-            String statement = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/text_ddl.sql");
-            String statement1 = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_ddl.sql");
-            String statement2 = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_load.sql");
+            String statement = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/text_ddl.sql");
+            String statement1 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_ddl.sql");
+            String statement2 = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pipline.getNo() + "/parquet_load.sql");
 
             String sql = null;
             for (int i = listFile.size() - 1; i >= 0; i--) {
@@ -76,7 +76,7 @@ public class PipelineTest {
                 }
                 client.drop(pipline.getFormat().toLowerCase() + "_" + pipline.getNo() + "_" + i);
                 getDefaultInfo();
-                pipline = rwMain.getPipelineByNo(pipline.getNo(), 0);
+                pipline = rainbowWebMain.getPipelineByNo(pipline.getNo(), 0);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class PipelineTest {
     }
 
     private void getDefaultInfo() {
-        String aJson = FileUtil.readFile(SysConfig.Catalog_Project + "cashe/cashe.txt");
+        String aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "cache/cache.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
     }
@@ -92,10 +92,10 @@ public class PipelineTest {
     private String getSqlParameter(Pipeline pipline) {
         String sql = null;
         if (pipline.getFormat().toLowerCase().equals("parquet")) {
-            sql = "TBLPROPERTIES (\"parquet.block.size\"=\"" + pipline.getRowGroupSize() * SysSettings.MB + "\", ";
+            sql = "TBLPROPERTIES (\"parquet.block.size\"=\"" + pipline.getRowGroupSize() * Settings.MB + "\", ";
             sql += "\"parquet.compression\"=\"" + pipline.getCompression() + "\")";
         } else {
-            sql = "TBLPROPERTIES (\"orc.stripe.size\"=\"" + pipline.getRowGroupSize() * SysSettings.MB + "\", ";
+            sql = "TBLPROPERTIES (\"orc.stripe.size\"=\"" + pipline.getRowGroupSize() * Settings.MB + "\", ";
             sql += "\"orc.compress\"=\"" + pipline.getCompression() + "\")";
         }
         return sql;
@@ -104,14 +104,14 @@ public class PipelineTest {
     @Test
     public void CreateLayoutTest() {
         getDefaultInfo();
-        Pipeline pipline = rwMain.getPipelineByNo(pno, 0);
-        rwMain.processLayout(pipline, SysConfig.PipelineState[0], false, false);
-        rwMain.processLayout(pipline, SysConfig.PipelineState[6], false, false);
+        Pipeline pipline = rainbowWebMain.getPipelineByNo(pno, 0);
+        rainbowWebMain.processLayout(pipline, SysConfig.PipelineState[0], false, false);
+        rainbowWebMain.processLayout(pipline, SysConfig.PipelineState[6], false, false);
     }
 
     @Test
     public void GetLayoutTest() {
-        String aJson = FileUtil.readFile(SysConfig.Catalog_Project + "pipline/" + pno + "/layout.txt");
+        String aJson = FileUtils.Instance().readFileToString(SysConfig.Catalog_Project + "pipline/" + pno + "/layout.txt");
         SysConfig.PipelineList = JSON.parseArray(aJson,
                 Pipeline.class);
     }
@@ -119,50 +119,50 @@ public class PipelineTest {
     @Test
     public void SamplingTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("96aa180e94dec692c0e49ca3bed86c38", 0);
-        rwMain.getSampling(p, true);
+        Pipeline p = rainbowWebMain.getPipelineByNo("96aa180e94dec692c0e49ca3bed86c38", 0);
+        rainbowWebMain.getSampling(p, true);
     }
 
     @Test
     public void loadDataTest() {
         getDefaultInfo();
-        Pipeline pipline = rwMain.getPipelineByNo("21dd00707735da8664e0ae471fab1e30", 0);
-        rwMain.loadDataByPipeline(pipline);
+        Pipeline pipline = rainbowWebMain.getPipelineByNo("21dd00707735da8664e0ae471fab1e30", 0);
+        rainbowWebMain.loadDataByPipeline(pipline);
     }
 
     @Test
     public void getLayoutTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
-        rwMain.getEstimation(p, false);
+        Pipeline p = rainbowWebMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
+        rainbowWebMain.getEstimation(p, false);
     }
 
     @Test
     public void getOptimizationTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
-        rwMain.getOptimization(p);
+        Pipeline p = rainbowWebMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
+        rainbowWebMain.getOptimization(p);
     }
 
     @Test
     public void getEstimationTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
-        rwMain.getEstimation(p, true);
+        Pipeline p = rainbowWebMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
+        rainbowWebMain.getEstimation(p, true);
     }
 
     @Test
     public void getSamplingTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
-        rwMain.getSampling(p, false);
+        Pipeline p = rainbowWebMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
+        rainbowWebMain.getSampling(p, false);
     }
 
     @Test
     public void getEvaluationTest() {
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
-        rwMain.getEvaluation(p);
+        Pipeline p = rainbowWebMain.getPipelineByNo("dbced032765f68732a5caa949fb4a1df", 0);
+        rainbowWebMain.getEvaluation(p);
     }
 
     @Test
@@ -170,7 +170,7 @@ public class PipelineTest {
         String path = ConfigFactory.Instance().getProperty("pipline.path");
         SysConfig.Catalog_Project = path;
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("4550483658f7985044256e09281f94c0", 0);
+        Pipeline p = rainbowWebMain.getPipelineByNo("4550483658f7985044256e09281f94c0", 0);
         CmdReceiver instance = CmdReceiver.getInstance(p);
         instance.generateEstimation(false);
         instance.generateEstimation(true);
@@ -181,7 +181,7 @@ public class PipelineTest {
         String path = ConfigFactory.Instance().getProperty("pipline.path");
         SysConfig.Catalog_Project = path;
         getDefaultInfo();
-        Pipeline p = rwMain.getPipelineByNo("4550483658f7985044256e09281f94c0", 0);
+        Pipeline p = rainbowWebMain.getPipelineByNo("4550483658f7985044256e09281f94c0", 0);
         CmdReceiver instance = CmdReceiver.getInstance(p);
         instance.WorkloadVectorEvaluation();
     }
@@ -203,7 +203,7 @@ public class PipelineTest {
                 pattern.addColumn(column);
             }
 
-            if (APC.cache(pattern)) {
+            if (APC.cache(pattern, System.currentTimeMillis())) {
                 System.out.println(DateUtil.formatTime(new Date()));
                 System.out.println(i + ", trigger layout optimization.");
                 j++;
