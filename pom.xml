@@ -20,6 +20,7 @@
         <!--<module>rainbow-parser</module>-->
         <module>rainbow-workload</module>
         <module>rainbow-daemon</module>
+        <module>rainbow-server</module>
     </modules>
 
     <repositories>
