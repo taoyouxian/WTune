@@ -63,4 +63,19 @@ public class AnalyzerUtil {
         }
     }
 
+    public static String getTime(double time, int point) {
+        return time == 0 ? "0" : String.format("%." + point + "f", time);
+    }
+
+    public static String getTime(double time) {
+        return time == 0 ? "0" : String.format("%.3f", time);
+    }
+
+    public static String getTime(String time, int unit, int point) {
+        return getTime(Double.valueOf(time) * 1.0 / unit, point);
+    }
+
+    public static String getTime(String time, int unit) {
+        return getTime(Double.valueOf(time) * 1.0 / unit);
+    }
 }
