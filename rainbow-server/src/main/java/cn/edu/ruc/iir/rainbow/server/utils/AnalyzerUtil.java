@@ -1,4 +1,4 @@
-package cn.edu.ruc.iir.rainbow.seek;
+package cn.edu.ruc.iir.rainbow.server.utils;
 
 import java.io.*;
 import java.util.HashMap;
@@ -95,5 +95,34 @@ public class AnalyzerUtil {
             e.printStackTrace();
         }
         return sum;
+    }
+
+    public static void getSchemaFromLayout(String schemaPath, String schemaPath_Ordered, String[] columns) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(schemaPath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(schemaPath_Ordered));
+
+            String line;
+            Map<String, String> schema = new HashMap<>();
+            // schema
+            while ((line = reader.readLine()) != null) {
+                String[] schemaLog = line.split("\t");
+                schema.put(schemaLog[0], schemaLog[1] + "\t" + schemaLog[2]);
+            }
+
+            reader.readLine();
+            for (String col : columns) {
+                String value = schema.get(col);
+                if (value != null) {
+                    writer.write(col + "\t" + value);
+                    writer.newLine();
+                }
+            }
+            writer.flush();
+            reader.close();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
