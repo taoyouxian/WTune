@@ -192,4 +192,57 @@ public class FileUtils
         return new BufferedWriter(new FileWriter(path));
     }
 
+    public static String readFile(String filename) {
+        StringBuilder sb = new StringBuilder();
+        try (FileReader reader = new FileReader(filename);
+             BufferedReader br = new BufferedReader(reader)
+        )
+        {
+            String line;
+            while ((line = br.readLine()) != null)
+            {
+                sb.append(line);
+            }
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return sb.toString();
+    }
+
+    public static void deleteFile(String filename)
+    {
+        File file = new File(filename);
+        if (file.isFile())
+            file.delete();
+    }
+
+    public static void mkdir(String dirname)
+    {
+        File dir = new File(dirname);
+        if (!dir.exists())
+            dir.mkdirs();
+    }
+
+    public static void deleteDir(String filename)
+    {
+        File file = new File(filename);
+        if (file.isFile())
+            file.delete();
+        else
+        {
+            File[] files = file.listFiles();
+            if(files == null){
+                file.delete();
+            }
+            else
+            {
+                for (int i = 0; i < files.length; i++)
+                {
+                    deleteDir(files[i].getAbsolutePath());
+                }
+                file.delete();
+            }
+        }
+    }
 }
