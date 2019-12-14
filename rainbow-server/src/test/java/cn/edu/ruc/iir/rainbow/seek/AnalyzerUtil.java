@@ -78,4 +78,22 @@ public class AnalyzerUtil {
     public static String getTime(String time, int unit) {
         return getTime(Double.valueOf(time) * 1.0 / unit);
     }
+
+    public static double getTotalEstimatedDuration(String estimatedDurationPath, int unit) {
+        double sum = 0;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(estimatedDurationPath));
+
+            String line;
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                sum += Double.valueOf(getTime(line.split(",")[1], unit));
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sum;
+    }
 }
