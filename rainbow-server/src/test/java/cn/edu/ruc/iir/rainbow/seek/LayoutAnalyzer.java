@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import java.util.Properties;
 
+import static cn.edu.ruc.iir.rainbow.seek.Constants.*;
+
 /**
  * @version V1.0
  * @Package: cn.edu.ruc.iir.rainbow.seek
@@ -23,9 +25,9 @@ public class LayoutAnalyzer {
         String path = ConfigFactory.Instance().getProperty("tune.path");
         Properties params = new Properties();
         params.setProperty("algorithm.name", "scoa.gs");
-        params.setProperty("schema.file", path + "rl/schema.txt");
-        params.setProperty("workload.file", path + "rl/workload.txt");
-        params.setProperty("ordered.schema.file", path + "layout/schema_ordering.txt");
+        params.setProperty("schema.file", default_SchemaPath);
+        params.setProperty("workload.file", default_WorkloadPath);
+        params.setProperty("ordered.schema.file", layout_Ordered);
         params.setProperty("seek.cost.function", "power");
         params.setProperty("computation.budget", "200");
         params.setProperty("num.row.group", "100");
