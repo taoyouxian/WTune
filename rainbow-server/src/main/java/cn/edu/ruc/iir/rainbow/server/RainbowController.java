@@ -49,11 +49,11 @@ public class RainbowController {
         whichLog = new AtomicInteger(0);
         tunePath = ConfigFactory.Instance().getProperty("tune.path");
         lowCost = Double.parseDouble(ConfigFactory.Instance().getProperty("tune.cost"));
-        curLayout = FileUtils.readFile(tunePath + "tune/column.txt").split(",");
-        layout = FileUtils.readFile(tunePath + "tune/column.txt");
+        layout = FileUtils.readFile(tunePath + "default/column.txt");
+        curLayout = layout.split(",");
 
-        default_workload = tunePath + "tune/workload.txt";
-        default_schema = tunePath + "tune/schema.txt";
+        default_workload = tunePath + "default/workload.txt";
+        default_schema = tunePath + "default/schema.txt";
 
         daemonNum = Integer.valueOf(ConfigFactory.Instance().getProperty("tune.daemon.num"));
         logPosition = new AtomicLong[daemonNum];

@@ -21,7 +21,7 @@ public class SchemaAnalyzer {
     @Test
     public void schema() {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(schemaPath));
+            BufferedReader reader = new BufferedReader(new FileReader(default_SchemaPath));
             BufferedWriter writer = new BufferedWriter(new FileWriter(schemaPath_Ordered));
 
             String[] columns = AnalyzerUtil.getLayoutFromSQL(columnPath_Ordered_Tune).split(",");

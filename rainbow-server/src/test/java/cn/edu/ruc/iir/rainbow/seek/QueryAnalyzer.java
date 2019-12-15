@@ -23,7 +23,7 @@ public class QueryAnalyzer {
         try {
             BufferedReader workloadReader = new BufferedReader(new FileReader(workloadPath));
             BufferedReader reader = new BufferedReader(new FileReader(estimateTimePath));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(workloadTunePath));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(default_WorkloadPath));
 
             String line;
             Map<String, String> query = new HashMap<>();
@@ -61,7 +61,6 @@ public class QueryAnalyzer {
 
             String line;
             String line_ordered;
-            Map<String, String> query = new HashMap<>();
             reader.readLine();
             reader_ordered.readLine();
             while ((line = reader.readLine()) != null) {

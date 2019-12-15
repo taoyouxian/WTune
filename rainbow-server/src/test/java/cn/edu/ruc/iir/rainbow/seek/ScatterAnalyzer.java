@@ -1,6 +1,5 @@
 package cn.edu.ruc.iir.rainbow.seek;
 
-import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -8,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import static cn.edu.ruc.iir.rainbow.seek.AnalyzerUtil.getTime;
+import static cn.edu.ruc.iir.rainbow.seek.Constants.*;
 
 /**
  * @author xuwen.tyx<br>
@@ -24,16 +24,11 @@ public class ScatterAnalyzer {
      * chart/template_scatter.txt, copy the content to the above url
      */
     public void scatter() {
-        String path = ConfigFactory.Instance().getProperty("tune.path");
-        String estimatedDuration = path + "rl/estimate_duration.csv";
-        String estimatedDuration_Ordered = path + "rl/estimate_duration_ordered.csv";
-        String joinEstimatedDuration = path + "rl/estimate_duration_joined_id.csv";
-
         // join two estimated duration
-        AnalyzerUtil.joinEstimatedDuration(estimatedDuration, estimatedDuration_Ordered, joinEstimatedDuration, true);
+        AnalyzerUtil.joinEstimatedDuration(estimate_Duration_Path, estimated_Duration_Path_Ordered, joined_Estimated_Duration_Path, true);
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(joinEstimatedDuration));
+            BufferedReader reader = new BufferedReader(new FileReader(joined_Estimated_Duration_Path));
 
             int count = 0;
             int stop = 10;
