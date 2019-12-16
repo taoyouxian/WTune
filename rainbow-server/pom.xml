@@ -73,6 +73,24 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.7.RELEASE</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <!-- http://docs.spring.io/spring-boot/docs/current/maven-plugin/usage.html -->
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- the target directory in workspace is where the fat jar deploy -->
+                    <outputDirectory>../target/boot</outputDirectory>
+                    <classifier>executable</classifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
