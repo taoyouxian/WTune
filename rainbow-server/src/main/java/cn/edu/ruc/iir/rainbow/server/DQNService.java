@@ -7,7 +7,7 @@ import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.Algorithm;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.AlgorithmFactory;
-import cn.edu.ruc.iir.rainbow.layout.algorithm.impl.tune.FastScoaTune;
+import cn.edu.ruc.iir.rainbow.layout.algorithm.impl.tune.FastTcoa;
 import cn.edu.ruc.iir.rainbow.layout.builder.ColumnOrderBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.RealSeekCostBuilder;
 import cn.edu.ruc.iir.rainbow.layout.builder.WorkloadBuilder;
@@ -91,8 +91,8 @@ public class DQNService {
             algo = AlgorithmFactory.Instance().getAlgorithm(algoName,
                     budget, new ArrayList<>(initColumnOrder), workload, seekCostFunction);
 
-            if (algo instanceof FastScoaTune) {
-                FastScoaTune gs = (FastScoaTune) algo;
+            if (algo instanceof FastTcoa) {
+                FastTcoa gs = (FastTcoa) algo;
                 gs.setNumRowGroups(Integer.parseInt(params.getProperty("num.row.group")));
                 gs.setRowGroupSize(Long.parseLong(params.getProperty("row.group.size")));
                 gs.setNumMapSlots(Integer.parseInt(ConfigFactory.Instance().getProperty("node.map.slots")));
@@ -104,7 +104,7 @@ public class DQNService {
                 results.setProperty("init.cost", String.valueOf(algo.getSchemaSeekCost()));
             }
 
-            // setup params of FastScoaTune
+            // setup params of FastTcoa
             algo.setup();
             // get best row group size
             algo.runAlgorithm();
@@ -123,8 +123,8 @@ public class DQNService {
 
     double run(int cx, int cy) {
         double neighbourSeekCost = -1;
-        if (algo instanceof FastScoaTune) {
-            FastScoaTune gs = (FastScoaTune) algo;
+        if (algo instanceof FastTcoa) {
+            FastTcoa gs = (FastTcoa) algo;
             neighbourSeekCost = gs.getRandSeekCost(cx, cy);
         }
         else {
