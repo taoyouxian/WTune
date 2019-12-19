@@ -1,6 +1,5 @@
 package cn.edu.ruc.iir.rainbow.seek;
 
-import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
 import cn.edu.ruc.iir.rainbow.common.cmd.Command;
 import cn.edu.ruc.iir.rainbow.common.cmd.Receiver;
 import cn.edu.ruc.iir.rainbow.layout.cmd.CmdOrdering;
@@ -22,7 +21,6 @@ public class LayoutAnalyzer {
 
     @Test
     public void ordering() {
-        String path = ConfigFactory.Instance().getProperty("tune.path");
         Properties params = new Properties();
         params.setProperty("algorithm.name", "scoa.gs");
         params.setProperty("schema.file", default_SchemaPath);

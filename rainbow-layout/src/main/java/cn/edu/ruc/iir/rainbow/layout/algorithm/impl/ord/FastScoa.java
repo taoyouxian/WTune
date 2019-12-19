@@ -44,14 +44,14 @@ public class FastScoa extends Scoa
             cidToCIdxMap.put(this.getColumnOrder().get(i).getId(), i);
         }
 
-        //build initial querys' accessed column index sets.
+        //build initial query's accessed column index sets.
         for (int i = 0; i < this.getWorkload().size(); i ++)
         {
             Query curQuery = this.getWorkload().get(i);
             queryAccessedPos.add(new TreeSet<Integer>());
             for (int colIds : curQuery.getColumnIds())
             {
-                // add the column indexes to query i's tree set.
+                // add the column indexes to query's tree set.
                 queryAccessedPos.get(i).add(cidToCIdxMap.get(colIds));
             }
         }

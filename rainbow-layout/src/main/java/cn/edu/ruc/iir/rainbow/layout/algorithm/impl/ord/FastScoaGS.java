@@ -155,7 +155,7 @@ public class FastScoaGS extends FastScoa
                 this.getWorkload().size() * this.getTaskInitMs() * this.numRowGroups;
     }
 
-    private void increaseRowGroupSize ()
+    protected void increaseRowGroupSize ()
     {
         this.rowGroupSize *= 2;
         List<Column> columnOrder = this.getColumnOrder();
@@ -166,7 +166,7 @@ public class FastScoaGS extends FastScoa
         this.numRowGroups = (this.numRowGroups+1)/2;
     }
 
-    private void decreaseRowGroupSize ()
+    protected void decreaseRowGroupSize ()
     {
         this.rowGroupSize /= 2;
         List<Column> columnOrder = this.getColumnOrder();
