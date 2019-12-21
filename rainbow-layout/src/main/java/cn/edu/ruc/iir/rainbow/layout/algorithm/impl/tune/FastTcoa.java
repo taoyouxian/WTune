@@ -71,7 +71,10 @@ public class FastTcoa extends FastScoaGS {
     public double getRandSeekCost(int i, int j)
     {
         //calculate new cost
-        return getNeighbourSeekCost(i, j);
+        this.currentEnergy = getNeighbourSeekCost(i, j);
+        //try to accept it
+        updateColumnOrder(i, j);
+        return this.currentEnergy;
     }
 
 }
