@@ -1,0 +1,5 @@
+row.group.size=25
+init.cost=536870912
+scoa.cost=653881.0949713716
+init.seek.cost=52243.12238387737
+scoa.seek.cost=12662.076951536956

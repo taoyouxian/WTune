@@ -191,6 +191,29 @@ public class ScoaService {
 
     }
 
+    public double getInitSeekCost() {
+        double initSeekCost = -1;
+        if (algo instanceof FastScoaGSLog) {
+            FastScoaGSLog gs = (FastScoaGSLog) algo;
+            gs.initScoaRG();
+            initSeekCost = gs.getInitSeekCost();
+        } else {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", new Exception("algorithm error"));
+        }
+        return initSeekCost;
+    }
+
+    public double getScoaSeekCost() {
+        double scoaSeekCost = -1;
+        if (algo instanceof FastScoaGSLog) {
+            FastScoaGSLog gs = (FastScoaGSLog) algo;
+            scoaSeekCost = gs.getScoaSeekCost();
+        } else {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", new Exception("algorithm error"));
+        }
+        return scoaSeekCost;
+    }
+
     public double run(int cx, int cy) {
         double neighbourSeekCost = -1;
         if (algo instanceof FastScoaGSLog) {
