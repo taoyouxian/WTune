@@ -1,6 +1,7 @@
 package cn.edu.ruc.iir.rainbow.server;
 
 import cn.edu.ruc.iir.rainbow.common.ConfigFactory;
+import cn.edu.ruc.iir.rainbow.common.DateUtil;
 import cn.edu.ruc.iir.rainbow.common.exception.AlgoException;
 import cn.edu.ruc.iir.rainbow.common.exception.ColumnNotFoundException;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
@@ -126,7 +127,9 @@ public class ScoaService {
                 results.setProperty("num.row.group", String.valueOf(gs.getNumRowGroups()));
                 if (this.scoaInit) {
                     try (BufferedWriter writer = new BufferedWriter(new FileWriter(orderedFilePath + ".scoa"))) {
-                        writer.write("row.group.size=" + gs.getNumRowGroups());
+                        writer.write("row.group.size=" + gs.getRowGroupSize());
+                        writer.newLine();
+                        writer.write("num.group.size=" + gs.getNumRowGroups());
                         writer.newLine();
                         writer.write("init.cost=" + gs.getRowGroupSize());
                         writer.newLine();
@@ -157,8 +160,9 @@ public class ScoaService {
         if (algo instanceof FastScoaGSLog) {
             FastScoaGSLog gs = (FastScoaGSLog) algo;
             currentSeekCost = gs.runAlgorithmLog();
-            System.out.println("row.group.size=" + gs.getNumRowGroups());
-            System.out.println("init.cost=" + gs.getRowGroupSize());
+            System.out.println("row.group.size=" + gs.getRowGroupSize());
+            System.out.println("num.row.group=" + gs.getNumRowGroups());
+            System.out.println("init.cost=" + gs.getSchemaOverhead());
             System.out.println("scoa.cost=" + gs.getCurrentOverhead());
             System.out.println("init.seek.cost=" + gs.getInitSeekCost());
             System.out.println("scoa.seek.cost=" + gs.getScoaSeekCost());
@@ -228,5 +232,15 @@ public class ScoaService {
 
     public double run(String cx, String cy) {
         return run(Integer.parseInt(cx), Integer.parseInt(cy));
+    }
+
+    public String save() {
+        String orderedFilePath = tunePath + "default/ordered_schema." + DateUtil.getCurTime();
+        try {
+            ColumnOrderBuilder.saveAsSchemaFile(new File(orderedFilePath), algo.getColumnOrder());
+        } catch (IOException e) {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "I/O error, check the file paths", e);
+        }
+        return orderedFilePath;
     }
 }

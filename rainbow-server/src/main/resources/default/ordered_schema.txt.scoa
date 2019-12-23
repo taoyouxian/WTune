@@ -1,5 +1,6 @@
-row.group.size=25
-init.cost=536870912
+row.group.size=536870912
+num.group.size=25
+init.cost=1439828.0595969344
 scoa.cost=653881.0949713716
 init.seek.cost=52243.12238387737
 scoa.seek.cost=12662.076951536956

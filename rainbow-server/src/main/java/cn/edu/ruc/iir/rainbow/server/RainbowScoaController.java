@@ -30,6 +30,25 @@ public class RainbowScoaController {
         scoaService.setScoaInit(false);
     }
 
+    @RequestMapping("/init")
+    @ResponseBody
+    public Response<Object> init() {
+        scoaService.setScoaInit(false);
+        return Response.buildSucResp(scoaService.getInitSeekCost(), "init ok");
+    }
+
+    @RequestMapping("/run")
+    @ResponseBody
+    public Response<Object> run() {
+        return Response.buildSucResp(scoaService.run());
+    }
+
+    @RequestMapping("/save")
+    @ResponseBody
+    public Response<Object> save() {
+        return Response.buildSucResp(scoaService.save(), "save ok");
+    }
+
     @RequestMapping("/seek")
     @ResponseBody
     public Response<Object> seek(@RequestParam("cx") int cx,
@@ -52,7 +71,8 @@ public class RainbowScoaController {
     @RequestMapping("/scoaseek")
     @ResponseBody
     public Response<Object> scoaSeek() {
-        return Response.buildSucResp(scoaService.getScoaSeekCost());
+        double scoaSeekCost = scoaService.getScoaSeekCost();
+        return Response.buildSucResp(scoaSeekCost > 0 ? scoaSeekCost : "scoa fault, cost:" + scoaSeekCost);
     }
 
 }
