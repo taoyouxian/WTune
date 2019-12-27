@@ -49,12 +49,38 @@ public class RainbowDQNController {
         return Response.buildSucResp(dqnService.run(cx, cy));
     }
 
+    @RequestMapping("/cost")
+    @ResponseBody
+    public double cost(@RequestParam("cx") int cx,
+                       @RequestParam("cy") int cy) {
+        return dqnService.run(cx, cy);
+    }
 
     @RequestMapping("/layout")
     @ResponseBody
     public Response<Object> layout() {
         // todo get tune layout, means existing columns in the workload
         return Response.buildSucResp("");
+    }
+
+    @RequestMapping("/order")
+    @ResponseBody
+    public String order() {
+        String order = dqnService.getColumnOrder();
+        return order.replace("Column_", "");
+    }
+
+    @RequestMapping("/init")
+    @ResponseBody
+    public Response<Object> init() {
+        dqnService.initAlgoConfig();
+        return Response.buildSucResp(dqnService.getInitSeekCost(), "init");
+    }
+
+    @RequestMapping("/current")
+    @ResponseBody
+    public Response<Object> current() {
+        return Response.buildSucResp(dqnService.getCurrentSeekCost(), "current");
     }
 
 }
