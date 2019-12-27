@@ -29,6 +29,14 @@ public class Response<T> implements Serializable {
         return resp;
     }
 
+    public static Response<Object> buildSucResp(Object data, String errorMsg) {
+        Response<Object> resp = new Response<>();
+        resp.setErrCode(SUCCESS_CODE);
+        resp.setMsg(errorMsg);
+        resp.setData(data);
+        return resp;
+    }
+
     public static Response<Object> buildFailureResp(int code, String errorMsg) {
         Response<Object> resp = new Response<>();
         resp.setErrCode(code);

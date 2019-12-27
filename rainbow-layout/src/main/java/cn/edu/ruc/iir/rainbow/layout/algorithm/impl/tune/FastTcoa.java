@@ -21,6 +21,16 @@ import java.util.TreeSet;
  **/
 public class FastTcoa extends FastScoaGS {
 
+    private double initSeekCost;
+
+    public double getInitSeekCost() {
+        return initSeekCost;
+    }
+
+    public double getCurrentSeekCost() {
+        return currentEnergy;
+    }
+
     @Override
     public void setup()
     {
@@ -61,6 +71,7 @@ public class FastTcoa extends FastScoaGS {
                 this.increaseRowGroupSize();
             }
             this.currentEnergy = super.getCurrentWorkloadSeekCost();
+            this.initSeekCost = this.currentEnergy;
         } catch (AlgoException e)
         {
             ExceptionHandler.Instance().log(ExceptionType.ERROR,

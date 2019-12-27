@@ -99,8 +99,7 @@ public class DQNService {
                 gs.setTotalMemory(Long.parseLong(ConfigFactory.Instance().getProperty("node.memory")));
                 gs.setTaskInitMs(Integer.parseInt(ConfigFactory.Instance().getProperty("node.task.init.ms")));
                 results.setProperty("init.cost", String.valueOf(gs.getSchemaOverhead()));
-            }
-            else {
+            } else {
                 results.setProperty("init.cost", String.valueOf(algo.getSchemaSeekCost()));
             }
 
@@ -126,12 +125,52 @@ public class DQNService {
         if (algo instanceof FastTcoa) {
             FastTcoa gs = (FastTcoa) algo;
             neighbourSeekCost = gs.getRandSeekCost(cx, cy);
-        }
-        else {
+        } else {
             ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", new Exception("algorithm error"));
         }
 
         return neighbourSeekCost;
+    }
+
+    public String getColumnOrder() {
+        StringBuilder layout = new StringBuilder();
+        if (algo instanceof FastTcoa) {
+            FastTcoa gs = (FastTcoa) algo;
+            List<Column> columns = gs.getColumnOrder();
+            for (Column c : columns) {
+                layout.append(c.getName()).append(",");
+            }
+        } else {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", new Exception("algorithm error"));
+        }
+        String column = layout.toString();
+        return column.substring(0, column.length() - 1);
+    }
+
+    public void initAlgoConfig() {
+        execute(params);
+    }
+
+    public double getInitSeekCost() {
+        double initSeekCost = -1;
+        if (algo instanceof FastTcoa) {
+            FastTcoa gs = (FastTcoa) algo;
+            initSeekCost = gs.getInitSeekCost();
+        } else {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", new Exception("algorithm error"));
+        }
+        return initSeekCost;
+    }
+
+    public double getCurrentSeekCost() {
+        double initSeekCost = -1;
+        if (algo instanceof FastTcoa) {
+            FastTcoa gs = (FastTcoa) algo;
+            initSeekCost = gs.getCurrentSeekCost();
+        } else {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", new Exception("algorithm error"));
+        }
+        return initSeekCost;
     }
 
 }
