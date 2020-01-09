@@ -25,3 +25,10 @@ cwallet.sso.lck
 
 # Jar packing
 MANIFEST.MF
+
+# tune files
+pipeline/
+rl/
+coder*/
+ordered_schema.txt.scoa
+scoa_log.txt

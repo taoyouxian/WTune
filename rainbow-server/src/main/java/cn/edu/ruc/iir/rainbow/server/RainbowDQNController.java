@@ -70,6 +70,12 @@ public class RainbowDQNController {
         return order.replace("Column_", "");
     }
 
+    @RequestMapping("/seekcost")
+    @ResponseBody
+    public double orderSeekCost(@RequestParam("order") String order) {
+        return dqnService.getCurrentWorkloadSeekCost(order);
+    }
+
     @RequestMapping("/init")
     @ResponseBody
     public Response<Object> init() {

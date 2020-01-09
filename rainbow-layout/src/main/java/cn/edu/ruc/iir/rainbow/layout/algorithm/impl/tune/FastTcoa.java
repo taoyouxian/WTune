@@ -4,12 +4,10 @@ import cn.edu.ruc.iir.rainbow.common.exception.AlgoException;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionHandler;
 import cn.edu.ruc.iir.rainbow.common.exception.ExceptionType;
 import cn.edu.ruc.iir.rainbow.layout.algorithm.impl.ord.FastScoaGS;
+import cn.edu.ruc.iir.rainbow.layout.domian.Column;
 import cn.edu.ruc.iir.rainbow.layout.domian.Query;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @version V1.0
@@ -88,4 +86,16 @@ public class FastTcoa extends FastScoaGS {
         return this.currentEnergy;
     }
 
+    public double getCurrentWorkloadSeekCost(String order)
+    {
+        List<Column> currentColumnOrder = new ArrayList<>();
+        String[] orders = order.split(",");
+        for (String inx : orders)
+        {
+            Column column = this.getSchema().get(Integer.parseInt(inx) - 1);
+            currentColumnOrder.add(column);
+        }
+        super.setColumnOrder(currentColumnOrder);
+        return super.getCurrentWorkloadSeekCost();
+    }
 }

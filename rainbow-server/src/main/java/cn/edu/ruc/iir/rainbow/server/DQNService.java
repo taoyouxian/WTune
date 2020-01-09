@@ -173,4 +173,14 @@ public class DQNService {
         return initSeekCost;
     }
 
+    public double getCurrentWorkloadSeekCost(String order) {
+        double initSeekCost = -1;
+        if (algo instanceof FastTcoa) {
+            FastTcoa gs = (FastTcoa) algo;
+            initSeekCost = gs.getCurrentWorkloadSeekCost(order);
+        } else {
+            ExceptionHandler.Instance().log(ExceptionType.ERROR, "algorithm class not fount", new Exception("algorithm error"));
+        }
+        return initSeekCost;
+    }
 }
